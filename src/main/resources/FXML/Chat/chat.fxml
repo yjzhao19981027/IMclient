@@ -45,7 +45,7 @@
                     </children>
                 </Pane>
                 <!-- 搜索栏 -->
-                <Pane stylesheets="@group_bar_chat/chat_search.css" prefHeight="64" prefWidth="251.2">
+                <Pane stylesheets="@group_bar_chat/chat_search.css" prefHeight="64" prefWidth="251.2" styleClass="search">
                     <children>
                         <TextField styleClass="searchInput" layoutX="16" layoutY="24" prefHeight="24" prefWidth="192" promptText="搜索">
                             <padding>
@@ -56,7 +56,7 @@
                     </children>
                 </Pane>
                 <!-- 会话栏 -->
-                <Pane id="talk" layoutY="64" prefHeight="590.4" prefWidth="251.2">
+                <Pane id="talk" layoutY="64" prefHeight="590.4" prefWidth="251.2" stylesheets="@group_bar_chat/chat_talk.css" styleClass="talkListStyle">
                     <children>
                         <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" prefHeight="590.4" prefWidth="251.2">
                             <content>
@@ -86,22 +86,22 @@
                     </children>
                 </Pane>
                 <!-- 工具栏 -->
-                <Pane id="tool" layoutY="510.4" prefWidth="681.6" prefHeight="36.8">
+                <Pane id="tool" layoutY="510.4" prefWidth="681.6" prefHeight="36.8" stylesheets="@group_bar_chat/chat_tool.css">
                     <children>
+<!--                        按钮差一个图标，在chat_tool.css里面改-->
                         <Button id="tool_face" layoutX="16" layoutY="2.4" prefWidth="32" prefHeight="32"/>
                     </children>
                 </Pane>
                 <!-- 文本栏 -->
-                <Pane id="txt" layoutY="547.2" prefWidth="681.6" prefHeight="72">
+                <Pane id="txt" layoutY="547.2" prefWidth="681.6" prefHeight="72" stylesheets="@group_bar_chat/chat_txt.css" styleClass="txt_input_style">
                     <children>
-                        <TextArea fx:id="txt_input" styleClass="txt_input_style" layoutX="16" prefWidth="650.4" prefHeight="72"
-                                  wrapText="true"/>
+                        <TextArea fx:id="txt_input" layoutX="16" prefWidth="650.4" prefHeight="72" wrapText="true"/>
                     </children>
                 </Pane>
                 <!-- 触达消息[发送] -->
-                <Pane id="touch" layoutY="620" prefWidth="681.6" prefHeight="32">
+                <Pane id="touch" layoutY="620" prefWidth="681.6" prefHeight="32" stylesheets="@group_bar_chat/chat_touch.css">
                     <children>
-                        <Button fx:id="touch_send" onAction="#touch_sendAction" layoutX="584" layoutY="3.2" prefWidth="68" prefHeight="27.2" text="发送(S)"/>
+                        <Button fx:id="touch_send" onAction="#touch_sendAction" layoutX="584" prefWidth="68" prefHeight="23.2" text="发送"/>
                     </children>
                 </Pane>
             </children>
@@ -129,11 +129,12 @@
                     </children>
                 </Pane>
                 <!-- 好友栏 -->
-                <Pane id="friend" layoutY="64" prefHeight="590.4" prefWidth="251.2" stylesheets="@group_bar_friend/chat_friend.css">
+                <Pane id="friend" layoutY="64" prefHeight="590.4" prefWidth="251.2"
+                      stylesheets="@group_bar_friend/chat_friend.css" styleClass="friendListStyle">
                     <children>
                         <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" prefHeight="590.4" prefWidth="251.2">
                             <content>
-                                <FlowPane fx:id="friendlist" prefHeight="59.0" prefWidth="100.0" styleClass="friendListStyle"/>
+                                <FlowPane fx:id="friendlist" prefHeight="59.0" prefWidth="100.0"/>
                             </content>
                         </ScrollPane>
                     </children>
