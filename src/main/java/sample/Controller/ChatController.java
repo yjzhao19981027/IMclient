@@ -32,10 +32,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.Observable;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ChatController implements Initializable {
     @FXML
@@ -106,13 +103,13 @@ public class ChatController implements Initializable {
             }
         });
     }
-
+    //LoginController使用，将userName过渡
     public void initChatBoxList(final String userName){
         this.userName = userName;
         chatBoxList = dao.getAllChat(userName);
         addchatboxlist();
     }
-
+    //好友栏
     public void bar_friendAction(javafx.event.ActionEvent actionEvent) {
         group_bar_chatWindow.setVisible(false);
         group_bar_chatboxlist.setVisible(false);
@@ -147,14 +144,14 @@ public class ChatController implements Initializable {
             friendlist.getChildren().add(new HBox(info));
         }
     }
-
+    //聊天栏
     public void bar_chatAction(ActionEvent actionEvent) {
         group_bar_friend.setVisible(false);
         group_bar_chatboxlist.setVisible(true);
         if (chatWindowFlag)
             group_bar_chatWindow.setVisible(true);
     }
-
+    //好友信息界面的发送消息
     public void send_msgAction(ActionEvent actionEvent){
         group_bar_chatWindow.setVisible(true);
         group_bar_chatboxlist.setVisible(true);
@@ -181,35 +178,38 @@ public class ChatController implements Initializable {
         }
 
     }
-
+    //聊天框的发送按钮
     public void touch_sendAction(ActionEvent actionEvent){
         String txt = txt_input.getText();
         if (txt.equals(""))
             return;
         txt_input.setText("");
-
+        Msg msg = new Msg(userName,friendName,txt,new Date(),"person");
+        dao.sendMsg(msg);
+        addMessageBox(msg);
     }
-
+    //加载聊天栏
     private void addchatboxlist(){
         //  先清空
         chatboxlist.getChildren().clear();
         //  再逐个添加
-        for (final String friendName : chatBoxList){
+        for (final String friendname : chatBoxList){
             //  头像
 //            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
 //            ImageView head = new ImageView();
 //            head.setImage(headImg);
 //            head.setFitWidth(40);
 //            head.setFitHeight(40);
-            Label name = new Label(friendName);
+            Label name = new Label(friendname);
             name.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     chatWindowFlag = true;
                     group_bar_chatWindow.setVisible(true);
-                    info_name.setText(friendName);
+                    info_name.setText(friendname);
+                    friendName = friendname;
                     //聊天内容
-                    msgs = dao.getMsg(userName,friendName);
+                    msgs = dao.getMsg(userName,friendname);
                     msgList.getChildren().clear();
                     for (Msg msg : msgs)
                         addMessageBox(msg);
@@ -229,7 +229,7 @@ public class ChatController implements Initializable {
             chatboxlist.getChildren().add(new HBox(info));
         }
     }
-
+    //聊天框添加消息
     private void addMessageBox(Msg message){
 //        User sender = dao.getMemberById(message.getSenderId());
 //        assert sender != null;
