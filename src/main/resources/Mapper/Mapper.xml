@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Mapper">
+
+    <select id="getUserByUserName_Password" parameterType="java.util.List" resultType="sample.Entity.User">
+        SELECT * FROM User where UserName=#{userName} and Password=#{password}
+    </select>
+
+    <select id="getAllFriends" parameterType="String" resultType="sample.Entity.User">
+        select User.* from Friend,User where Friend.UserName = #{userName} and User.UserName = Friend.FriendName
+    </select>
+
+    <select id="getAllChat" parameterType="String" resultType="String">
+        select receiverName from Msg where senderName = #{userName}
+        union
+        select senderName from Msg where receiverName = #{userName}
+    </select>
+
+    <select id="getMsg" parameterType="java.util.List" resultType="sample.Entity.Msg">
+        select * from Msg where senderName = #{name1} and receiverName = #{name2}
+                        or senderName = #{name2} and receiverName = #{name1}
+    </select>
+
+    <insert id="sendMsg" parameterType="sample.Entity.Msg">
+        insert into Msg(senderName, receiverName, msg, time, msgType,isRead)
+            VALUES (#{senderName},#{receiverName},#{msg},#{time},#{msgType},#{isRead})
+    </insert>
+</mapper>
+
+
