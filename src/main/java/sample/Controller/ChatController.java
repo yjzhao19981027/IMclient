@@ -1,10 +1,7 @@
 package sample.Controller;
 
-import com.sun.javafx.robot.FXRobot;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,19 +15,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
 import sample.Entity.User;
 
-import javax.swing.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -103,6 +92,7 @@ public class ChatController implements Initializable {
             }
         });
     }
+
     //LoginController使用，将userName过渡
     public void initChatBoxList(final String userName){
         this.userName = userName;
@@ -164,19 +154,8 @@ public class ChatController implements Initializable {
         friendName = content_name.getText().substring(0,len);
         chatBoxList.remove(friendName);
         chatBoxList.add(0,friendName);
-        addchatboxlist();
         //显示最上面的
-        {
-            chatWindowFlag = true;
-            group_bar_chatWindow.setVisible(true);
-            info_name.setText(friendName);
-            //聊天内容
-            msgs = dao.getMsg(userName,friendName);
-            msgList.getChildren().clear();
-            for (Msg msg : msgs)
-                addMessageBox(msg);
-        }
-
+        addChatWindow(friendName);
     }
     //聊天框的发送按钮
     public void touch_sendAction(ActionEvent actionEvent){
@@ -200,33 +179,25 @@ public class ChatController implements Initializable {
 //            head.setImage(headImg);
 //            head.setFitWidth(40);
 //            head.setFitHeight(40);
+            int num = dao.getUnreadMsgNum(friendname,userName);
             Label name = new Label(friendname);
+            Label unread = new Label(String.valueOf(num) + "条未读消息");
             name.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    chatWindowFlag = true;
-                    group_bar_chatWindow.setVisible(true);
-                    info_name.setText(friendname);
-                    friendName = friendname;
-                    //聊天内容
-                    msgs = dao.getMsg(userName,friendname);
-                    msgList.getChildren().clear();
-                    for (Msg msg : msgs)
-                        addMessageBox(msg);
-                    for (int i = 0, len = msgs.size(); i < len ; i ++){
-                        System.out.print(msgs.get(i).getSenderName() + "\t");
-                        System.out.print(msgs.get(i).getMsg() + "\t");
-                        System.out.print(msgs.get(i).getReceiverName() + "\t");
-                        System.out.print(msgs.get(i).getTime() + "\n");
-                    }
+                    addChatWindow(friendname);
                 }
             });
             name.setTextFill(Color.rgb(0,0,0));
+            unread.setTextFill(Color.rgb(0,0,0));
 //            Label status = new Label(member.getStatus() ? "在线" : "离线");
 //            status.setTextFill(Color.rgb(255, 255, 255));
             VBox info = new VBox(8, name);
             info.setPadding(new Insets(2, 50, 10, 8));
-            chatboxlist.getChildren().add(new HBox(info));
+            if (num == 0)
+                chatboxlist.getChildren().add(new HBox(info));
+            else
+                chatboxlist.getChildren().add(new HBox(info,unread));
         }
     }
     //聊天框添加消息
@@ -280,5 +251,19 @@ public class ChatController implements Initializable {
 
         last = info_pane_box.getVvalue() == 1.0;
         msgList.getChildren().add(messageBox);
+    }
+
+    private void addChatWindow(String friendname){
+        chatWindowFlag = true;
+        group_bar_chatWindow.setVisible(true);
+        info_name.setText(friendname);
+        friendName = friendname;
+        //聊天内容
+        dao.setMsgIsRead(friendname,userName);
+        msgs = dao.getMsg(userName,friendname);
+        msgList.getChildren().clear();
+        for (Msg msg : msgs)
+            addMessageBox(msg);
+        addchatboxlist();
     }
 }

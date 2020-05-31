@@ -25,8 +25,7 @@ public class DaoTest {
         UserDao tool = new UserDaoImpl();
 
 //        List<Msg> list = tool.getMsg("Prodigal_son","Elio");
-        Msg msg = new Msg("Prodigal_son","Peter","dog",new Date(),"person");
-        tool.sendMsg(msg);
+        tool.setMsgIsRead("Prodigal_son","Peter");
 //        User user = tool.getUserByUserName_Password("Prodigal_son","zyj19981027");
 //        List<User> list = tool.getAllFriends("Prodigal_son");
 //        System.out.println(list.get(0).getMsg());

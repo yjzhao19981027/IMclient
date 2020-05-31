@@ -55,5 +55,18 @@ public class UserDaoImpl implements UserDao{
         this.sqlSession.insert("Mapper.sendMsg",msg);
     }
 
+    public int getUnreadMsgNum(String senderName, String receiverName) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("name1", senderName);
+        param.put("name2", receiverName);
+        return this.sqlSession.selectOne("Mapper.getUnreadMsgNum", param);
+    }
 
+    @Override
+    public void setMsgIsRead(String senderName, String receiverName) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("name1", senderName);
+        param.put("name2", receiverName);
+        this.sqlSession.update("Mapper.setMsgIsRead",param);
+    }
 }

@@ -11,4 +11,6 @@ public interface UserDao {
     public List<String> getAllChat(String userName);
     public List<Msg> getMsg(String userName,String friendName);
     public void sendMsg(Msg msg);
+    public int getUnreadMsgNum(String senderName,String receiverName);
+    public void setMsgIsRead(String senderName, String receiverName);
 }

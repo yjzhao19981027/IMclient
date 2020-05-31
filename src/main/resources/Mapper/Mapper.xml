@@ -24,6 +24,19 @@
                         or senderName = #{name2} and receiverName = #{name1}
     </select>
 
+    <select id="getUnreadMsgNum" parameterType="java.util.List" resultType="int">
+        select count(*) from Msg where senderName = #{name1} and
+                               receiverName = #{name2} and
+                               isRead = false
+    </select>
+
+    <update id="setMsgIsRead" parameterType="java.util.List">
+        update Msg set isRead = true
+            where senderName = #{name1} and
+                receiverName = #{name2} and
+                    isRead = false
+    </update>
+
     <insert id="sendMsg" parameterType="sample.Entity.Msg">
         insert into Msg(senderName, receiverName, msg, time, msgType,isRead)
             VALUES (#{senderName},#{receiverName},#{msg},#{time},#{msgType},#{isRead})
