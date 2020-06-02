@@ -33,18 +33,22 @@ public class UserDaoImpl implements UserDao{
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("userName", userName);
         param.put("password", password);
+        sqlSession.commit();
         return this.sqlSession.selectOne("Mapper.getUserByUserName_Password",param);
     }
 
     public List<User> getAllFriends(String userName){
+        sqlSession.commit();
         return this.sqlSession.selectList("Mapper.getAllFriends",userName);
     }
 
     public List<String> getAllChat(String userName) {
+        sqlSession.commit();
         return this.sqlSession.selectList("Mapper.getAllChat",userName);
     }
 
     public List<Msg> getMsg(String userName, String friendName) {
+        sqlSession.commit();
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("name1", userName);
         param.put("name2", friendName);
@@ -56,6 +60,7 @@ public class UserDaoImpl implements UserDao{
     }
 
     public int getUnreadMsgNum(String senderName, String receiverName) {
+        sqlSession.commit();
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("name1", senderName);
         param.put("name2", receiverName);
