@@ -140,6 +140,10 @@ public class ChatController implements Initializable {
         group_bar_chatboxlist.setVisible(true);
         if (chatWindowFlag)
             group_bar_chatWindow.setVisible(true);
+        if (group_bar_chatWindow.isVisible())
+            addChatWindow(friendName);
+        else if (group_bar_chatboxlist.isVisible())
+            addchatboxlist();
     }
     //好友信息界面的发送消息
     public void send_msgAction(ActionEvent actionEvent){
@@ -179,7 +183,8 @@ public class ChatController implements Initializable {
 //            head.setImage(headImg);
 //            head.setFitWidth(40);
 //            head.setFitHeight(40);
-            int num = dao.getUnreadMsgNum(friendname,userName);
+            int num = 3;
+            num = dao.getUnreadMsgNum(friendname,userName);
             Label name = new Label(friendname);
             Label unread = new Label(String.valueOf(num) + "条未读消息");
             name.setOnMouseClicked(new EventHandler<MouseEvent>() {
