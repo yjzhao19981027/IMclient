@@ -57,6 +57,7 @@ public class UserDaoImpl implements UserDao{
 
     public void sendMsg(Msg msg) {
         this.sqlSession.insert("Mapper.sendMsg",msg);
+        sqlSession.commit();
     }
 
     public int getUnreadMsgNum(String senderName, String receiverName) {
@@ -73,5 +74,6 @@ public class UserDaoImpl implements UserDao{
         param.put("name1", senderName);
         param.put("name2", receiverName);
         this.sqlSession.update("Mapper.setMsgIsRead",param);
+        sqlSession.commit();
     }
 }
