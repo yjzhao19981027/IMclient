@@ -9,12 +9,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
@@ -58,7 +58,14 @@ public class ChatController implements Initializable {
     private TextArea txt_input;
     @FXML
     private Button touch_send;
-
+    @FXML
+    private TextField chat_search;
+    @FXML
+    private Label chat_searchAdd;
+    @FXML
+    private TextField friend_search;
+    @FXML
+    private Label friend_searchAdd;
 
     private UserDao dao;
 
@@ -97,55 +104,56 @@ public class ChatController implements Initializable {
     public void initChatBoxList(final String userName){
         this.userName = userName;
         chatBoxList = dao.getAllChat(userName);
-        addchatboxlist();
+        loadchatboxlist();
+        chat_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY){
+                    chatboxlist.getChildren().clear();
+                    for (int i = 0, len = chatBoxList.size() ; i < len ; i ++)
+                        if (chatBoxList.get(i).equals(chat_search.getText()))
+                            addchatboxlist(chatBoxList.get(i));
+                }
+            }
+        });
+        friend_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY){
+                    friendlist.getChildren().clear();
+                    for (int i = 0, len = friendList.size() ; i < len ; i ++)
+                        if (friendList.get(i).getUserName().equals(friend_search.getText()))
+                            addfriendlist(friendList.get(i));
+                }
+            }
+        });
     }
     //好友栏
     public void bar_friendAction(javafx.event.ActionEvent actionEvent) {
+        friend_search.setText("");
         group_bar_chatWindow.setVisible(false);
         group_bar_chatboxlist.setVisible(false);
         group_bar_friend.setVisible(true);
-        Stage stage = (Stage) ChatPane.getScene().getWindow();
-        String userName = stage.getTitle();
         friendList = dao.getAllFriends(userName);
         friendlist.getChildren().clear();
-        for (final User friend : friendList){
-            //  头像
-//            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
-//            ImageView head = new ImageView();
-//            head.setImage(headImg);
-//            head.setFitWidth(40);
-//            head.setFitHeight(40);
-            Label name = new Label(friend.getUserName());
-            name.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    send_msg.setVisible(true);
-                    content_name.setText(friend.getUserName() + "\n"
-                            + friend.getAge() + "\n"
-                            + friend.getSex() + "\n"
-                            + friend.getMotto() );
-                }
-            });
-            name.setTextFill(Color.rgb(0,0,0));
-//            Label status = new Label(member.getStatus() ? "在线" : "离线");
-//            status.setTextFill(Color.rgb(255, 255, 255));
-            VBox info = new VBox(8, name);
-            info.setPadding(new Insets(2, 50, 10, 8));
-            friendlist.getChildren().add(new HBox(info));
-        }
+        for (final User friend : friendList)
+            addfriendlist(friend);
     }
-    //聊天栏
+    //  聊天栏
     public void bar_chatAction(ActionEvent actionEvent) {
+        chat_search.setText("");
         group_bar_friend.setVisible(false);
         group_bar_chatboxlist.setVisible(true);
         if (chatWindowFlag)
             group_bar_chatWindow.setVisible(true);
         if (group_bar_chatWindow.isVisible())
             addChatWindow(friendName);
-        else if (group_bar_chatboxlist.isVisible())
-            addchatboxlist();
+        else if (group_bar_chatboxlist.isVisible()){
+            chatBoxList = dao.getAllChat(userName);
+            loadchatboxlist();
+        }
     }
-    //好友信息界面的发送消息
+    //  好友信息界面的发送消息
     public void send_msgAction(ActionEvent actionEvent){
         group_bar_chatWindow.setVisible(true);
         group_bar_chatboxlist.setVisible(true);
@@ -161,7 +169,7 @@ public class ChatController implements Initializable {
         //显示最上面的
         addChatWindow(friendName);
     }
-    //聊天框的发送按钮
+    //  聊天框的发送按钮
     public void touch_sendAction(ActionEvent actionEvent){
         String txt = txt_input.getText();
         if (txt.equals(""))
@@ -170,42 +178,34 @@ public class ChatController implements Initializable {
         Msg msg = new Msg(userName,friendName,txt,new Date(),"person");
         dao.sendMsg(msg);
         addMessageBox(msg);
+        chatBoxList.remove(friendName);
+        chatBoxList.add(0,friendName);
+        //显示最上面的
+        addChatWindow(friendName);
     }
-    //加载聊天栏
-    private void addchatboxlist(){
+    //  加载聊天栏
+    private void loadchatboxlist(){
         //  先清空
         chatboxlist.getChildren().clear();
         //  再逐个添加
-        for (final String friendname : chatBoxList){
-            //  头像
-//            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
-//            ImageView head = new ImageView();
-//            head.setImage(headImg);
-//            head.setFitWidth(40);
-//            head.setFitHeight(40);
-            int num = 3;
-            num = dao.getUnreadMsgNum(friendname,userName);
-            Label name = new Label(friendname);
-            Label unread = new Label(String.valueOf(num) + "条未读消息");
-            name.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    addChatWindow(friendname);
-                }
-            });
-            name.setTextFill(Color.rgb(0,0,0));
-            unread.setTextFill(Color.rgb(0,0,0));
-//            Label status = new Label(member.getStatus() ? "在线" : "离线");
-//            status.setTextFill(Color.rgb(255, 255, 255));
-            VBox info = new VBox(8, name);
-            info.setPadding(new Insets(2, 50, 10, 8));
-            if (num == 0)
-                chatboxlist.getChildren().add(new HBox(info));
-            else
-                chatboxlist.getChildren().add(new HBox(info,unread));
-        }
+        for (final String friendname : chatBoxList)
+            addchatboxlist(friendname);
     }
-    //聊天框添加消息
+
+    private void addChatWindow(String friendname){
+        chatWindowFlag = true;
+        group_bar_chatWindow.setVisible(true);
+        info_name.setText(friendname);
+        friendName = friendname;
+        //聊天内容
+        dao.setMsgIsRead(friendname,userName);
+        msgs = dao.getMsg(userName,friendname);
+        msgList.getChildren().clear();
+        for (Msg msg : msgs)
+            addMessageBox(msg);
+        loadchatboxlist();
+    }
+    //  聊天框中添加一条消息
     private void addMessageBox(Msg message){
 //        User sender = dao.getMemberById(message.getSenderId());
 //        assert sender != null;
@@ -257,18 +257,60 @@ public class ChatController implements Initializable {
         last = info_pane_box.getVvalue() == 1.0;
         msgList.getChildren().add(messageBox);
     }
-
-    private void addChatWindow(String friendname){
-        chatWindowFlag = true;
-        group_bar_chatWindow.setVisible(true);
-        info_name.setText(friendname);
-        friendName = friendname;
-        //聊天内容
-        dao.setMsgIsRead(friendname,userName);
-        msgs = dao.getMsg(userName,friendname);
-        msgList.getChildren().clear();
-        for (Msg msg : msgs)
-            addMessageBox(msg);
-        addchatboxlist();
+    //  聊天列表添加一个聊天
+    private void addchatboxlist(final String friendname){
+        //  头像
+//            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
+//            ImageView head = new ImageView();
+//            head.setImage(headImg);
+//            head.setFitWidth(40);
+//            head.setFitHeight(40);
+        int num = dao.getUnreadMsgNum(friendname,userName);
+        Label name = new Label(friendname);
+        Label unread = new Label(String.valueOf(num) + "条未读消息");
+        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                chat_search.setText("");
+                addChatWindow(friendname);
+            }
+        });
+        name.setTextFill(Color.rgb(0,0,0));
+        unread.setTextFill(Color.rgb(0,0,0));
+//            Label status = new Label(member.getStatus() ? "在线" : "离线");
+//            status.setTextFill(Color.rgb(255, 255, 255));
+        VBox info = new VBox(8, name);
+        info.setPadding(new Insets(2, 50, 10, 8));
+        if (num == 0)
+            chatboxlist.getChildren().add(new HBox(info));
+        else
+            chatboxlist.getChildren().add(new HBox(info,unread));
+    }
+    //  好友列表添加一个好友
+    private void addfriendlist(final User friend){
+        //  头像
+//            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
+//            ImageView head = new ImageView();
+//            head.setImage(headImg);
+//            head.setFitWidth(40);
+//            head.setFitHeight(40);
+        Label name = new Label(friend.getUserName());
+        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                friend_search.setText("");
+                send_msg.setVisible(true);
+                content_name.setText(friend.getUserName() + "\n"
+                        + friend.getAge() + "\n"
+                        + friend.getSex() + "\n"
+                        + friend.getMotto() );
+            }
+        });
+        name.setTextFill(Color.rgb(0,0,0));
+//            Label status = new Label(member.getStatus() ? "在线" : "离线");
+//            status.setTextFill(Color.rgb(255, 255, 255));
+        VBox info = new VBox(8, name);
+        info.setPadding(new Insets(2, 50, 10, 8));
+        friendlist.getChildren().add(new HBox(info));
     }
 }
