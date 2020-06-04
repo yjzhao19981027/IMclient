@@ -13,6 +13,10 @@
         select User.* from Friend,User where Friend.UserName = #{userName} and User.UserName = Friend.FriendName
     </select>
 
+    <select id="getHeadByUserName" parameterType="String" resultType="String">
+        select headImg from User where UserName = #{userName}
+    </select>
+
     <select id="getAllChat" parameterType="String" resultType="String">
         select receiverName from Msg where senderName = #{userName}
         union
@@ -41,6 +45,14 @@
         insert into Msg(senderName, receiverName, msg, time, msgType,isRead)
             VALUES (#{senderName},#{receiverName},#{msg},#{time},#{msgType},#{isRead})
     </insert>
+
+    <insert id="test" parameterType="java.util.Base64">
+        insert into test(img) values (#{img})
+    </insert>
+
+    <select id="test1" resultType="String">
+        select * from test
+    </select>
 </mapper>
 
 
