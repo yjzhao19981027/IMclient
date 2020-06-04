@@ -75,7 +75,7 @@ public class LoginController implements Initializable {
             stage.setScene(new Scene(root, 994.4, 656));
             stage.show();
             ChatController controller = (ChatController)fxmlLoader.getController();
-            controller.initChatBoxList(userName);
+            controller.initChatBoxList(user);
         }
     }
 
