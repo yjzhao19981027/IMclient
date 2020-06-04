@@ -8,18 +8,27 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
 import sample.Entity.User;
+import sample.Util.ImgUtil;
+import sun.misc.BASE64Decoder;
 
+import javax.rmi.CORBA.Util;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -27,7 +36,7 @@ public class ChatController implements Initializable {
     @FXML
     private Pane ChatPane;
     @FXML
-    private Button bar_portrait;    //头像
+    private ImageView bar_headImg;    //头像
     @FXML
     private Button bar_chat;        //聊天
     @FXML
@@ -67,9 +76,11 @@ public class ChatController implements Initializable {
     @FXML
     private Label friend_searchAdd;
 
+    private Parent root;
+
     private UserDao dao;
 
-    private String userName;
+    private User user;
 
     private String friendName;
 
@@ -79,11 +90,14 @@ public class ChatController implements Initializable {
 
     private List<Msg> msgs;
 
+    private ImgUtil util;
+
     private boolean chatWindowFlag;
 
     private boolean last = true;
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
+        util = new ImgUtil();
         chatWindowFlag = false;
         chatboxlist.setPadding(new Insets(5));
         friendlist.setPadding(new Insets(5));
@@ -101,9 +115,10 @@ public class ChatController implements Initializable {
     }
 
     //LoginController使用，将userName过渡
-    public void initChatBoxList(final String userName){
-        this.userName = userName;
-        chatBoxList = dao.getAllChat(userName);
+    public void initChatBoxList(final User user) throws IOException {
+        this.user = user;
+        bar_headImg.setImage(util.base64toImage(user.getHeadImg()));
+        chatBoxList = dao.getAllChat(user.getUserName());
         loadchatboxlist();
         chat_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -111,8 +126,13 @@ public class ChatController implements Initializable {
                 if (event.getButton() == MouseButton.PRIMARY){
                     chatboxlist.getChildren().clear();
                     for (int i = 0, len = chatBoxList.size() ; i < len ; i ++)
-                        if (chatBoxList.get(i).equals(chat_search.getText()))
-                            addchatboxlist(chatBoxList.get(i));
+                        if (chatBoxList.get(i).equals(chat_search.getText())) {
+                            try {
+                                addchatboxlist(chatBoxList.get(i));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                 }
             }
         });
@@ -122,25 +142,30 @@ public class ChatController implements Initializable {
                 if (event.getButton() == MouseButton.PRIMARY){
                     friendlist.getChildren().clear();
                     for (int i = 0, len = friendList.size() ; i < len ; i ++)
-                        if (friendList.get(i).getUserName().equals(friend_search.getText()))
-                            addfriendlist(friendList.get(i));
+                        if (friendList.get(i).getUserName().equals(friend_search.getText())) {
+                            try {
+                                addfriendlist(friendList.get(i));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                 }
             }
         });
     }
     //好友栏
-    public void bar_friendAction(javafx.event.ActionEvent actionEvent) {
+    public void bar_friendAction(javafx.event.ActionEvent actionEvent) throws IOException {
         friend_search.setText("");
         group_bar_chatWindow.setVisible(false);
         group_bar_chatboxlist.setVisible(false);
         group_bar_friend.setVisible(true);
-        friendList = dao.getAllFriends(userName);
+        friendList = dao.getAllFriends(user.getUserName());
         friendlist.getChildren().clear();
         for (final User friend : friendList)
             addfriendlist(friend);
     }
     //  聊天栏
-    public void bar_chatAction(ActionEvent actionEvent) {
+    public void bar_chatAction(ActionEvent actionEvent) throws IOException {
         chat_search.setText("");
         group_bar_friend.setVisible(false);
         group_bar_chatboxlist.setVisible(true);
@@ -149,12 +174,12 @@ public class ChatController implements Initializable {
         if (group_bar_chatWindow.isVisible())
             addChatWindow(friendName);
         else if (group_bar_chatboxlist.isVisible()){
-            chatBoxList = dao.getAllChat(userName);
+            chatBoxList = dao.getAllChat(user.getUserName());
             loadchatboxlist();
         }
     }
     //  好友信息界面的发送消息
-    public void send_msgAction(ActionEvent actionEvent){
+    public void send_msgAction(ActionEvent actionEvent) throws IOException {
         group_bar_chatWindow.setVisible(true);
         group_bar_chatboxlist.setVisible(true);
         group_bar_friend.setVisible(false);
@@ -170,12 +195,12 @@ public class ChatController implements Initializable {
         addChatWindow(friendName);
     }
     //  聊天框的发送按钮
-    public void touch_sendAction(ActionEvent actionEvent){
+    public void touch_sendAction(ActionEvent actionEvent) throws IOException {
         String txt = txt_input.getText();
         if (txt.equals(""))
             return;
         txt_input.setText("");
-        Msg msg = new Msg(userName,friendName,txt,new Date(),"person");
+        Msg msg = new Msg(user.getUserName(),friendName,txt,new Date(),"person");
         dao.sendMsg(msg);
         addMessageBox(msg);
         chatBoxList.remove(friendName);
@@ -183,8 +208,21 @@ public class ChatController implements Initializable {
         //显示最上面的
         addChatWindow(friendName);
     }
+    //  发送图片按钮
+    public void send_imgAction(ActionEvent actionEvent) throws IOException {
+        System.out.println("send_img");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("选择图片");
+        fileChooser.setInitialDirectory(new File("./"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("IMG","*.jpg","*.png","*.jpeg"));
+        File file = fileChooser.showOpenDialog(group_bar_chatboxlist.getScene().getWindow());
+        if (file == null)
+            return ;
+        System.out.println(file.getAbsolutePath());
+        addImage(file.getAbsolutePath());
+    }
     //  加载聊天栏
-    private void loadchatboxlist(){
+    private void loadchatboxlist() throws IOException {
         //  先清空
         chatboxlist.getChildren().clear();
         //  再逐个添加
@@ -192,28 +230,29 @@ public class ChatController implements Initializable {
             addchatboxlist(friendname);
     }
 
-    private void addChatWindow(String friendname){
+    private void addChatWindow(String friendname) throws IOException {
         chatWindowFlag = true;
         group_bar_chatWindow.setVisible(true);
         info_name.setText(friendname);
         friendName = friendname;
         //聊天内容
-        dao.setMsgIsRead(friendname,userName);
-        msgs = dao.getMsg(userName,friendname);
+        dao.setMsgIsRead(friendname,user.getUserName());
+        msgs = dao.getMsg(user.getUserName(),friendname);
         msgList.getChildren().clear();
         for (Msg msg : msgs)
             addMessageBox(msg);
         loadchatboxlist();
     }
     //  聊天框中添加一条消息
-    private void addMessageBox(Msg message){
+    private void addMessageBox(Msg message) throws IOException {
 //        User sender = dao.getMemberById(message.getSenderId());
 //        assert sender != null;
-//        Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(sender.getHead())));
-//        ImageView head = new ImageView();
-//        head.setImage(headImg);
-//        head.setFitWidth(40);
-//        head.setFitHeight(40);
+        String img = dao.getHeadByUserName(message.getSenderName());
+        Image headImg = util.base64toImage(img);
+        ImageView head = new ImageView();
+        head.setImage(headImg);
+        head.setFitWidth(40);
+        head.setFitHeight(40);
 
         Label messageBubble = new Label(message.getMsg());
         messageBubble.setWrapText(true);
@@ -223,7 +262,7 @@ public class ChatController implements Initializable {
         messageBubble.setFont(new Font(14));
         HBox.setMargin(messageBubble, new Insets(8, 0, 0, 0));
 
-        boolean isMine = message.getSenderName().equals(userName);
+        boolean isMine = message.getSenderName().equals(user.getUserName());
         double[] points;
         if (!isMine) {
             points = new double[]{
@@ -245,34 +284,77 @@ public class ChatController implements Initializable {
         messageBox.setPadding(new Insets(10, 5, 10, 5));
         if (isMine) {
             HBox.setMargin(triangle, new Insets(15, 0, 0, 0));
-           // messageBox.getChildren().addAll(messageBubble, triangle,head);
-            messageBox.getChildren().addAll(messageBubble,triangle);
+            messageBox.getChildren().addAll(messageBubble, triangle,head);
+            //messageBox.getChildren().addAll(messageBubble,triangle);
             messageBox.setAlignment(Pos.TOP_RIGHT);
         } else {
             HBox.setMargin(triangle, new Insets(15, 0, 0, 32));
-            messageBox.getChildren().addAll(triangle,messageBubble);
-            //messageBox.getChildren().addAll(head, triangle, messageBubble);
+            //messageBox.getChildren().addAll(triangle,messageBubble);
+            messageBox.getChildren().addAll(head, triangle, messageBubble);
         }
 
         last = info_pane_box.getVvalue() == 1.0;
         msgList.getChildren().add(messageBox);
     }
+    //  聊天框中发送一张图片
+    private void addImage(String url) throws IOException {
+        //        User sender = dao.getMemberById(message.getSenderId());
+//        assert sender != null;
+        Image headImg = util.base64toImage(user.getHeadImg());
+        ImageView head = new ImageView();
+        head.setImage(headImg);
+        head.setFitWidth(40);
+        head.setFitHeight(40);
+
+        Image image = new Image("file:" + url);
+        ImageView img = new ImageView();
+        img.setImage(image);
+            img.setFitWidth(300);
+            img.setFitHeight(300);
+        double[] points;
+        points = new double[]{
+                0.0, 0.0,
+                0.0, 10.0,
+                10.0, 5.0
+        };
+        Polygon triangle = new Polygon(points);
+        triangle.setFill(Color.rgb(179,231,244));
+        HBox messageBox = new HBox();
+        messageBox.setPrefWidth(650);
+        messageBox.setPadding(new Insets(10, 5, 10, 5));
+        HBox.setMargin(triangle, new Insets(15, 0, 0, 0));
+        messageBox.getChildren().addAll(img, triangle,head);
+        //messageBox.getChildren().addAll(img,triangle);
+        messageBox.setAlignment(Pos.TOP_RIGHT);
+
+        last = info_pane_box.getVvalue() == 1.0;
+        msgList.getChildren().add(messageBox);
+    }
+    //  聊天框中添加一张图片（数据库读取）
+    private void addImageFromDB(){
+
+    }
     //  聊天列表添加一个聊天
-    private void addchatboxlist(final String friendname){
+    private void addchatboxlist(final String friendname) throws IOException {
         //  头像
-//            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
-//            ImageView head = new ImageView();
-//            head.setImage(headImg);
-//            head.setFitWidth(40);
-//            head.setFitHeight(40);
-        int num = dao.getUnreadMsgNum(friendname,userName);
+        String img = dao.getHeadByUserName(friendname);
+        Image headImg = util.base64toImage(img);
+        ImageView head = new ImageView();
+        head.setImage(headImg);
+        head.setFitWidth(40);
+        head.setFitHeight(40);
+        int num = dao.getUnreadMsgNum(friendname,user.getUserName());
         Label name = new Label(friendname);
         Label unread = new Label(String.valueOf(num) + "条未读消息");
         name.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 chat_search.setText("");
-                addChatWindow(friendname);
+                try {
+                    addChatWindow(friendname);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         name.setTextFill(Color.rgb(0,0,0));
@@ -282,18 +364,19 @@ public class ChatController implements Initializable {
         VBox info = new VBox(8, name);
         info.setPadding(new Insets(2, 50, 10, 8));
         if (num == 0)
-            chatboxlist.getChildren().add(new HBox(info));
+            chatboxlist.getChildren().add(new HBox(head,info));
         else
-            chatboxlist.getChildren().add(new HBox(info,unread));
+            chatboxlist.getChildren().add(new HBox(head,info,unread));
     }
     //  好友列表添加一个好友
-    private void addfriendlist(final User friend){
+    private void addfriendlist(final User friend) throws IOException {
         //  头像
-//            Image headImg = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(member.getHead())));
-//            ImageView head = new ImageView();
-//            head.setImage(headImg);
-//            head.setFitWidth(40);
-//            head.setFitHeight(40);
+        Image headImg = util.base64toImage(friend.getHeadImg());
+        ImageView head = new ImageView();
+        head.setImage(headImg);
+        head.setFitWidth(40);
+        head.setFitHeight(40);
+
         Label name = new Label(friend.getUserName());
         name.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -311,6 +394,6 @@ public class ChatController implements Initializable {
 //            status.setTextFill(Color.rgb(255, 255, 255));
         VBox info = new VBox(8, name);
         info.setPadding(new Insets(2, 50, 10, 8));
-        friendlist.getChildren().add(new HBox(info));
+        friendlist.getChildren().add(new HBox(head,info));
     }
 }
