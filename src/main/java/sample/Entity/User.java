@@ -7,11 +7,8 @@ public class User {
     private String Password;
     private String motto;
     private int age;
-    private boolean Online;
-
-    public boolean getOnline() {
-        return Online;
-    }
+    private boolean online;
+    private String headImg;
 
     public String getUserId() {
         return UserId;
@@ -37,13 +34,15 @@ public class User {
         return age;
     }
 
-    public boolean isOnline() {
+    public boolean getOnline() {
         return online;
     }
 
-    private boolean online;
+    public String getHeadImg() {
+        return headImg;
+    }
 
-    public User(String userId, String userName, String password, String sex, String motto, int age, boolean online) {
+    public User(String userId, String userName, String password, String sex, String motto, int age, boolean online, String headImg) {
         UserId = userId;
         UserName = userName;
         Password = password;
@@ -51,5 +50,6 @@ public class User {
         this.motto = motto;
         this.age = age;
         this.online = online;
+        this.headImg = headImg;
     }
 }
