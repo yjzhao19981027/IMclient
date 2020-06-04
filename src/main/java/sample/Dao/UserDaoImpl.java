@@ -37,6 +37,11 @@ public class UserDaoImpl implements UserDao{
         return this.sqlSession.selectOne("Mapper.getUserByUserName_Password",param);
     }
 
+    public String getHeadByUserName(String userName){
+        sqlSession.commit();
+        return this.sqlSession.selectOne("Mapper.getHeadByUserName",userName);
+    }
+
     public List<User> getAllFriends(String userName){
         sqlSession.commit();
         return this.sqlSession.selectList("Mapper.getAllFriends",userName);
@@ -54,12 +59,12 @@ public class UserDaoImpl implements UserDao{
         param.put("name2", friendName);
         return this.sqlSession.selectList("Mapper.getMsg",param);
     }
-
+    //  发送消息
     public void sendMsg(Msg msg) {
         this.sqlSession.insert("Mapper.sendMsg",msg);
         sqlSession.commit();
     }
-
+    //  获取未阅消息数
     public int getUnreadMsgNum(String senderName, String receiverName) {
         sqlSession.commit();
         Map<String, Object> param = new HashMap<String, Object>();
@@ -67,7 +72,7 @@ public class UserDaoImpl implements UserDao{
         param.put("name2", receiverName);
         return this.sqlSession.selectOne("Mapper.getUnreadMsgNum", param);
     }
-
+    //  设置消息已阅
     @Override
     public void setMsgIsRead(String senderName, String receiverName) {
         Map<String, Object> param = new HashMap<String, Object>();
@@ -75,5 +80,19 @@ public class UserDaoImpl implements UserDao{
         param.put("name2", receiverName);
         this.sqlSession.update("Mapper.setMsgIsRead",param);
         sqlSession.commit();
+    }
+
+
+
+    @Override
+    public void test(String str) {
+        this.sqlSession.insert("Mapper.test",str);
+        sqlSession.commit();
+    }
+
+    @Override
+    public String test1() {
+        System.out.println("hhh");
+        return this.sqlSession.selectOne("Mapper.test1");
     }
 }
