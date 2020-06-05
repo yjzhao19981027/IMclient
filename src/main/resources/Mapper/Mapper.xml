@@ -42,8 +42,8 @@
     </update>
 
     <insert id="sendMsg" parameterType="sample.Entity.Msg">
-        insert into Msg(senderName, receiverName, msg, time, msgType,isRead)
-            VALUES (#{senderName},#{receiverName},#{msg},#{time},#{msgType},#{isRead})
+        insert into Msg(senderName, receiverName, msg, img, time, msgType,isRead)
+            VALUES (#{senderName},#{receiverName},#{msg},#{img},#{time},#{msgType},#{isRead})
     </insert>
 
     <insert id="test" parameterType="java.util.Base64">
