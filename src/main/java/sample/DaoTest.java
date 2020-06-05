@@ -24,20 +24,21 @@ public class DaoTest {
 
         UserDao tool = new UserDaoImpl();
 
-//        List<Msg> list = tool.getMsg("Prodigal_son","Elio");
+        List<Msg> list = tool.getMsg("Prodigal_son","Elio");
        // tool.setMsgIsRead("Prodigal_son","Peter");
-        User user = tool.getUserByUserName_Password("Prodigal_son","123456");
+       // User user = tool.getUserByUserName_Password("Prodigal_son","123456");
 //        List<User> list = tool.getAllFriends("Prodigal_son");
-//        System.out.println(list.get(0).getMsg());
-//        System.out.println(list.get(1).getMsg());
-        System.out.println(user.getUserName());
-        System.out.println(user.getPassword());
-        System.out.println(user.getSex());
-        System.out.println(user.getMotto());
-        System.out.println(user.getAge());
-        System.out.println(user.getUserId());
-        System.out.println(user.getOnline());
-        System.out.println(user.getHeadImg());
+        if (list.get(0).getImg() == null)
+            System.out.println(list.get(0).isRead());
+        System.out.println(list.get(1).getMsg());
+//        System.out.println(user.getUserName());
+//        System.out.println(user.getPassword());
+//        System.out.println(user.getSex());
+//        System.out.println(user.getMotto());
+//        System.out.println(user.getAge());
+//        System.out.println(user.getUserId());
+//        System.out.println(user.getOnline());
+//        System.out.println(user.getHeadImg());
     }
 }
 
