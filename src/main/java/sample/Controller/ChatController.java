@@ -19,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
@@ -117,12 +116,13 @@ public class ChatController implements Initializable {
         });
     }
 
-    //LoginController使用，将userName过渡
+    //  LoginController使用，将userName过渡
     public void initChatBoxList(final User user) throws IOException {
         this.user = user;
         bar_headImg.setImage(util.base64toImage(user.getHeadImg()));
         chatBoxList = dao.getAllChat(user.getUserName());
         loadchatboxlist();
+        //  聊天栏搜索按钮
         chat_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -139,6 +139,7 @@ public class ChatController implements Initializable {
                 }
             }
         });
+        //  好友栏搜索按钮
         friend_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -156,7 +157,7 @@ public class ChatController implements Initializable {
             }
         });
     }
-    //好友栏
+    //  好友栏
     public void bar_friendAction(javafx.event.ActionEvent actionEvent) throws IOException {
         friend_search.setText("");
         group_bar_chatWindow.setVisible(false);
@@ -388,8 +389,6 @@ public class ChatController implements Initializable {
             }
         });
         name.setTextFill(Color.rgb(0,0,0));
-//            Label status = new Label(member.getStatus() ? "在线" : "离线");
-//            status.setTextFill(Color.rgb(255, 255, 255));
         VBox info = new VBox(8, name);
         info.setPadding(new Insets(2, 50, 10, 8));
         friendlist.getChildren().add(new HBox(head,info));
