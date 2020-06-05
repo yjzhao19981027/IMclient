@@ -19,14 +19,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
 import sample.Entity.User;
+import sample.Util.ChatWindowUtil;
 import sample.Util.ImgUtil;
-import sun.misc.BASE64Decoder;
 
-import javax.rmi.CORBA.Util;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -92,12 +92,15 @@ public class ChatController implements Initializable {
 
     private ImgUtil util;
 
+    private ChatWindowUtil chatWindowUtil;
+
     private boolean chatWindowFlag;
 
     private boolean last = true;
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
         util = new ImgUtil();
+        chatWindowUtil = new ChatWindowUtil();
         chatWindowFlag = false;
         chatboxlist.setPadding(new Insets(5));
         friendlist.setPadding(new Insets(5));
@@ -200,7 +203,7 @@ public class ChatController implements Initializable {
         if (txt.equals(""))
             return;
         txt_input.setText("");
-        Msg msg = new Msg(user.getUserName(),friendName,txt,new Date(),"person");
+        Msg msg = new Msg(user.getUserName(),friendName,txt, null, new Date(),"person");
         dao.sendMsg(msg);
         addMessageBox(msg);
         chatBoxList.remove(friendName);
@@ -218,7 +221,10 @@ public class ChatController implements Initializable {
         File file = fileChooser.showOpenDialog(group_bar_chatboxlist.getScene().getWindow());
         if (file == null)
             return ;
-        System.out.println(file.getAbsolutePath());
+        String img = util.imageToBase64(file);
+        System.out.println(img);
+        Msg msg = new Msg(user.getUserName(),friendName,null, img, new Date(),"person");
+        dao.sendMsg(msg);
         addImage(file.getAbsolutePath());
     }
     //  加载聊天栏
@@ -229,7 +235,7 @@ public class ChatController implements Initializable {
         for (final String friendname : chatBoxList)
             addchatboxlist(friendname);
     }
-
+    //  加载聊天框
     private void addChatWindow(String friendname) throws IOException {
         chatWindowFlag = true;
         group_bar_chatWindow.setVisible(true);
@@ -240,43 +246,38 @@ public class ChatController implements Initializable {
         msgs = dao.getMsg(user.getUserName(),friendname);
         msgList.getChildren().clear();
         for (Msg msg : msgs)
-            addMessageBox(msg);
+                addMessageBox(msg);
         loadchatboxlist();
     }
-    //  聊天框中添加一条消息
+    //  聊天框中添加一条消息(包含图片)
     private void addMessageBox(Msg message) throws IOException {
-//        User sender = dao.getMemberById(message.getSenderId());
-//        assert sender != null;
-        String img = dao.getHeadByUserName(message.getSenderName());
-        Image headImg = util.base64toImage(img);
+        String headstr = dao.getHeadByUserName(message.getSenderName());
+        Image headImg = util.base64toImage(headstr);
         ImageView head = new ImageView();
         head.setImage(headImg);
         head.setFitWidth(40);
         head.setFitHeight(40);
 
         Label messageBubble = new Label(message.getMsg());
-        messageBubble.setWrapText(true);
-        messageBubble.setMaxWidth(220);
-        messageBubble.setStyle("-fx-background-color: rgb(179,231,244); -fx-background-radius: 8px;");
-        messageBubble.setPadding(new Insets(6));
-        messageBubble.setFont(new Font(14));
-        HBox.setMargin(messageBubble, new Insets(8, 0, 0, 0));
+        ImageView img = new ImageView();;
+        if (message.getImg() == null){
+            messageBubble.setWrapText(true);
+            messageBubble.setMaxWidth(220);
+            messageBubble.setStyle("-fx-background-color: rgb(179,231,244); -fx-background-radius: 8px;");
+            messageBubble.setPadding(new Insets(6));
+            messageBubble.setFont(new Font(14));
+            HBox.setMargin(messageBubble, new Insets(8, 0, 0, 0));
+        }
+        else {
+            Image image = util.base64toImage(message.getImg());
+            img.setImage(image);
+            img.setFitWidth(300);
+            img.setFitHeight(300);
+        }
 
         boolean isMine = message.getSenderName().equals(user.getUserName());
-        double[] points;
-        if (!isMine) {
-            points = new double[]{
-                    0.0, 5.0,
-                    10.0, 0.0,
-                    10.0, 10.0
-            };
-        } else {
-            points = new double[]{
-                    0.0, 0.0,
-                    0.0, 10.0,
-                    10.0, 5.0
-            };
-        }
+        double[] points = chatWindowUtil.setPoints(isMine);
+
         Polygon triangle = new Polygon(points);
         triangle.setFill(Color.rgb(179,231,244));
         HBox messageBox = new HBox();
@@ -284,13 +285,17 @@ public class ChatController implements Initializable {
         messageBox.setPadding(new Insets(10, 5, 10, 5));
         if (isMine) {
             HBox.setMargin(triangle, new Insets(15, 0, 0, 0));
-            messageBox.getChildren().addAll(messageBubble, triangle,head);
-            //messageBox.getChildren().addAll(messageBubble,triangle);
+            if (message.getImg() == null)
+                messageBox.getChildren().addAll(messageBubble, triangle,head);
+            else
+                messageBox.getChildren().addAll(img, triangle, head);
             messageBox.setAlignment(Pos.TOP_RIGHT);
         } else {
             HBox.setMargin(triangle, new Insets(15, 0, 0, 32));
-            //messageBox.getChildren().addAll(triangle,messageBubble);
-            messageBox.getChildren().addAll(head, triangle, messageBubble);
+            if (message.getImg() == null)
+                messageBox.getChildren().addAll(head, triangle, messageBubble);
+            else
+                messageBox.getChildren().addAll(head, triangle,img);
         }
 
         last = info_pane_box.getVvalue() == 1.0;
@@ -298,8 +303,6 @@ public class ChatController implements Initializable {
     }
     //  聊天框中发送一张图片
     private void addImage(String url) throws IOException {
-        //        User sender = dao.getMemberById(message.getSenderId());
-//        assert sender != null;
         Image headImg = util.base64toImage(user.getHeadImg());
         ImageView head = new ImageView();
         head.setImage(headImg);
@@ -324,15 +327,10 @@ public class ChatController implements Initializable {
         messageBox.setPadding(new Insets(10, 5, 10, 5));
         HBox.setMargin(triangle, new Insets(15, 0, 0, 0));
         messageBox.getChildren().addAll(img, triangle,head);
-        //messageBox.getChildren().addAll(img,triangle);
         messageBox.setAlignment(Pos.TOP_RIGHT);
 
         last = info_pane_box.getVvalue() == 1.0;
         msgList.getChildren().add(messageBox);
-    }
-    //  聊天框中添加一张图片（数据库读取）
-    private void addImageFromDB(){
-
     }
     //  聊天列表添加一个聊天
     private void addchatboxlist(final String friendname) throws IOException {
