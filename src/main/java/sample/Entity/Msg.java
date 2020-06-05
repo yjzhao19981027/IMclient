@@ -7,14 +7,17 @@ public class Msg {
     private String senderName;
     private String receiverName;
     private String msg;
+    private String img;
     private Date time;
     private String msgType;
     private boolean isRead;
 
-    public Msg(String senderName,String receiverName,String msg,Date time,String msgType){
+
+    public Msg(String senderName, String receiverName, String msg, String img, Date time, String msgType){
         this.senderName = senderName;
         this.receiverName = receiverName;
         this.msg = msg;
+        this.img = img;
         this.time = time;
         this.msgType = msgType;
         this.isRead = false;
@@ -30,6 +33,10 @@ public class Msg {
 
     public String getMsg() {
         return msg;
+    }
+
+    public String getImg() {
+        return img;
     }
 
     public Date getTime() {
