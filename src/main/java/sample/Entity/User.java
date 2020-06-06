@@ -1,12 +1,14 @@
 package sample.Entity;
 
+import java.util.Date;
+
 public class User {
     private String UserId;
     private String UserName;
     private String Sex;
     private String Password;
     private String motto;
-    private int age;
+    private Date birthday;
     private boolean online;
     private String headImg;
 
@@ -30,8 +32,8 @@ public class User {
         return motto;
     }
 
-    public int getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
     public boolean getOnline() {
@@ -42,13 +44,13 @@ public class User {
         return headImg;
     }
 
-    public User(String userId, String userName, String password, String sex, String motto, int age, boolean online, String headImg) {
+    public User(String userId, String userName, String password, String sex, String motto, Date birthday, boolean online, String headImg) {
         UserId = userId;
         UserName = userName;
         Password = password;
         this.Sex = sex;
         this.motto = motto;
-        this.age = age;
+        this.birthday = birthday;
         this.online = online;
         this.headImg = headImg;
     }
