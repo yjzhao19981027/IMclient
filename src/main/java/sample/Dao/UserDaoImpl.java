@@ -29,6 +29,16 @@ public class UserDaoImpl implements UserDao{
         this.sqlSession = sqlSession;
     }
 
+    public User getUserByUserName(String userName){
+        sqlSession.commit();
+        return this.sqlSession.selectOne("Mapper.getUserByUserName",userName);
+    }
+
+    public void registerUser(User user){
+        this.sqlSession.insert("Mapper.registerUser",user);
+        sqlSession.commit();
+    }
+
     public User getUserByUserName_Password(String userName,String password) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("userName", userName);
