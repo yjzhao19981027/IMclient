@@ -1,0 +1,48 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="registerPane" prefWidth="540" prefHeight="440"
+      fx:controller="sample.Controller.RegisterController"
+      xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TextField fx:id="userName" layoutX="200" layoutY="35" prefWidth="250" prefHeight="45" promptText="用户名">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </TextField>
+
+        <PasswordField fx:id="password" layoutX="200" layoutY="90" prefWidth="250" prefHeight="45" promptText="密码">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </PasswordField>
+
+        <PasswordField fx:id="comfirmPassword" layoutX="200" layoutY="145" prefWidth="250" prefHeight="45" promptText="确认密码">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </PasswordField>
+
+        <RadioButton fx:id="maleButton" onAction="#maleButtonAction" selected="true" layoutX="220" layoutY="200" prefWidth="120" prefHeight="45" text="男" />
+
+        <RadioButton fx:id="femaleButton" onAction="#femaleButtonAction" layoutX="350" layoutY="200" prefWidth="120" prefHeight="45" text="女" />
+
+        <DatePicker fx:id="birthday" layoutX="200" layoutY="255" prefWidth="250" prefHeight="45">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </DatePicker>
+
+        <TextField fx:id="motto" layoutX="200" layoutY="310" prefWidth="250" prefHeight="45" promptText="个性签名">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </TextField>
+
+        <Button fx:id="resgister" mnemonicParsing="false" onAction="#register_buttonAction"
+                layoutX="200" layoutY="380" prefWidth="120" prefHeight="45" text="注 册"/>
+
+    </children>
+</Pane>
