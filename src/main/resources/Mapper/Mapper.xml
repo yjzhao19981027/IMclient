@@ -4,42 +4,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Mapper">
+    <select id="getUserByUserName" parameterType="String" resultType="sample.Entity.User">
+        SELECT * FROM User where binary UserName=#{userName}
+    </select>
 
     <select id="getUserByUserName_Password" parameterType="java.util.List" resultType="sample.Entity.User">
-        SELECT * FROM User where UserName=#{userName} and Password=#{password}
+        SELECT * FROM User where binary UserName=#{userName} and Password=#{password}
     </select>
 
     <select id="getAllFriends" parameterType="String" resultType="sample.Entity.User">
-        select User.* from Friend,User where Friend.UserName = #{userName} and User.UserName = Friend.FriendName
+        select User.* from Friend,User where binary Friend.UserName = #{userName} and User.UserName = Friend.FriendName
     </select>
 
     <select id="getHeadByUserName" parameterType="String" resultType="String">
-        select headImg from User where UserName = #{userName}
+        select headImg from User where binary UserName = #{userName}
     </select>
 
     <select id="getAllChat" parameterType="String" resultType="String">
-        select receiverName from Msg where senderName = #{userName}
+        select receiverName from Msg where binary senderName = #{userName}
         union
-        select senderName from Msg where receiverName = #{userName}
+        select senderName from Msg where binary receiverName = #{userName}
     </select>
 
     <select id="getMsg" parameterType="java.util.List" resultType="sample.Entity.Msg">
-        select * from Msg where senderName = #{name1} and receiverName = #{name2}
+        select * from Msg where binary senderName = #{name1} and receiverName = #{name2}
                         or senderName = #{name2} and receiverName = #{name1}
     </select>
 
     <select id="getUnreadMsgNum" parameterType="java.util.List" resultType="int">
-        select count(*) from Msg where senderName = #{name1} and
+        select count(*) from Msg where binary senderName = #{name1} and
                                receiverName = #{name2} and
                                isRead = false
     </select>
 
     <update id="setMsgIsRead" parameterType="java.util.List">
         update Msg set isRead = true
-            where senderName = #{name1} and
+            where binary senderName = #{name1} and
                 receiverName = #{name2} and
                     isRead = false
     </update>
+
+    <insert id="registerUser" parameterType="sample.Entity.User">
+        insert into User(userid, username, password, sex, motto, birthday, online, headimg)
+            VALUES (#{userId},#{userName},#{password},#{sex},#{motto},#{birthday},#{online},#{headImg})
+    </insert>
 
     <insert id="sendMsg" parameterType="sample.Entity.Msg">
         insert into Msg(senderName, receiverName, msg, img, time, msgType,isRead)
