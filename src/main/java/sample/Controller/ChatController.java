@@ -359,8 +359,6 @@ public class ChatController implements Initializable {
         });
         name.setTextFill(Color.rgb(0,0,0));
         unread.setTextFill(Color.rgb(0,0,0));
-//            Label status = new Label(member.getStatus() ? "在线" : "离线");
-//            status.setTextFill(Color.rgb(255, 255, 255));
         VBox info = new VBox(8, name);
         info.setPadding(new Insets(2, 50, 10, 8));
         if (num == 0)
@@ -384,7 +382,7 @@ public class ChatController implements Initializable {
                 friend_search.setText("");
                 send_msg.setVisible(true);
                 content_name.setText(friend.getUserName() + "\n"
-                        + friend.getAge() + "\n"
+                        + friend.getBirthday() + "\n"
                         + friend.getSex() + "\n"
                         + friend.getMotto() );
             }

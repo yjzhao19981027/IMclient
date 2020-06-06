@@ -12,16 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -79,6 +74,13 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void register_buttonAction(ActionEvent actionEvent) {
+    public void register_buttonAction(ActionEvent actionEvent) throws IOException {
+        System.out.println("Register!");
+        Stage primaryStage = new Stage();
+        URL path = getClass().getResource("/FXML/Register/register.fxml");
+        Parent root = FXMLLoader.load(path);
+        primaryStage.setTitle("注册");
+        primaryStage.setScene(new Scene(root, 540, 440));
+        primaryStage.show();
     }
 }
