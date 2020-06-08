@@ -100,7 +100,7 @@ public class ChatController implements Initializable {
     private boolean chatWindowFlag;
 
     private boolean last = true;
-    
+
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
         util = new ImgUtil();
