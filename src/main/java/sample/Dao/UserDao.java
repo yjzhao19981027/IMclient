@@ -8,6 +8,9 @@ import java.util.List;
 public interface UserDao {
     public User getUserByUserName(String userName);
     public void registerUser(User user);
+
+    public void changeInfo(User user);
+
     //  通过用户名密码获取用户 返回值：User
     public User getUserByUserName_Password(String userName,String password);
     public String getHeadByUserName(String userName);

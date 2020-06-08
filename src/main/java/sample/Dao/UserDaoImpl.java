@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import sample.Entity.Msg;
 import sample.Entity.User;
+import sample.Util.ImgUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 public class UserDaoImpl implements UserDao{
     public SqlSession sqlSession;
+
 
     public UserDaoImpl(){
         String resource = "config/mybatis-config.xml";
@@ -36,6 +38,18 @@ public class UserDaoImpl implements UserDao{
 
     public void registerUser(User user){
         this.sqlSession.insert("Mapper.registerUser",user);
+        sqlSession.commit();
+    }
+
+    public void changeInfo(User user){
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userName", user.getUserName());
+        param.put("password", user.getPassword());
+        param.put("sex", user.getSex());
+        param.put("motto", user.getMotto());
+        param.put("birthday", user.getBirthday());
+        param.put("headImg", user.getHeadImg());
+        this.sqlSession.update("Mapper.changeInfo",param);
         sqlSession.commit();
     }
 
@@ -71,6 +85,7 @@ public class UserDaoImpl implements UserDao{
     }
     //  发送消息
     public void sendMsg(Msg msg) {
+        System.out.println(msg.getTime());
         this.sqlSession.insert("Mapper.sendMsg",msg);
         sqlSession.commit();
     }
