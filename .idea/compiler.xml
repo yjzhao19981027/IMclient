@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="IMclient" target="6" />
+      <module name="IMclient" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
