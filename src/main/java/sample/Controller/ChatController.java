@@ -5,10 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
@@ -96,6 +100,7 @@ public class ChatController implements Initializable {
     private boolean chatWindowFlag;
 
     private boolean last = true;
+    
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
         util = new ImgUtil();
@@ -120,6 +125,33 @@ public class ChatController implements Initializable {
     public void initChatBoxList(final User user) throws IOException {
         this.user = user;
         bar_headImg.setImage(util.base64toImage(user.getHeadImg()));
+        bar_headImg.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY){
+                    Stage primaryStage = new Stage();
+                    URL path = getClass().getResource("/FXML/Info/information.fxml");
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(path);
+                    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+                    Parent root = null;
+                    try {
+                        root = fxmlLoader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setTitle("个人信息");
+                    primaryStage.setScene(new Scene(root, 540, 480));
+                    primaryStage.show();
+                    InfoController controller = (InfoController) fxmlLoader.getController();
+                    try {
+                        controller.initInfo(ChatController.this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
         chatBoxList = dao.getAllChat(user.getUserName());
         loadchatboxlist();
         //  聊天栏搜索按钮
@@ -392,4 +424,9 @@ public class ChatController implements Initializable {
         info.setPadding(new Insets(2, 50, 10, 8));
         friendlist.getChildren().add(new HBox(head,info));
     }
+
+    public User getUser(){
+        return this.user;
+    }
+
 }
