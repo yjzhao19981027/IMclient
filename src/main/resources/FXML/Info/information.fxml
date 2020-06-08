@@ -1,0 +1,47 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+
+<?import javafx.scene.image.ImageView?>
+<Pane fx:id="registerPane" prefWidth="540" prefHeight="480"
+      fx:controller="sample.Controller.InfoController"
+      xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView fx:id="headImg" layoutX="220" layoutY="30" fitHeight="80" fitWidth="80"/>
+
+        <Label fx:id="changeImg" layoutX="350" layoutY="60" prefWidth="250" prefHeight="45" text="更改头像"/>
+
+        <Label fx:id="userName" layoutX="200" layoutY="130" prefWidth="250" prefHeight="45">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </Label>
+
+        <TextField fx:id="pwd" layoutX="200" layoutY="185" prefWidth="250" prefHeight="45" promptText="密码">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </TextField>
+
+        <RadioButton fx:id="maleButton" onAction="#maleButtonAction" selected="true" layoutX="220" layoutY="240" prefWidth="120" prefHeight="45" text="男" />
+
+        <RadioButton fx:id="femaleButton" onAction="#femaleButtonAction" layoutX="350" layoutY="240" prefWidth="120" prefHeight="45" text="女" />
+
+        <DatePicker fx:id="birthday" layoutX="200" layoutY="295" prefWidth="250" prefHeight="45">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </DatePicker>
+
+        <TextField fx:id="motto" layoutX="200" layoutY="350" prefWidth="250" prefHeight="45" promptText="个性签名">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+        </TextField>
+
+        <Button fx:id="change_info" mnemonicParsing="false" onAction="#change_infoButtonAction"
+                layoutX="200" layoutY="420" prefWidth="120" prefHeight="45" text="更改信息"/>
+
+    </children>
+</Pane>
