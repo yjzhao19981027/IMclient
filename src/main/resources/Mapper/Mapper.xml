@@ -37,6 +37,11 @@
                                isRead = false
     </select>
 
+    <update id="changeInfo" parameterType="java.util.List">
+        update User set Password = #{password}, Sex = #{sex}, motto = #{motto}, birthday = #{birthday}, headImg = #{headImg}
+            where binary UserName = #{userName}
+    </update>
+
     <update id="setMsgIsRead" parameterType="java.util.List">
         update Msg set isRead = true
             where binary senderName = #{name1} and
