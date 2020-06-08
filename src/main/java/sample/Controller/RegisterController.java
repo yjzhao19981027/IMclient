@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
+import sample.Util.DateUtil;
 
 
 import java.beans.EventHandler;
@@ -39,9 +40,12 @@ public class RegisterController implements Initializable {
     private TextField motto;
 
     private UserDao dao;
+
+    private DateUtil dateUtil;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
+        dateUtil = new DateUtil();
     }
 
     public void maleButtonAction(ActionEvent actionEvent) {
@@ -59,7 +63,7 @@ public class RegisterController implements Initializable {
         String password = this.password.getText();
         String comfirmPassword = this.comfirmPassword.getText();
         String sex = maleButton.isSelected() ? "male" : "female";
-        Date birthday = this.birthday.getValue() != null ? new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(this.birthday.getValue())) : null;
+        Date birthday = this.birthday.getValue() != null ? dateUtil.localDate2Date(this.birthday.getValue()) : null;
         String motto = this.motto.getText();
         //  信息不完整
         if (userName.equals("") || password.equals("") || comfirmPassword.equals("")
