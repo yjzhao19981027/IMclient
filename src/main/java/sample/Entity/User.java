@@ -44,6 +44,38 @@ public class User {
         return headImg;
     }
 
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public void setSex(String sex) {
+        Sex = sex;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
+    }
+
     public User(String userId, String userName, String password, String sex, String motto, Date birthday, boolean online, String headImg) {
         UserId = userId;
         UserName = userName;
