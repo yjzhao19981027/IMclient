@@ -77,11 +77,7 @@ public class InfoController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY){
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("选择图片");
-                    fileChooser.setInitialDirectory(new File("./"));
-                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("IMG","*.jpg","*.png","*.jpeg"));
-                    File file = fileChooser.showOpenDialog(changeImg.getScene().getWindow());
+                    File file = imgUtil.selectImage(changeImg.getScene());
                     if (file == null)
                         return ;
                     user.setHeadImg(imgUtil.imageToBase64(file));

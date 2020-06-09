@@ -247,11 +247,7 @@ public class ChatController implements Initializable {
     //  发送图片按钮
     public void send_imgAction(ActionEvent actionEvent) throws IOException {
         System.out.println("send_img");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("选择图片");
-        fileChooser.setInitialDirectory(new File("./"));
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("IMG","*.jpg","*.png","*.jpeg"));
-        File file = fileChooser.showOpenDialog(group_bar_chatboxlist.getScene().getWindow());
+        File file = util.selectImage(group_bar_chatboxlist.getScene());
         if (file == null)
             return ;
         String img = util.imageToBase64(file);

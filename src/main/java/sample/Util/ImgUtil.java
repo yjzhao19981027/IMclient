@@ -1,7 +1,9 @@
 package sample.Util;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -30,5 +32,14 @@ public class ImgUtil {
         ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
         BufferedImage bi1 =ImageIO.read(stream);
         return SwingFXUtils.toFXImage(bi1,null);
+    }
+
+    public File selectImage(Scene scene){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("选择图片");
+        fileChooser.setInitialDirectory(new File("./"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("IMG","*.jpg","*.png","*.jpeg"));
+        File file = fileChooser.showOpenDialog(scene.getWindow());
+        return file;
     }
 }
