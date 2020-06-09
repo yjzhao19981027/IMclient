@@ -87,7 +87,7 @@ public class ChatController implements Initializable {
 
     private String friendName;
 
-    private List<String> chatBoxList;
+    private List<String> chatBoxList;   //聊天框名称
 
     private List<User> friendList;
 
@@ -163,7 +163,7 @@ public class ChatController implements Initializable {
                     for (int i = 0, len = chatBoxList.size() ; i < len ; i ++)
                         if (chatBoxList.get(i).equals(chat_search.getText())) {
                             try {
-                                addchatboxlist(chatBoxList.get(i));
+                                add2chatboxlist(chatBoxList.get(i));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -180,7 +180,7 @@ public class ChatController implements Initializable {
                     for (int i = 0, len = friendList.size() ; i < len ; i ++)
                         if (friendList.get(i).getUserName().equals(friend_search.getText())) {
                             try {
-                                addfriendlist(friendList.get(i));
+                                add2friendlist(friendList.get(i));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -198,7 +198,7 @@ public class ChatController implements Initializable {
         friendList = dao.getAllFriends(user.getUserName());
         friendlist.getChildren().clear();
         for (final User friend : friendList)
-            addfriendlist(friend);
+            add2friendlist(friend);
     }
     //  聊天栏
     public void bar_chatAction(ActionEvent actionEvent) throws IOException {
@@ -238,7 +238,7 @@ public class ChatController implements Initializable {
         txt_input.setText("");
         Msg msg = new Msg(user.getUserName(),friendName,txt, null, new Date(),"person");
         dao.sendMsg(msg);
-        addMessageBox(msg);
+        add2MessageBox(msg);
         chatBoxList.remove(friendName);
         chatBoxList.add(0,friendName);
         //显示最上面的
@@ -255,10 +255,11 @@ public class ChatController implements Initializable {
         if (file == null)
             return ;
         String img = util.imageToBase64(file);
-        System.out.println(img);
         Msg msg = new Msg(user.getUserName(),friendName,null, img, new Date(),"person");
         dao.sendMsg(msg);
-        addImage(file.getAbsolutePath());
+        add2MessageBox(msg);
+        loadChatWindow(friendName);
+        //addImage(file.getAbsolutePath());
     }
     //  加载聊天栏
     private void loadchatboxlist() throws IOException {
@@ -266,7 +267,7 @@ public class ChatController implements Initializable {
         chatboxlist.getChildren().clear();
         //  再逐个添加
         for (final String friendname : chatBoxList)
-            addchatboxlist(friendname);
+            add2chatboxlist(friendname);
     }
     //  加载聊天框
     private void loadChatWindow(String friendname) throws IOException {
@@ -277,15 +278,15 @@ public class ChatController implements Initializable {
         //聊天内容
         dao.setMsgIsRead(friendname,user.getUserName());
         msgs = dao.getMsg(user.getUserName(),friendname);
-        msgList.getChildren().clear();
         //添加聊天消息
+        msgList.getChildren().clear();
         for (Msg msg : msgs)
-                addMessageBox(msg);
+                add2MessageBox(msg);
         //重新加载聊天栏
         loadchatboxlist();
     }
     //  聊天框中添加一条消息(包含图片)
-    private void addMessageBox(Msg message) throws IOException {
+    private void add2MessageBox(Msg message) throws IOException {
         String headstr = dao.getHeadByUserName(message.getSenderName());
         Image headImg = util.base64toImage(headstr);
         ImageView head = new ImageView();
@@ -336,38 +337,8 @@ public class ChatController implements Initializable {
         last = info_pane_box.getVvalue() == 1.0;
         msgList.getChildren().add(messageBox);
     }
-    //  聊天框中发送一张图片
-    private void addImage(String url) throws IOException {
-        Image headImg = util.base64toImage(user.getHeadImg());
-        ImageView head = new ImageView();
-        head.setImage(headImg);
-        head.setFitWidth(40);
-        head.setFitHeight(40);
-
-        Image image = new Image("file:" + url);
-        ImageView img = new ImageView();
-        img.setImage(image);
-            img.setFitWidth(300);
-            img.setFitHeight(300);
-        double[] points = new double[]{
-                0.0, 0.0,
-                0.0, 10.0,
-                10.0, 5.0
-        };
-        Polygon triangle = new Polygon(points);
-        triangle.setFill(Color.rgb(179,231,244));
-        HBox messageBox = new HBox();
-        messageBox.setPrefWidth(650);
-        messageBox.setPadding(new Insets(10, 5, 10, 5));
-        HBox.setMargin(triangle, new Insets(15, 0, 0, 0));
-        messageBox.getChildren().addAll(img, triangle,head);
-        messageBox.setAlignment(Pos.TOP_RIGHT);
-
-        last = info_pane_box.getVvalue() == 1.0;
-        msgList.getChildren().add(messageBox);
-    }
     //  聊天栏添加一个聊天
-    private void addchatboxlist(final String friendname) throws IOException {
+    private void add2chatboxlist(final String friendname) throws IOException {
         //  头像
         String img = dao.getHeadByUserName(friendname);
         Image headImg = util.base64toImage(img);
@@ -399,7 +370,7 @@ public class ChatController implements Initializable {
             chatboxlist.getChildren().add(new HBox(head,info,unread));
     }
     //  好友列表添加一个好友
-    private void addfriendlist(final User friend) throws IOException {
+    private void add2friendlist(final User friend) throws IOException {
         //  头像
         Image headImg = util.base64toImage(friend.getHeadImg());
         ImageView head = new ImageView();
