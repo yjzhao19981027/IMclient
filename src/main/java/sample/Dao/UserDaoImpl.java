@@ -85,7 +85,6 @@ public class UserDaoImpl implements UserDao{
     }
     //  发送消息
     public void sendMsg(Msg msg) {
-        System.out.println(msg.getTime());
         this.sqlSession.insert("Mapper.sendMsg",msg);
         sqlSession.commit();
     }
