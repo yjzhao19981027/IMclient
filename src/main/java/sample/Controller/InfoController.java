@@ -19,6 +19,7 @@ import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
 import sample.Util.DateUtil;
 import sample.Util.ImgUtil;
+import sample.Util.Storage;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,9 +52,6 @@ public class InfoController implements Initializable {
 
     private UserDao dao;
 
-    private User user;
-
-    private ChatController chatController;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         imgUtil = new ImgUtil();
@@ -62,17 +60,15 @@ public class InfoController implements Initializable {
     }
 
     public void initInfo(ChatController controller) throws IOException {
-        chatController = controller;
-        this.user = chatController.getUser();
-        headImg.setImage(imgUtil.base64toImage(user.getHeadImg()));
-        this.userName.setText(user.getUserName());
-        pwd.setText(user.getPassword());
-        if (user.getSex().equals("male"))
+        headImg.setImage(imgUtil.base64toImage(Storage.user.getHeadImg()));
+        this.userName.setText(Storage.user.getUserName());
+        pwd.setText(Storage.user.getPassword());
+        if (Storage.user.getSex().equals("male"))
             selectSex("male");
         else
             selectSex("female");
-        birthday.setValue(dateUtil.date2LocalDate(user.getBirthday()));
-        motto.setText(user.getMotto());
+        birthday.setValue(dateUtil.date2LocalDate(Storage.user.getBirthday()));
+        motto.setText(Storage.user.getMotto());
         changeImg.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -80,9 +76,9 @@ public class InfoController implements Initializable {
                     File file = imgUtil.selectImage(changeImg.getScene());
                     if (file == null)
                         return ;
-                    user.setHeadImg(imgUtil.imageToBase64(file));
+                    Storage.user.setHeadImg(imgUtil.imageToBase64(file));
                     try {
-                        headImg.setImage(imgUtil.base64toImage(user.getHeadImg()));
+                        headImg.setImage(imgUtil.base64toImage(Storage.user.getHeadImg()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -90,7 +86,6 @@ public class InfoController implements Initializable {
                 }
             }
         });
-
     }
 
     public void maleButtonAction(ActionEvent actionEvent) {
@@ -107,7 +102,7 @@ public class InfoController implements Initializable {
         String sex = maleButton.isSelected() ? "male" : "female";
         Date birthday = this.birthday.getValue() != null ? dateUtil.localDate2Date(this.birthday.getValue()) : null;
         String motto = this.motto.getText();
-        String headImg = user.getHeadImg();
+        String headImg = Storage.user.getHeadImg();
         //  信息不完整
         if (userName.equals("") || password.equals("")
                 || sex.equals("") || birthday == null || motto.equals("")){
@@ -118,14 +113,14 @@ public class InfoController implements Initializable {
             stage.show();
             return;
         }
-        User usr = new User(user.getUserId(),user.getUserName(),password,sex,motto,birthday,user.getOnline(),headImg);
+        User usr = new User(Storage.user.getUserId(),Storage.user.getUserName(),password,sex,motto,birthday,Storage.user.getOnline(),headImg);
         dao.changeInfo(usr);
         Stage stage = new Stage();
         Label l = new Label("提交成功!");
         Scene s = new Scene(l,200,124);
         stage.setScene(s);
         stage.show();
-        chatController.initChatBoxList(usr);
+        Storage.chatController.initChatBoxList();
     }
 
     private void selectSex(String sex){

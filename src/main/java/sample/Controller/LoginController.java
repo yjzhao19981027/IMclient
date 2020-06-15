@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
+import sample.Util.Storage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,7 @@ public class LoginController implements Initializable {
     private UserDao dao;
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
+        Storage.loginController = LoginController.this;
     }
 
     public void login_buttonAction(ActionEvent actionEvent) throws Exception {
@@ -58,6 +60,7 @@ public class LoginController implements Initializable {
         //登录成功
         else{
             System.out.println("Login!");
+            Storage.channel.writeAndFlush("login " + userName + "\r\n");
             Stage stage = (Stage) loginPane.getScene().getWindow();
             stage.close();
             stage = new Stage();
@@ -70,7 +73,8 @@ public class LoginController implements Initializable {
             stage.setScene(new Scene(root, 994.4, 656));
             stage.show();
             ChatController controller = (ChatController)fxmlLoader.getController();
-            controller.initChatBoxList(user);
+            Storage.user = user;
+            controller.initChatBoxList();
         }
     }
 
