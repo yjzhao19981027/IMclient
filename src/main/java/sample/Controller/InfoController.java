@@ -24,7 +24,6 @@ import sample.Util.Storage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -46,39 +45,34 @@ public class InfoController implements Initializable {
     @FXML
     private TextField motto;
 
-    private ImgUtil imgUtil;
-
-    private DateUtil dateUtil;
 
     private UserDao dao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        imgUtil = new ImgUtil();
-        dateUtil = new DateUtil();
         dao = new UserDaoImpl();
     }
 
     public void initInfo(ChatController controller) throws IOException {
-        headImg.setImage(imgUtil.base64toImage(Storage.user.getHeadImg()));
+        headImg.setImage(ImgUtil.base64toImage(Storage.user.getHeadImg()));
         this.userName.setText(Storage.user.getUserName());
         pwd.setText(Storage.user.getPassword());
         if (Storage.user.getSex().equals("male"))
             selectSex("male");
         else
             selectSex("female");
-        birthday.setValue(dateUtil.date2LocalDate(Storage.user.getBirthday()));
+        birthday.setValue(DateUtil.date2LocalDate(Storage.user.getBirthday()));
         motto.setText(Storage.user.getMotto());
         changeImg.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY){
-                    File file = imgUtil.selectImage(changeImg.getScene());
+                    File file = ImgUtil.selectImage(changeImg.getScene());
                     if (file == null)
                         return ;
-                    Storage.user.setHeadImg(imgUtil.imageToBase64(file));
+                    Storage.user.setHeadImg(ImgUtil.imageToBase64(file));
                     try {
-                        headImg.setImage(imgUtil.base64toImage(Storage.user.getHeadImg()));
+                        headImg.setImage(ImgUtil.base64toImage(Storage.user.getHeadImg()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -100,12 +94,11 @@ public class InfoController implements Initializable {
         String userName = this.userName.getText();
         String password = this.pwd.getText();
         String sex = maleButton.isSelected() ? "male" : "female";
-        Date birthday = this.birthday.getValue() != null ? dateUtil.localDate2Date(this.birthday.getValue()) : null;
+        Date birthday = this.birthday.getValue() != null ? DateUtil.localDate2Date(this.birthday.getValue()) : null;
         String motto = this.motto.getText();
         String headImg = Storage.user.getHeadImg();
         //  信息不完整
-        if (userName.equals("") || password.equals("")
-                || sex.equals("") || birthday == null || motto.equals("")){
+        if (userName.equals("") || password.equals("") || birthday == null || motto.equals("")){
             Stage stage = new Stage();
             Label l = new Label("信息不能为空!");
             Scene s = new Scene(l,200,124);

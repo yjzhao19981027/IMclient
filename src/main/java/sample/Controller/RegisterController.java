@@ -12,12 +12,8 @@ import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
 import sample.Util.DateUtil;
 
-
-import java.beans.EventHandler;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -41,11 +37,9 @@ public class RegisterController implements Initializable {
 
     private UserDao dao;
 
-    private DateUtil dateUtil;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
-        dateUtil = new DateUtil();
     }
 
     public void maleButtonAction(ActionEvent actionEvent) {
@@ -63,7 +57,7 @@ public class RegisterController implements Initializable {
         String password = this.password.getText();
         String comfirmPassword = this.comfirmPassword.getText();
         String sex = maleButton.isSelected() ? "male" : "female";
-        Date birthday = this.birthday.getValue() != null ? dateUtil.localDate2Date(this.birthday.getValue()) : null;
+        Date birthday = this.birthday.getValue() != null ? DateUtil.localDate2Date(this.birthday.getValue()) : null;
         String motto = this.motto.getText();
         //  信息不完整
         if (userName.equals("") || password.equals("") || comfirmPassword.equals("")

@@ -13,7 +13,7 @@ import java.io.*;
 
 public class ImgUtil {
     //  图片转化为Base64字符串
-    public  String imageToBase64(File file){
+    public static String imageToBase64(File file){
         BASE64Encoder encoder = new BASE64Encoder();
         byte[] imageBytes = null;
         try  {
@@ -26,7 +26,7 @@ public class ImgUtil {
         return encoder.encodeBuffer(imageBytes).trim();
     }
     //  Base64字符串转化为图片
-    public Image base64toImage(String str) throws IOException {
+    public static Image base64toImage(String str) throws IOException {
         BASE64Decoder decoder = new BASE64Decoder();
         byte[] bytes = decoder.decodeBuffer(str);
         ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
@@ -34,7 +34,7 @@ public class ImgUtil {
         return SwingFXUtils.toFXImage(bi1,null);
     }
 
-    public File selectImage(Scene scene){
+    public static File selectImage(Scene scene){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("选择图片");
         fileChooser.setInitialDirectory(new File("./"));
