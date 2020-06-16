@@ -29,7 +29,7 @@
             <Button fx:id="bar_friend" onAction="#bar_friendAction" layoutX="10.4" layoutY="128" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
 
             <!-- 添加好友 -->
-            <Button fx:id="bar_location" layoutX="10.4" layoutY="176" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
+            <Button fx:id="bar_addFriend" onAction="#bar_addFriendAction" layoutX="10.4" layoutY="176" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
 
             <!-- 设置 -->
             <Button fx:id="bar_set" layoutX="22.4" layoutY="616" mnemonicParsing="false" prefHeight="16" prefWidth="16"/>
@@ -142,7 +142,7 @@
                     </children>
                 </Pane>
                 <!-- 内容栏；新的朋友、公众号、群组、好友，明细信息(发送消息按钮) -->
-                <Pane id="content" layoutX="251.2" layoutY="25.6" prefWidth="681.6" prefHeight="484.8" styleClass="content" stylesheets="@group_bar_friend/chat_content.css">
+                <Pane fx:id="content" visible="false" layoutX="251.2" layoutY="25.6" prefWidth="681.6" prefHeight="484.8" styleClass="content" stylesheets="@group_bar_friend/chat_content.css">
                     <children>
                         <Pane id="content_pane" prefWidth="681.6" prefHeight="35.2">
                             <children>

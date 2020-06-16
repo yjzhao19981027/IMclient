@@ -15,12 +15,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sample.Dao.UserDao;
@@ -52,6 +52,8 @@ public class ChatController implements Initializable {
     @FXML
     private Pane group_bar_friend;  //好友栏
     @FXML
+    private Pane content;
+    @FXML
     private Pane group_bar_chatWindow;
     @FXML
     private FlowPane friendlist;
@@ -80,8 +82,6 @@ public class ChatController implements Initializable {
     @FXML
     private Label friend_searchAdd;
 
-    private Parent root;
-
     private UserDao dao;
 
     private String friendName;
@@ -92,8 +92,6 @@ public class ChatController implements Initializable {
 
     private List<Msg> msgs;
 
-    private ImgUtil util;
-
     private ChatWindowUtil chatWindowUtil;
 
     private boolean chatWindowFlag;
@@ -103,7 +101,6 @@ public class ChatController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Storage.chatController = ChatController.this;
         dao = new UserDaoImpl();
-        util = new ImgUtil();
         chatWindowUtil = new ChatWindowUtil();
         chatWindowFlag = false;
         chatboxlist.setPadding(new Insets(5));
@@ -123,7 +120,7 @@ public class ChatController implements Initializable {
 
     //  LoginController使用，将userName过渡
     public void initChatBoxList() throws IOException {
-        bar_headImg.setImage(util.base64toImage(Storage.user.getHeadImg()));
+        bar_headImg.setImage(ImgUtil.base64toImage(Storage.user.getHeadImg()));
         bar_headImg.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -196,9 +193,7 @@ public class ChatController implements Initializable {
         group_bar_chatboxlist.setVisible(false);
         group_bar_friend.setVisible(true);
         friendList = dao.getAllFriends(Storage.user.getUserName());
-        friendlist.getChildren().clear();
-        for (final User friend : friendList)
-            add2FriendList(friend);
+        loadFriendBar();
     }
 
     //  聊天栏
@@ -214,6 +209,16 @@ public class ChatController implements Initializable {
             chatBoxList = dao.getAllChat(Storage.user.getUserName());
             loadChatBoxList();
         }
+    }
+
+    //  添加好友按钮
+    public void bar_addFriendAction(ActionEvent actionEvent) throws IOException {
+        Stage primaryStage = new Stage();
+        URL path = getClass().getResource("/FXML/AddFriend/addFriend.fxml");
+        Parent root = FXMLLoader.load(path);
+        primaryStage.setTitle("添加好友");
+        primaryStage.setScene(new Scene(root, 440, 440));
+        primaryStage.show();
     }
 
     //  好友信息界面的发送消息
@@ -252,15 +257,22 @@ public class ChatController implements Initializable {
     //  发送图片按钮
     public void send_imgAction(ActionEvent actionEvent) throws IOException {
         System.out.println("send_img");
-        File file = util.selectImage(group_bar_chatboxlist.getScene());
+        File file = ImgUtil.selectImage(group_bar_chatboxlist.getScene());
         if (file == null)
             return;
-        String img = util.imageToBase64(file);
+        String img = ImgUtil.imageToBase64(file);
         Msg msg = new Msg(Storage.user.getUserName(), friendName, null, img, new Date(), "person");
         dao.sendMsg(msg);
         add2ChatBox(msg);
         loadChatWindow(friendName);
         Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
+    }
+
+    //  加载好友栏
+    private void loadFriendBar() throws IOException {
+        friendlist.getChildren().clear();
+        for (final User friend : friendList)
+            add2FriendList(friend);
     }
 
     //  加载聊天栏
@@ -292,7 +304,7 @@ public class ChatController implements Initializable {
     //  聊天框中添加一条消息(包含图片)
     private void add2ChatBox(Msg message) throws IOException {
         String headstr = dao.getHeadByUserName(message.getSenderName());
-        Image headImg = util.base64toImage(headstr);
+        Image headImg = ImgUtil.base64toImage(headstr);
         ImageView head = new ImageView();
         head.setImage(headImg);
         head.setFitWidth(40);
@@ -309,7 +321,7 @@ public class ChatController implements Initializable {
             messageBubble.setFont(new Font(14));
             HBox.setMargin(messageBubble, new Insets(8, 0, 0, 0));
         } else {
-            Image image = util.base64toImage(message.getImg());
+            Image image = ImgUtil.base64toImage(message.getImg());
             img.setImage(image);
             img.setFitWidth(300);
             img.setFitHeight(300);
@@ -346,7 +358,7 @@ public class ChatController implements Initializable {
     private void add2ChatBoxList(final String friendname) throws IOException {
         //  头像
         String img = dao.getHeadByUserName(friendname);
-        Image headImg = util.base64toImage(img);
+        Image headImg = ImgUtil.base64toImage(img);
         ImageView head = new ImageView();
         head.setImage(headImg);
         head.setFitWidth(40);
@@ -354,52 +366,143 @@ public class ChatController implements Initializable {
         int num = dao.getUnreadMsgNum(friendname, Storage.user.getUserName());
         Label name = new Label(friendname);
         Label unread = new Label(String.valueOf(num) + "条未读消息");
-        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        name.setTextFill(Color.rgb(0, 0, 0));
+        unread.setTextFill(Color.rgb(0, 0, 0));
+        VBox info = new VBox(8, name);
+        info.setPadding(new Insets(2, 50, 10, 8));
+        //  右单击菜单
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem item1 = new MenuItem("置顶聊天");
+        item1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent event) {
-                chat_search.setText("");
+            public void handle(ActionEvent event) {
+                chatBoxList.remove(friendname);
+                chatBoxList.add(0, friendname);
                 try {
-                    loadChatWindow(friendname);
+                    loadChatBoxList();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-        name.setTextFill(Color.rgb(0, 0, 0));
-        unread.setTextFill(Color.rgb(0, 0, 0));
-        VBox info = new VBox(8, name);
-        info.setPadding(new Insets(2, 50, 10, 8));
+        MenuItem item2 = new MenuItem("删除聊天");
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //删除所有聊天消息
+                dao.delChatMsg(Storage.user.getUserName(),friendname);
+                dao.delChatMsg(friendname,Storage.user.getUserName());
+                //删除聊天框
+                chatBoxList.remove(friendname);
+                try {
+                    loadChatBoxList();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                group_bar_chatWindow.setVisible(false);
+                chatWindowFlag = false;
+            }
+        });
+        contextMenu.getItems().addAll(item1,item2);
+        HBox together;
         if (num == 0)
-            chatboxlist.getChildren().add(new HBox(head, info));
+            together = new HBox(head, info);
         else
-            chatboxlist.getChildren().add(new HBox(head, info, unread));
+            together = new HBox(head, info, unread);
+        together.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY){
+                    chat_search.setText("");
+                    try {
+                        loadChatWindow(friendname);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (event.getButton() == MouseButton.SECONDARY)
+                    contextMenu.show(together, event.getScreenX(), event.getScreenY());
+            }
+        });
+        chatboxlist.getChildren().add(together);
     }
 
     //  好友列表添加一个好友
     private void add2FriendList(final User friend) throws IOException {
         //  头像
-        Image headImg = util.base64toImage(friend.getHeadImg());
+        Image headImg = ImgUtil.base64toImage(friend.getHeadImg());
         ImageView head = new ImageView();
         head.setImage(headImg);
         head.setFitWidth(40);
         head.setFitHeight(40);
 
         Label name = new Label(friend.getUserName());
-        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                friend_search.setText("");
-                send_msg.setVisible(true);
-                content_name.setText(friend.getUserName() + "\n"
-                        + friend.getBirthday() + "\n"
-                        + friend.getSex() + "\n"
-                        + friend.getMotto());
-            }
-        });
         name.setTextFill(Color.rgb(0, 0, 0));
         VBox info = new VBox(8, name);
         info.setPadding(new Insets(2, 50, 10, 8));
-        friendlist.getChildren().add(new HBox(head, info));
+        HBox together = new HBox(head,info);
+        //  右单击菜单
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem item1 = new MenuItem("发送消息");
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                group_bar_chatWindow.setVisible(true);
+                group_bar_chatboxlist.setVisible(true);
+                group_bar_friend.setVisible(false);
+                //截取前面的name
+                String friendName = friend.getUserName();
+                chatBoxList.remove(friendName);
+                chatBoxList.add(0, friendName);
+                //显示最上面的
+                try {
+                    loadChatWindow(friendName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        MenuItem item2 = new MenuItem("删除好友");
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String friendName = friend.getUserName();
+                content.setVisible(false);
+                //删除好友
+                dao.delFriend(Storage.user.getUserName(),friendName);
+                dao.delFriend(friendName,Storage.user.getUserName());
+                //删除所有聊天消息
+                dao.delChatMsg(Storage.user.getUserName(),friendName);
+                dao.delChatMsg(friendName,Storage.user.getUserName());
+                //删除聊天框
+                chatBoxList.remove(friendName);
+                if (friend.getUserName().equals(friendName)){
+                    group_bar_chatWindow.setVisible(false);
+                    chatWindowFlag = false;
+                }
+                friendList.remove(friend);
+                try {
+                    loadFriendBar();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        contextMenu.getItems().addAll(item1,item2);
+        together.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    friend_search.setText("");
+                    send_msg.setVisible(true);
+                    content_name.setText(friend.getUserName());
+                    content.setVisible(true);
+                }
+                else if (event.getButton() == MouseButton.SECONDARY)
+                    contextMenu.show(together, event.getScreenX(), event.getScreenY());
+            }
+        });
+        friendlist.getChildren().add(together);
     }
 
     public void refreshen() throws IOException {
@@ -408,6 +511,10 @@ public class ChatController implements Initializable {
         else if (group_bar_chatboxlist.isVisible()) {
             chatBoxList = dao.getAllChat(Storage.user.getUserName());
             loadChatBoxList();
+        }
+        else if (group_bar_friend.isVisible()){
+            friendList = dao.getAllFriends(Storage.user.getUserName());
+            loadFriendBar();
         }
     }
 }

@@ -37,6 +37,10 @@
                                isRead = false
     </select>
 
+    <select id="judgeIsFriend" parameterType="java.util.List" resultType="int">
+        select count(*) from Friend where UserName = #{userName} and FriendName = #{friendName}
+    </select>
+
     <update id="changeInfo" parameterType="java.util.List">
         update User set Password = #{password}, Sex = #{sex}, motto = #{motto}, birthday = #{birthday}, headImg = #{headImg}
             where binary UserName = #{userName}
@@ -63,9 +67,22 @@
         insert into test(img) values (#{img})
     </insert>
 
+    <insert id="addFriend" parameterType="java.util.List">
+        insert into Friend(username, friendname)
+        VALUES(#{userName},#{friendName})
+    </insert>
+
     <select id="test1" resultType="String">
         select * from test
     </select>
+
+    <delete id="delChatMsg" parameterType="java.util.List">
+        delete from Msg where senderName = #{senderName} and receiverName = #{receiverName}
+    </delete>
+
+    <delete id="delFriend" parameterType="java.util.List">
+        delete from Friend where UserName = #{userName} and FriendName = #{friendName}
+    </delete>
 </mapper>
 
 
