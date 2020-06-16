@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -59,6 +58,12 @@ public class ChatController implements Initializable {
     private FlowPane friendlist;
     @FXML
     private Label content_name;
+    @FXML
+    private ImageView content_headImg;
+    @FXML
+    private Label content_sex;
+    @FXML
+    private Label content_motto;
     @FXML
     private Button send_msg;
     @FXML
@@ -227,11 +232,7 @@ public class ChatController implements Initializable {
         group_bar_chatboxlist.setVisible(true);
         group_bar_friend.setVisible(false);
         //截取前面的name
-        int len = content_name.getText().length();
-        for (int i = 0; i < len; i++)
-            if (content_name.getText().charAt(i) == '\n')
-                len = i;
-        friendName = content_name.getText().substring(0, len);
+        friendName = content_name.getText();
         chatBoxList.remove(friendName);
         chatBoxList.add(0, friendName);
         //显示最上面的
@@ -495,7 +496,14 @@ public class ChatController implements Initializable {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     friend_search.setText("");
                     send_msg.setVisible(true);
+                    try {
+                        content_headImg.setImage(ImgUtil.base64toImage(friend.getHeadImg()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     content_name.setText(friend.getUserName());
+                    content_sex.setText(friend.getSex());
+                    content_motto.setText(friend.getMotto());
                     content.setVisible(true);
                 }
                 else if (event.getButton() == MouseButton.SECONDARY)
