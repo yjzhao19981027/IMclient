@@ -24,8 +24,9 @@
                     <children>
                         <ImageView fx:id="headImg" layoutX="200" layoutY="30" fitHeight="60" fitWidth="60"/>
                         <Label fx:id="userName" layoutX="200" layoutY="90" prefWidth="320" prefHeight="64"/>
-                        <Label fx:id="sex" layoutX="200" layoutY="180" prefWidth="320" prefHeight="64"/>
-                        <Label fx:id="motto" layoutX="200" layoutY="260" prefWidth="320" prefHeight="64"/>
+                        <Label fx:id="age" layoutX="200" layoutY="150" prefWidth="320" prefHeight="64"/>
+                        <Label fx:id="sex" layoutX="200" layoutY="210" prefWidth="320" prefHeight="64"/>
+                        <Label fx:id="motto" layoutX="200" layoutY="270" prefWidth="320" prefHeight="64"/>
                     </children>
                 </Pane>
 <!--                <Pane id="content_pane_box" layoutX="200" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>-->

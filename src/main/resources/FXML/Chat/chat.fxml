@@ -148,8 +148,9 @@
                             <children>
                                 <ImageView fx:id="content_headImg" layoutX="320" layoutY="30" fitHeight="60" fitWidth="60"/>
                                 <Label fx:id="content_name" layoutX="320" layoutY="90" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_sex" layoutX="320" layoutY="180" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_motto" layoutX="320" layoutY="260" prefWidth="320" prefHeight="64"/>
+                                <Label fx:id="content_age" layoutX="320" layoutY="180" prefWidth="320" prefHeight="64"/>
+                                <Label fx:id="content_sex" layoutX="320" layoutY="260" prefWidth="320" prefHeight="64"/>
+                                <Label fx:id="content_motto" layoutX="320" layoutY="340" prefWidth="320" prefHeight="64"/>
                             </children>
                         </Pane>
                         <Pane id="content_pane_box" layoutX="0.8" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>
