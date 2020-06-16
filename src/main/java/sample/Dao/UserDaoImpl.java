@@ -96,6 +96,15 @@ public class UserDaoImpl implements UserDao{
         param.put("name2", receiverName);
         return this.sqlSession.selectOne("Mapper.getUnreadMsgNum", param);
     }
+
+    public int judgeIsFriend(String userName,String friendName){
+        sqlSession.commit();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userName", userName);
+        param.put("friendName", friendName);
+        return this.sqlSession.selectOne("Mapper.judgeIsFriend",param);
+    }
+
     //  设置消息已阅
     @Override
     public void setMsgIsRead(String senderName, String receiverName) {
@@ -106,7 +115,29 @@ public class UserDaoImpl implements UserDao{
         sqlSession.commit();
     }
 
+    public void addFriend(String userName,String friendName){
+        sqlSession.commit();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userName", userName);
+        param.put("friendName", friendName);
+        this.sqlSession.insert("Mapper.addFriend",param);
+    }
 
+    public void delChatMsg(String senderName, String receiverName){
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("senderName", senderName);
+        param.put("receiverName", receiverName);
+        this.sqlSession.delete("Mapper.delChatMsg",param);
+        sqlSession.commit();
+    }
+
+    public void delFriend(String userName, String friendName){
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userName", userName);
+        param.put("friendName", friendName);
+        this.sqlSession.delete("Mapper.delFriend",param);
+        sqlSession.commit();
+    }
 
     @Override
     public void test(String str) {

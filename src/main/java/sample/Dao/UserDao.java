@@ -20,7 +20,11 @@ public interface UserDao {
     public List<Msg> getMsg(String userName,String friendName);
     public void sendMsg(Msg msg);
     public int getUnreadMsgNum(String senderName,String receiverName);
+    public int judgeIsFriend(String userName,String friendName);
     public void setMsgIsRead(String senderName, String receiverName);
+    public void addFriend(String userName,String friendName);
+    public void delFriend(String userName, String friendName);
+    public void delChatMsg(String senderName, String receiverName);
     public void test(String str);
     public String test1();
 }
