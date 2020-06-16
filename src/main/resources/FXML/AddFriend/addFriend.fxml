@@ -1,0 +1,38 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+
+<?import javafx.scene.image.ImageView?>
+<Pane fx:id="addFriendPane" prefWidth="440" prefHeight="440"
+      fx:controller="sample.Controller.AddFriend"
+      xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Pane stylesheets="@addFriend.css" prefHeight="64" prefWidth="440" styleClass="search">
+            <children>
+                <TextField fx:id="user_search" styleClass="searchInput" layoutX="16" layoutY="24" prefHeight="24" prefWidth="386" promptText="搜索">
+                    <padding>
+                        <Insets left="24"/>
+                    </padding>
+                </TextField>
+                <Label fx:id="user_searchAdd" styleClass="searchAdd" layoutX="412" layoutY="24" prefHeight="24" prefWidth="24"/>
+            </children>
+        </Pane>
+        <Pane id="content" layoutY="64" prefWidth="440" prefHeight="376" styleClass="content">
+            <children>
+                <Pane id="content_pane" prefWidth="440" prefHeight="320">
+                    <children>
+                        <ImageView fx:id="headImg" layoutX="200" layoutY="30" fitHeight="60" fitWidth="60"/>
+                        <Label fx:id="userName" layoutX="200" layoutY="90" prefWidth="320" prefHeight="64"/>
+                        <Label fx:id="sex" layoutX="200" layoutY="180" prefWidth="320" prefHeight="64"/>
+                        <Label fx:id="motto" layoutX="200" layoutY="260" prefWidth="320" prefHeight="64"/>
+                    </children>
+                </Pane>
+<!--                <Pane id="content_pane_box" layoutX="200" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>-->
+                <Label visible="false" fx:id="isFriend" text="对方已经是您的好友" layoutX="160" layoutY="320" prefHeight="50" prefWidth="120"/>
+                <Button visible="false" fx:id="add_friend"  text = "添加好友" onAction="#addFriendAction"
+                        layoutX="200" layoutY="320" mnemonicParsing="false" prefHeight="50" prefWidth="90"/>
+            </children>
+        </Pane>
+    </children>
+</Pane>
