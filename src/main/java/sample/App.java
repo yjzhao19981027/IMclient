@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Socket.NettyClient;
+import sample.Util.Storage;
 
 import java.net.URL;
 import java.util.concurrent.ExecutorService;

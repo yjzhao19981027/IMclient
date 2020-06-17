@@ -57,10 +57,18 @@ public class LoginController implements Initializable {
             stage.setScene(s);
             stage.show();
         }
+        else if (user.getOnline()){
+            Stage stage = new Stage();
+            Label l = new Label("用户已在线!");
+            Scene s = new Scene(l,200,124);
+            stage.setScene(s);
+            stage.show();
+        }
         //登录成功
         else{
             System.out.println("Login!");
             Storage.channel.writeAndFlush("login " + userName + "\r\n");
+            dao.updateUserOnline(userName);
             Stage stage = (Stage) loginPane.getScene().getWindow();
             stage.close();
             stage = new Stage();

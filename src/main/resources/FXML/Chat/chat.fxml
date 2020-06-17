@@ -31,8 +31,8 @@
             <!-- 添加好友 -->
             <Button fx:id="bar_addFriend" onAction="#bar_addFriendAction" layoutX="10.4" layoutY="176" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
 
-            <!-- 设置 -->
-            <Button fx:id="bar_set" layoutX="22.4" layoutY="616" mnemonicParsing="false" prefHeight="16" prefWidth="16"/>
+            <!-- 注销 -->
+            <Button fx:id="bar_logout" onAction="#bar_logoutAction" layoutX="22.4" layoutY="616" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
         </Pane>
 
         <!-- 组；group_bar_chat -->

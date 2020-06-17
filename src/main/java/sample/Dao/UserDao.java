@@ -25,6 +25,6 @@ public interface UserDao {
     public void addFriend(String userName,String friendName);
     public void delFriend(String userName, String friendName);
     public void delChatMsg(String senderName, String receiverName);
-    public void test(String str);
-    public String test1();
+    public void updateUserOnline(String userName);
+    public void updateUserOffline(String userName);
 }
