@@ -19,6 +19,7 @@ import sample.Util.Storage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AddFriend implements Initializable {
@@ -28,6 +29,8 @@ public class AddFriend implements Initializable {
     private TextField user_search;
     @FXML
     private Label userName;
+    @FXML
+    private Label age;
     @FXML
     private Label sex;
     @FXML
@@ -59,6 +62,7 @@ public class AddFriend implements Initializable {
                         e.printStackTrace();
                     }
                     userName.setText("用户名：" + user.getUserName());
+                    age.setText("年龄：" + String.valueOf(new Date().getYear() - user.getBirthday().getYear()));
                     sex.setText("性别：" + user.getSex());
                     motto.setText("个性签名：" + user.getMotto());
                     boolean judge = dao.judgeIsFriend(Storage.user.getUserName(), user.getUserName()) != 0;

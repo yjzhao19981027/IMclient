@@ -139,15 +139,13 @@ public class UserDaoImpl implements UserDao{
         sqlSession.commit();
     }
 
-    @Override
-    public void test(String str) {
-        this.sqlSession.insert("Mapper.test",str);
-        sqlSession.commit();
+    public void updateUserOnline(String userName){
+        this.sqlSession.update("Mapper.updateUserOnline",userName);
+        this.sqlSession.commit();
     }
 
-    @Override
-    public String test1() {
-        System.out.println("hhh");
-        return this.sqlSession.selectOne("Mapper.test1");
+    public void updateUserOffline(String userName){
+        this.sqlSession.update("Mapper.updateUserOffline",userName);
+        this.sqlSession.commit();
     }
 }

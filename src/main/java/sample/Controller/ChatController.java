@@ -1,5 +1,6 @@
 package sample.Controller;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -60,6 +61,8 @@ public class ChatController implements Initializable {
     private Label content_name;
     @FXML
     private ImageView content_headImg;
+    @FXML
+    private Label content_age;
     @FXML
     private Label content_sex;
     @FXML
@@ -191,7 +194,7 @@ public class ChatController implements Initializable {
         });
     }
 
-    //  好友栏
+    //  好友栏按钮
     public void bar_friendAction(javafx.event.ActionEvent actionEvent) throws IOException {
         friend_search.setText("");
         group_bar_chatWindow.setVisible(false);
@@ -201,7 +204,7 @@ public class ChatController implements Initializable {
         loadFriendBar();
     }
 
-    //  聊天栏
+    //  聊天栏按钮
     public void bar_chatAction(ActionEvent actionEvent) throws IOException {
         chat_search.setText("");
         group_bar_friend.setVisible(false);
@@ -224,6 +227,12 @@ public class ChatController implements Initializable {
         primaryStage.setTitle("添加好友");
         primaryStage.setScene(new Scene(root, 440, 440));
         primaryStage.show();
+    }
+
+    //  注销按钮
+    public void bar_logoutAction(ActionEvent actionEvent){
+        dao.updateUserOffline(Storage.user.getUserName());
+        System.exit(0);
     }
 
     //  好友信息界面的发送消息
@@ -501,9 +510,10 @@ public class ChatController implements Initializable {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    content_name.setText(friend.getUserName());
-                    content_sex.setText(friend.getSex());
-                    content_motto.setText(friend.getMotto());
+                    content_name.setText("用户名：" + friend.getUserName());
+                    content_age.setText("年龄：" + String.valueOf(new Date().getYear() - friend.getBirthday().getYear()));
+                    content_sex.setText("性别：" + friend.getSex());
+                    content_motto.setText("个性签名：" + friend.getMotto());
                     content.setVisible(true);
                 }
                 else if (event.getButton() == MouseButton.SECONDARY)

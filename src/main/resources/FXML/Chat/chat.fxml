@@ -31,8 +31,8 @@
             <!-- 添加好友 -->
             <Button fx:id="bar_addFriend" onAction="#bar_addFriendAction" layoutX="10.4" layoutY="176" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
 
-            <!-- 设置 -->
-            <Button fx:id="bar_set" layoutX="22.4" layoutY="616" mnemonicParsing="false" prefHeight="16" prefWidth="16"/>
+            <!-- 注销 -->
+            <Button fx:id="bar_logout" onAction="#bar_logoutAction" layoutX="22.4" layoutY="616" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
         </Pane>
 
         <!-- 组；group_bar_chat -->
@@ -148,8 +148,9 @@
                             <children>
                                 <ImageView fx:id="content_headImg" layoutX="320" layoutY="30" fitHeight="60" fitWidth="60"/>
                                 <Label fx:id="content_name" layoutX="320" layoutY="90" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_sex" layoutX="320" layoutY="180" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_motto" layoutX="320" layoutY="260" prefWidth="320" prefHeight="64"/>
+                                <Label fx:id="content_age" layoutX="320" layoutY="180" prefWidth="320" prefHeight="64"/>
+                                <Label fx:id="content_sex" layoutX="320" layoutY="260" prefWidth="320" prefHeight="64"/>
+                                <Label fx:id="content_motto" layoutX="320" layoutY="340" prefWidth="320" prefHeight="64"/>
                             </children>
                         </Pane>
                         <Pane id="content_pane_box" layoutX="0.8" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>
