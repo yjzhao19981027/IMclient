@@ -92,6 +92,7 @@
 <!--                        按钮差一个图标，在chat_tool.css里面改-->
                         <Button id="tool_face" layoutX="16" layoutY="2.4" prefWidth="32" prefHeight="32"/>
                         <Button fx:id="tool_send_img" onAction="#send_imgAction" layoutX="64" layoutY="2.4" prefWidth="32" prefHeight="32"/>
+                        <Button fx:id="tool_call" onAction="##callAction" layoutX="64" layoutY="2.4" prefWidth="112" prefHeight="32"/>
                     </children>
                 </Pane>
                 <!-- 文本栏 -->
@@ -154,7 +155,7 @@
                             </children>
                         </Pane>
                         <Pane id="content_pane_box" layoutX="0.8" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>
-                        <Button visible="false" fx:id="send_msg" onAction="#send_msgAction" text = "发送消息"
+                        <Button fx:id="send_msg" onAction="#send_msgAction" text = "发送消息"
                                 layoutX="325" layoutY="550" mnemonicParsing="false" prefHeight="50" prefWidth="90"/>
                     </children>
                 </Pane>
