@@ -53,14 +53,6 @@
                     isRead = false
     </update>
 
-    <update id="updateUserOnline" parameterType="String">
-         update User set online = true where binary UserName = #{userName}
-    </update>
-
-    <update id="updateUserOffline" parameterType="String">
-        update User set online = false where binary UserName = #{userName}
-    </update>
-
     <insert id="registerUser" parameterType="sample.Entity.User">
         insert into User(userid, username, password, sex, motto, birthday, online, headimg)
             VALUES (#{userId},#{userName},#{password},#{sex},#{motto},#{birthday},#{online},#{headImg})

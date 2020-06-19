@@ -138,14 +138,4 @@ public class UserDaoImpl implements UserDao{
         this.sqlSession.delete("Mapper.delFriend",param);
         sqlSession.commit();
     }
-
-    public void updateUserOnline(String userName){
-        this.sqlSession.update("Mapper.updateUserOnline",userName);
-        this.sqlSession.commit();
-    }
-
-    public void updateUserOffline(String userName){
-        this.sqlSession.update("Mapper.updateUserOffline",userName);
-        this.sqlSession.commit();
-    }
 }
