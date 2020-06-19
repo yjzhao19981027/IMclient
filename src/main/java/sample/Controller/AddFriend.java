@@ -79,10 +79,12 @@ public class AddFriend implements Initializable {
         });
     }
 
-    public void addFriendAction(ActionEvent actionEvent) {
+    public void addFriendAction(ActionEvent actionEvent) throws IOException{
         dao.addFriend(user.getUserName(),Storage.user.getUserName());
         dao.addFriend(Storage.user.getUserName(),user.getUserName());
         isFriend.setVisible(true);
         add_friend.setVisible(false);
+        Storage.chatController.refreshen();
+        Storage.channel.writeAndFlush("addFriend " + user.getUserName() + "\r\n");
     }
 }

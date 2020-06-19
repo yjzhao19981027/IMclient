@@ -211,12 +211,14 @@ public class ChatController implements Initializable {
         group_bar_chatboxlist.setVisible(true);
         if (chatWindowFlag)
             group_bar_chatWindow.setVisible(true);
-        if (group_bar_chatWindow.isVisible())
+        chatBoxList = dao.getAllChat(Storage.user.getUserName());
+        if (group_bar_chatWindow.isVisible() && chatBoxList.contains(friendName))
             loadChatWindow(friendName);
-        else if (group_bar_chatboxlist.isVisible()) {
-            chatBoxList = dao.getAllChat(Storage.user.getUserName());
-            loadChatBoxList();
+        else if(group_bar_chatWindow.isVisible() && !chatBoxList.contains(friendName)){
+            chatWindowFlag = false;
+            group_bar_chatWindow.setVisible(false);
         }
+        loadChatBoxList();
     }
 
     //  添加好友按钮
@@ -231,7 +233,7 @@ public class ChatController implements Initializable {
 
     //  注销按钮
     public void bar_logoutAction(ActionEvent actionEvent){
-        dao.updateUserOffline(Storage.user.getUserName());
+        Storage.channel.writeAndFlush("logout " + Storage.user.getUserName() + "\r\n");
         System.exit(0);
     }
 
@@ -241,11 +243,13 @@ public class ChatController implements Initializable {
         group_bar_chatboxlist.setVisible(true);
         group_bar_friend.setVisible(false);
         //截取前面的name
-        friendName = content_name.getText();
-        chatBoxList.remove(friendName);
+        friendName = content_name.getText().substring(4);
+        if (chatBoxList.contains(friendName))
+            chatBoxList.remove(friendName);
         chatBoxList.add(0, friendName);
         //显示最上面的
         loadChatWindow(friendName);
+        loadChatBoxList();
     }
 
     //  聊天框的发送按钮
@@ -261,6 +265,7 @@ public class ChatController implements Initializable {
         chatBoxList.add(0, friendName);
         //显示最上面的
         loadChatWindow(friendName);
+        loadChatBoxList();
         Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
     }
 
@@ -276,6 +281,11 @@ public class ChatController implements Initializable {
         add2ChatBox(msg);
         loadChatWindow(friendName);
         Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
+    }
+
+    //  语音通话按钮
+    public void callAction(ActionEvent actionEvent){
+
     }
 
     //  加载好友栏
@@ -307,8 +317,6 @@ public class ChatController implements Initializable {
         msgList.getChildren().clear();
         for (Msg msg : msgs)
             add2ChatBox(msg);
-        //重新加载聊天栏
-        loadChatBoxList();
     }
 
     //  聊天框中添加一条消息(包含图片)
@@ -426,6 +434,7 @@ public class ChatController implements Initializable {
                     chat_search.setText("");
                     try {
                         loadChatWindow(friendname);
+                        loadChatBoxList();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -462,10 +471,12 @@ public class ChatController implements Initializable {
                 group_bar_friend.setVisible(false);
                 //截取前面的name
                 String friendName = friend.getUserName();
-                chatBoxList.remove(friendName);
+                if (chatBoxList.contains(friendName))
+                    chatBoxList.remove(friendName);
                 chatBoxList.add(0, friendName);
                 //显示最上面的
                 try {
+                    loadChatBoxList();
                     loadChatWindow(friendName);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -491,6 +502,7 @@ public class ChatController implements Initializable {
                     chatWindowFlag = false;
                 }
                 friendList.remove(friend);
+                Storage.channel.writeAndFlush("delFriend " + friendName + "\r\n");
                 try {
                     loadFriendBar();
                 } catch (IOException e) {
@@ -504,7 +516,7 @@ public class ChatController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     friend_search.setText("");
-                    send_msg.setVisible(true);
+                    content.setVisible(true);
                     try {
                         content_headImg.setImage(ImgUtil.base64toImage(friend.getHeadImg()));
                     } catch (IOException e) {
@@ -524,15 +536,18 @@ public class ChatController implements Initializable {
     }
 
     public void refreshen() throws IOException {
-        if (group_bar_chatWindow.isVisible())
+        chatBoxList = dao.getAllChat(Storage.user.getUserName());
+        friendList = dao.getAllFriends(Storage.user.getUserName());
+        if (group_bar_chatWindow.isVisible() && chatBoxList.contains(friendName))
             loadChatWindow(friendName);
-        else if (group_bar_chatboxlist.isVisible()) {
-            chatBoxList = dao.getAllChat(Storage.user.getUserName());
+        else if(group_bar_chatWindow.isVisible() && !chatBoxList.contains(friendName)){
+            chatWindowFlag = false;
+            group_bar_chatWindow.setVisible(false);
             loadChatBoxList();
         }
-        else if (group_bar_friend.isVisible()){
-            friendList = dao.getAllFriends(Storage.user.getUserName());
+        else if (group_bar_chatboxlist.isVisible())
+            loadChatBoxList();
+        else if (group_bar_friend.isVisible())
             loadFriendBar();
-        }
     }
 }

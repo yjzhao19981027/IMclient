@@ -68,7 +68,6 @@ public class LoginController implements Initializable {
         else{
             System.out.println("Login!");
             Storage.channel.writeAndFlush("login " + userName + "\r\n");
-            dao.updateUserOnline(userName);
             Stage stage = (Stage) loginPane.getScene().getWindow();
             stage.close();
             stage = new Stage();
