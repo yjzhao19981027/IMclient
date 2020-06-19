@@ -92,7 +92,7 @@
 <!--                        按钮差一个图标，在chat_tool.css里面改-->
                         <Button id="tool_face" layoutX="16" layoutY="2.4" prefWidth="32" prefHeight="32"/>
                         <Button fx:id="tool_send_img" onAction="#send_imgAction" layoutX="64" layoutY="2.4" prefWidth="32" prefHeight="32"/>
-                        <Button fx:id="tool_call" onAction="#callAction" layoutX="64" layoutY="2.4" prefWidth="112" prefHeight="32"/>
+                        <Button fx:id="tool_call" onAction="#callAction" layoutX="112" layoutY="2.4" prefWidth="32" prefHeight="32"/>
                     </children>
                 </Pane>
                 <!-- 文本栏 -->
