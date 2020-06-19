@@ -1,47 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<?import javafx.scene.image.ImageView?>
-<Pane fx:id="registerPane" prefWidth="540" prefHeight="480"
-      fx:controller="sample.Controller.InfoController"
-      xmlns="http://javafx.com/javafx/8.0.121"
-      xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="registerPane" prefHeight="480" prefWidth="611.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.InfoController">
     <children>
-        <ImageView fx:id="headImg" layoutX="220" layoutY="30" fitHeight="80" fitWidth="80"/>
+        <ImageView fx:id="headImg" fitHeight="115.0" fitWidth="120.0" layoutX="29.0" layoutY="31.0" />
 
-        <Label fx:id="changeImg" layoutX="350" layoutY="60" prefWidth="250" prefHeight="45" text="更改头像"/>
+        <Label fx:id="changeImg" layoutX="39.0" layoutY="146.0" prefHeight="45" prefWidth="69.0" text="更改头像" />
 
-        <Label fx:id="userName" layoutX="200" layoutY="130" prefWidth="250" prefHeight="45">
+        <Label fx:id="userName" layoutX="24.0" layoutY="203.0" prefHeight="45" prefWidth="250">
             <padding>
-                <Insets left="10"/>
+                <Insets left="10" />
             </padding>
         </Label>
+      <AnchorPane layoutX="222.0" layoutY="18.0" prefHeight="367.0" prefWidth="368.0">
+         <children>
+      
+              <TextField fx:id="pwd" layoutX="104.0" layoutY="14.0" prefHeight="45" prefWidth="250" promptText="密码">
+                  <padding>
+                      <Insets left="10" />
+                  </padding>
+              </TextField>
+      
+              <RadioButton fx:id="maleButton" layoutX="104.0" layoutY="65.0" onAction="#maleButtonAction" prefHeight="45" prefWidth="79.0" selected="true" text="男" />
+      
+              <RadioButton fx:id="femaleButton" layoutX="183.0" layoutY="65.0" onAction="#femaleButtonAction" prefHeight="45" prefWidth="79.0" text="女" />
+      
+              <DatePicker fx:id="birthday" layoutX="104.0" layoutY="119.0" prefHeight="45" prefWidth="250">
+                  <padding>
+                      <Insets left="10" />
+                  </padding>
+              </DatePicker>
+      
+              <TextField fx:id="motto" layoutX="104.0" layoutY="190.0" prefHeight="45" prefWidth="250" promptText="个性签名">
+                  <padding>
+                      <Insets left="10" />
+                  </padding>
+              </TextField>
+            <TextArea layoutX="37.0" layoutY="205.0" prefHeight="200.0" prefWidth="332.0" />
+         </children>
+      </AnchorPane>
 
-        <TextField fx:id="pwd" layoutX="200" layoutY="185" prefWidth="250" prefHeight="45" promptText="密码">
-            <padding>
-                <Insets left="10"/>
-            </padding>
-        </TextField>
-
-        <RadioButton fx:id="maleButton" onAction="#maleButtonAction" selected="true" layoutX="220" layoutY="240" prefWidth="120" prefHeight="45" text="男" />
-
-        <RadioButton fx:id="femaleButton" onAction="#femaleButtonAction" layoutX="350" layoutY="240" prefWidth="120" prefHeight="45" text="女" />
-
-        <DatePicker fx:id="birthday" layoutX="200" layoutY="295" prefWidth="250" prefHeight="45">
-            <padding>
-                <Insets left="10"/>
-            </padding>
-        </DatePicker>
-
-        <TextField fx:id="motto" layoutX="200" layoutY="350" prefWidth="250" prefHeight="45" promptText="个性签名">
-            <padding>
-                <Insets left="10"/>
-            </padding>
-        </TextField>
-
-        <Button fx:id="change_info" mnemonicParsing="false" onAction="#change_infoButtonAction"
-                layoutX="200" layoutY="420" prefWidth="120" prefHeight="45" text="更改信息"/>
+        <Button fx:id="change_info" layoutX="410.0" layoutY="411.0" mnemonicParsing="false" onAction="#change_infoButtonAction" prefHeight="45" prefWidth="120" text="更改信息" />
 
     </children>
 </Pane>

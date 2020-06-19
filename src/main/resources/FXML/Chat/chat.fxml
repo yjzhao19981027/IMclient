@@ -3,63 +3,58 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
-<Pane fx:id="ChatPane" prefHeight="656.0" prefWidth="994.4" stylesheets="@chat.css"
-      fx:controller="sample.Controller.ChatController"
-      xmlns="http://javafx.com/javafx/8.0.172-ea"
-      xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="ChatPane" prefHeight="656.0" prefWidth="994.4" stylesheets="@chat.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.ChatController">
     <children>
         <!-- 控制栏 -->
-        <Pane fx:id="bar" prefHeight="656" prefWidth="60.8">
+        <Pane fx:id="bar" prefHeight="656" prefWidth="60.8" stylesheets="@chat_bar.css">
             <!-- 头像 -->
-            <ImageView fx:id="bar_headImg" layoutX="10.4" layoutY="18.4" fitHeight="40" fitWidth="40"/>
+            <ImageView fx:id="bar_headImg" fitHeight="40" fitWidth="40" layoutX="10.4" layoutY="18.4" />
 
             <!-- 聊天 -->
-            <Button fx:id="bar_chat" onAction="#bar_chatAction" layoutX="10.4" layoutY="80" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
+            <Button fx:id="bar_chat" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#bar_chatAction" prefHeight="30.0" prefWidth="32.0" />
 
             <!-- 好友 -->
-            <Button fx:id="bar_friend" onAction="#bar_friendAction" layoutX="10.4" layoutY="128" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
+            <Button fx:id="bar_friend" layoutX="14.0" layoutY="129.0" mnemonicParsing="false" onAction="#bar_friendAction" prefHeight="30.0" prefWidth="32.0" />
 
             <!-- 添加好友 -->
-            <Button fx:id="bar_addFriend" onAction="#bar_addFriendAction" layoutX="10.4" layoutY="176" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
+            <Button fx:id="bar_addFriend" layoutX="13.0" layoutY="177.0" mnemonicParsing="false" onAction="#bar_addFriendAction" prefHeight="30.0" prefWidth="34.0" />
 
             <!-- 注销 -->
-            <Button fx:id="bar_logout" onAction="#bar_logoutAction" layoutX="22.4" layoutY="616" mnemonicParsing="false" prefHeight="24" prefWidth="24"/>
+            <Button fx:id="bar_logout" layoutX="13.0" layoutY="612.0" mnemonicParsing="false" onAction="#bar_logoutAction" prefHeight="30.0" prefWidth="34.0" />
         </Pane>
 
         <!-- 组；group_bar_chat -->
-        <Pane visible="true" fx:id="group_bar_chatboxlist" layoutX="60.8" layoutY="0.8" prefWidth="251.2" prefHeight="654.4" style="-fx-background-color:transparent;-fx-border-width:0;">
+        <Pane fx:id="group_bar_chatboxlist" layoutX="61.0" layoutY="1.0" prefHeight="654.0" prefWidth="269.0" style="-fx-background-color:transparent;-fx-border-width:0;" visible="true">
             <children>
                 <!-- 操作栏；最小化、关闭 -->
-                <Pane id="operation" layoutX="251.2" prefWidth="681.6" prefHeight="25.6">
+                <Pane id="operation" layoutX="274.0" prefHeight="26.0" prefWidth="659.0">
                     <children>
-                        <Button id="group_bar_chat_min" styleClass="min" layoutX="613.6" prefWidth="33.6" prefHeight="25.6"/>
-                        <Button id="group_bar_chat_close" styleClass="close" layoutX="648" prefWidth="33.6" prefHeight="25.6"/>
+                        <Button id="group_bar_chat_min" layoutX="580.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                        <Button id="group_bar_chat_close" layoutX="620.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
                     </children>
                 </Pane>
                 <!-- 搜索栏 -->
-                <Pane stylesheets="@group_bar_chat/chat_search.css" prefHeight="64" prefWidth="251.2" styleClass="search">
+                <Pane prefHeight="72.0" prefWidth="268.0" styleClass="search" stylesheets="@group_bar_chat/chat_search.css">
                     <children>
-                        <TextField fx:id="chat_search" styleClass="searchInput" layoutX="16" layoutY="24" prefHeight="24" prefWidth="192" promptText="搜索">
+                        <TextField fx:id="chat_search" layoutX="16" layoutY="16.0" prefHeight="32.0" prefWidth="192" promptText="搜索" styleClass="searchInput">
                             <padding>
-                                <Insets left="24"/>
+                                <Insets left="24" />
                             </padding>
                         </TextField>
-                        <Label fx:id="chat_searchAdd" styleClass="searchAdd" layoutX="216" layoutY="24" prefHeight="24" prefWidth="24"/>
+                        <Label fx:id="chat_searchAdd" layoutX="220.0" layoutY="16.0" prefHeight="32.0" prefWidth="34.0" styleClass="searchAdd" />
                     </children>
                 </Pane>
                 <!-- 会话栏 -->
-                <Pane id="talk" layoutY="64" prefHeight="590.4" prefWidth="251.2" stylesheets="@group_bar_chat/chat_talk.css" styleClass="talkListStyle">
+                <Pane id="talk" layoutY="64" prefHeight="590.0" prefWidth="268.0" styleClass="talkListStyle" stylesheets="@group_bar_chat/chat_talk.css">
                     <children>
-                        <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" prefHeight="590.4" prefWidth="251.2">
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="590.0" prefWidth="268.0">
                             <content>
                                 <FlowPane fx:id="chatboxlist" prefHeight="59.0" prefWidth="100.0" />
                             </content>
@@ -68,18 +63,18 @@
                 </Pane>
             </children>
         </Pane>
-        <Pane visible="false" fx:id="group_bar_chatWindow" layoutX="312" layoutY="0.8" prefWidth="681.6" prefHeight="654.4">
+        <Pane fx:id="group_bar_chatWindow" layoutX="312" layoutY="0.8" prefHeight="654.4" prefWidth="681.6" visible="false">
             <children>
                 <!-- 消息栏；对话名称(昵称、群名称) -->
-                <Pane fx:id="information" layoutY="25.6" prefWidth="681.6" prefHeight="484.8" stylesheets="@group_bar_chat/chat_information.css">
+                <Pane fx:id="information" layoutY="25.6" prefHeight="484.8" prefWidth="681.6" stylesheets="@group_bar_chat/chat_information.css">
                     <children>
-                        <Pane id="info_pane" prefWidth="681.6" prefHeight="35.2">
+                        <Pane id="info_pane" prefHeight="35.2" prefWidth="681.6">
                             <children>
-                                <Label fx:id="info_more" layoutX="640" prefWidth="34.4" prefHeight="34.4" text = "..." />
-                                <Label fx:id="info_name" layoutX="32" layoutY="-6.4" prefWidth="320" prefHeight="32" />
+                                <Label fx:id="info_more" layoutX="640" prefHeight="34.4" prefWidth="34.4" text="..." />
+                                <Label fx:id="info_name" layoutX="32" layoutY="-6.4" prefHeight="32" prefWidth="320" />
                             </children>
                         </Pane>
-                        <ScrollPane fx:id="info_pane_box" layoutX="0.8" layoutY="36" prefWidth="680" prefHeight="448" styleClass="infoBoxStyle">
+                        <ScrollPane fx:id="info_pane_box" layoutX="0.8" layoutY="36" prefHeight="448" prefWidth="680" styleClass="infoBoxStyle">
                             <content>
                                 <FlowPane fx:id="msgList" prefHeight="45.0" prefWidth="366.0" />
                             </content>
@@ -87,31 +82,31 @@
                     </children>
                 </Pane>
                 <!-- 工具栏 -->
-                <Pane id="tool" layoutY="510.4" prefWidth="681.6" prefHeight="36.8" stylesheets="@group_bar_chat/chat_tool.css">
+                <Pane id="tool" layoutY="510.4" prefHeight="36.8" prefWidth="681.6" stylesheets="@group_bar_chat/chat_tool.css">
                     <children>
 <!--                        按钮差一个图标，在chat_tool.css里面改-->
-                        <Button id="tool_face" layoutX="16" layoutY="2.4" prefWidth="32" prefHeight="32"/>
-                        <Button fx:id="tool_send_img" onAction="#send_imgAction" layoutX="64" layoutY="2.4" prefWidth="32" prefHeight="32"/>
-                        <Button fx:id="tool_call" onAction="#callAction" layoutX="112" layoutY="2.4" prefWidth="32" prefHeight="32"/>
+                        <Button id="tool_face" layoutX="16" layoutY="2.4" prefHeight="32" prefWidth="32" />
+                        <Button fx:id="tool_send_img" layoutX="64" layoutY="2.4" onAction="#send_imgAction" prefHeight="32" prefWidth="32" />
+                        <Button fx:id="tool_call" layoutX="112" layoutY="2.4" onAction="#callAction" prefHeight="32" prefWidth="32" />
                     </children>
                 </Pane>
                 <!-- 文本栏 -->
-                <Pane id="txt" layoutY="547.2" prefWidth="681.6" prefHeight="72" stylesheets="@group_bar_chat/chat_txt.css" styleClass="txt_input_style">
+                <Pane id="txt" layoutY="547.2" prefHeight="72" prefWidth="681.6" styleClass="txt_input_style" stylesheets="@group_bar_chat/chat_txt.css">
                     <children>
-                        <TextArea fx:id="txt_input" layoutX="16" prefWidth="650.4" prefHeight="72" wrapText="true"/>
+                        <TextArea fx:id="txt_input" layoutX="16" prefHeight="72" prefWidth="650.4" wrapText="true" />
                     </children>
                 </Pane>
                 <!-- 触达消息[发送] -->
-                <Pane id="touch" layoutY="620" prefWidth="681.6" prefHeight="32" stylesheets="@group_bar_chat/chat_touch.css">
+                <Pane id="touch" layoutY="620" prefHeight="32" prefWidth="681.6" stylesheets="@group_bar_chat/chat_touch.css">
                     <children>
-                        <Button fx:id="touch_send" onAction="#touch_sendAction" layoutX="584" prefWidth="68" prefHeight="23.2" text="发送"/>
+                        <Button fx:id="touch_send" layoutX="584" onAction="#touch_sendAction" prefHeight="23.2" prefWidth="68" text="发送" />
                     </children>
                 </Pane>
             </children>
         </Pane>
 
         <!-- 组；group_bar_friend -->
-        <Pane visible="false" fx:id="group_bar_friend" layoutX="60.8" layoutY="0.8" prefWidth="932.8" prefHeight="654.4">
+        <Pane fx:id="group_bar_friend" layoutX="60.8" layoutY="0.8" prefHeight="654.4" prefWidth="932.8" visible="false">
             <children>
                 <!-- 操作栏；最小化、关闭 -->
 <!--                <Pane id="operation" layoutX="251.2" prefWidth="681.6" prefHeight="25.6">-->
@@ -121,42 +116,40 @@
 <!--                    </children>-->
 <!--                </Pane>-->
                 <!-- 搜索栏 -->
-                <Pane styleClass="search" prefHeight="64" prefWidth="251.2" stylesheets="@group_bar_friend/chat_search.css">
+                <Pane prefHeight="64" prefWidth="251.2" styleClass="search" stylesheets="@group_bar_friend/chat_search.css">
                     <children>
-                        <TextField fx:id="friend_search" styleClass="searchInput" layoutX="16" layoutY="24" prefHeight="24" prefWidth="192" promptText="搜索">
+                        <TextField fx:id="friend_search" layoutX="16" layoutY="24" prefHeight="24" prefWidth="192" promptText="搜索" styleClass="searchInput">
                             <padding>
-                                <Insets left="24"/>
+                                <Insets left="24" />
                             </padding>
                         </TextField>
-                        <Label fx:id="friend_searchAdd" styleClass="searchAdd" layoutX="216" layoutY="24" prefHeight="24" prefWidth="24"/>
+                        <Label fx:id="friend_searchAdd" layoutX="216" layoutY="24" prefHeight="24" prefWidth="24" styleClass="searchAdd" />
                     </children>
                 </Pane>
                 <!-- 好友栏 -->
-                <Pane id="friend" layoutY="64" prefHeight="590.4" prefWidth="251.2"
-                      stylesheets="@group_bar_friend/chat_friend.css" styleClass="friendListStyle">
+                <Pane id="friend" layoutY="64" prefHeight="590.4" prefWidth="251.2" styleClass="friendListStyle" stylesheets="@group_bar_friend/chat_friend.css">
                     <children>
                         <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" prefHeight="590.4" prefWidth="251.2">
                             <content>
-                                <FlowPane fx:id="friendlist" prefHeight="59.0" prefWidth="100.0"/>
+                                <FlowPane fx:id="friendlist" prefHeight="59.0" prefWidth="100.0" />
                             </content>
                         </ScrollPane>
                     </children>
                 </Pane>
                 <!-- 内容栏；新的朋友、公众号、群组、好友，明细信息(发送消息按钮) -->
-                <Pane fx:id="content" visible="false" layoutX="251.2" layoutY="25.6" prefWidth="681.6" prefHeight="484.8" styleClass="content" stylesheets="@group_bar_friend/chat_content.css">
+                <Pane fx:id="content" layoutX="251.2" layoutY="25.6" prefHeight="484.8" prefWidth="681.6" styleClass="content" stylesheets="@group_bar_friend/chat_content.css" visible="false">
                     <children>
-                        <Pane id="content_pane" prefWidth="681.6" prefHeight="35.2">
+                        <Pane id="content_pane" prefHeight="35.2" prefWidth="681.6">
                             <children>
-                                <ImageView fx:id="content_headImg" layoutX="320" layoutY="30" fitHeight="60" fitWidth="60"/>
-                                <Label fx:id="content_name" layoutX="320" layoutY="90" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_age" layoutX="320" layoutY="180" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_sex" layoutX="320" layoutY="260" prefWidth="320" prefHeight="64"/>
-                                <Label fx:id="content_motto" layoutX="320" layoutY="340" prefWidth="320" prefHeight="64"/>
+                                <ImageView fx:id="content_headImg" fitHeight="60" fitWidth="60" layoutX="320" layoutY="30" />
+                                <Label fx:id="content_name" layoutX="320" layoutY="90" prefHeight="64" prefWidth="320" />
+                                <Label fx:id="content_age" layoutX="320" layoutY="180" prefHeight="64" prefWidth="320" />
+                                <Label fx:id="content_sex" layoutX="320" layoutY="260" prefHeight="64" prefWidth="320" />
+                                <Label fx:id="content_motto" layoutX="320" layoutY="340" prefHeight="64" prefWidth="320" />
                             </children>
                         </Pane>
-                        <Pane id="content_pane_box" layoutX="0.8" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>
-                        <Button fx:id="send_msg" onAction="#send_msgAction" text = "发送消息"
-                                layoutX="325" layoutY="550" mnemonicParsing="false" prefHeight="50" prefWidth="90"/>
+                        <Pane id="content_pane_box" layoutX="0.8" layoutY="36" prefHeight="448" prefWidth="680" style="-fx-background-color:transparent;-fx-border-width:0;" />
+                        <Button fx:id="send_msg" layoutX="325" layoutY="550" mnemonicParsing="false" onAction="#send_msgAction" prefHeight="50" prefWidth="90" text="发送消息" />
                     </children>
                 </Pane>
             </children>
