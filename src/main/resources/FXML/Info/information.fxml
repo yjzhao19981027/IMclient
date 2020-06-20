@@ -11,46 +11,50 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="registerPane" prefHeight="480" prefWidth="611.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.InfoController">
+<Pane fx:id="informationPane" prefHeight="412.0" prefWidth="611.0" stylesheets="@information.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.InfoController">
     <children>
-        <ImageView fx:id="headImg" fitHeight="115.0" fitWidth="120.0" layoutX="29.0" layoutY="31.0" />
-
-        <Label fx:id="changeImg" layoutX="39.0" layoutY="146.0" prefHeight="45" prefWidth="69.0" text="更改头像" />
-
-        <Label fx:id="userName" layoutX="24.0" layoutY="203.0" prefHeight="45" prefWidth="250">
-            <padding>
-                <Insets left="10" />
-            </padding>
-        </Label>
-      <AnchorPane layoutX="222.0" layoutY="18.0" prefHeight="367.0" prefWidth="368.0">
+      <AnchorPane layoutX="24.0" layoutY="31.0" prefHeight="159.0" prefWidth="172.0" styleClass="headFrame">
          <children>
-      
-              <TextField fx:id="pwd" layoutX="104.0" layoutY="14.0" prefHeight="45" prefWidth="250" promptText="密码">
+              <ImageView fx:id="headImg" fitHeight="115.0" fitWidth="120.0" layoutX="25.0" />
+
+              <Label fx:id="changeImg" layoutX="51.0" layoutY="115.0" prefHeight="45" prefWidth="81.0" styleClass="label_1" text="更改头像" />
+
+              <Label fx:id="userName" layoutX="16.0" layoutY="151.0" prefHeight="31.0" prefWidth="138.0">
+                  <padding>
+                      <Insets left="10" />
+                  </padding>
+              </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="205.0" layoutY="18.0" prefHeight="367.0" prefWidth="385.0">
+         <children>
+
+              <TextField fx:id="pwd" layoutX="111.0" layoutY="13.0" prefHeight="45" prefWidth="250" promptText="密码" styleClass="input_1">
                   <padding>
                       <Insets left="10" />
                   </padding>
               </TextField>
-      
-              <RadioButton fx:id="maleButton" layoutX="104.0" layoutY="65.0" onAction="#maleButtonAction" prefHeight="45" prefWidth="79.0" selected="true" text="男" />
-      
-              <RadioButton fx:id="femaleButton" layoutX="183.0" layoutY="65.0" onAction="#femaleButtonAction" prefHeight="45" prefWidth="79.0" text="女" />
-      
-              <DatePicker fx:id="birthday" layoutX="104.0" layoutY="119.0" prefHeight="45" prefWidth="250">
+
+              <RadioButton fx:id="maleButton" layoutX="111.0" layoutY="58.0" onAction="#maleButtonAction" prefHeight="45" prefWidth="59.0" selected="true" styleClass="input_1" text="男" />
+
+              <RadioButton fx:id="femaleButton" layoutX="168.0" layoutY="58.0" onAction="#femaleButtonAction" prefHeight="45" prefWidth="59.0" styleClass="input_1" text="女" />
+
+              <DatePicker fx:id="birthday" layoutX="111.0" layoutY="103.0" prefHeight="45" prefWidth="250" styleClass="input_1">
                   <padding>
                       <Insets left="10" />
                   </padding>
               </DatePicker>
-      
-              <TextField fx:id="motto" layoutX="104.0" layoutY="190.0" prefHeight="45" prefWidth="250" promptText="个性签名">
-                  <padding>
-                      <Insets left="10" />
-                  </padding>
-              </TextField>
-            <TextArea layoutX="57.0" layoutY="213.0" prefHeight="200.0" prefWidth="332.0" />
+
+              <TextArea fx:id="motto" layoutX="111.0" layoutY="166.0" prefHeight="100" prefWidth="250" promptText="个性签名" styleClass="input_1">
+              </TextArea>
+            <Label layoutX="17.0" layoutY="24.0" prefHeight="24.0" prefWidth="43.0" styleClass="label_1" text="密码" />
+            <Label layoutX="17.0" layoutY="70.0" prefHeight="24.0" prefWidth="43.0" styleClass="label_1" text="性别" />
+            <Label layoutX="14.0" layoutY="114.0" styleClass="label_1" text="出生日期" />
+            <Label layoutX="14.0" layoutY="172.0" styleClass="label_1" text="个性签名" />
+
+              <Button fx:id="change_info" layoutX="241.0" layoutY="322.0" mnemonicParsing="false" onAction="#change_infoButtonAction" prefHeight="45" prefWidth="120.0" styleClass="normal_button" text="更改信息" />
          </children>
       </AnchorPane>
-
-        <Button fx:id="change_info" layoutX="410.0" layoutY="411.0" mnemonicParsing="false" onAction="#change_infoButtonAction" prefHeight="45" prefWidth="120" text="更改信息" />
 
     </children>
 </Pane>

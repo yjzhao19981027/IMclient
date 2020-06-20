@@ -6,52 +6,50 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="registerPane" prefHeight="509.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.RegisterController">
+<Pane fx:id="registerPane" prefHeight="515.0" prefWidth="604.0" stylesheets="@register.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.RegisterController">
     <children>
-        <TextField fx:id="userName" layoutX="220.0" layoutY="52.0" prefHeight="45" prefWidth="250" promptText="用户名">
+        <TextField fx:id="userName" layoutX="220.0" layoutY="52.0" prefHeight="45" prefWidth="250" promptText="用户名" styleClass="input_1">
             <padding>
                 <Insets left="10" />
             </padding>
         </TextField>
 
-        <PasswordField fx:id="password" layoutX="220.0" layoutY="107.0" prefHeight="45" prefWidth="250" promptText="密码">
+        <PasswordField fx:id="password" layoutX="220.0" layoutY="107.0" prefHeight="45" prefWidth="250" promptText="密码" styleClass="input_1">
             <padding>
                 <Insets left="10" />
             </padding>
         </PasswordField>
 
-        <PasswordField fx:id="comfirmPassword" layoutX="220.0" layoutY="162.0" prefHeight="45" prefWidth="250" promptText="确认密码">
+        <PasswordField fx:id="comfirmPassword" layoutX="220.0" layoutY="162.0" prefHeight="45" prefWidth="250" promptText="确认密码" styleClass="input_1">
             <padding>
                 <Insets left="10" />
             </padding>
         </PasswordField>
 
-        <RadioButton fx:id="maleButton" layoutX="220.0" layoutY="217.0" onAction="#maleButtonAction" prefHeight="45" prefWidth="60.0" selected="true" text="男" />
+        <RadioButton fx:id="maleButton" layoutX="220.0" layoutY="217.0" onAction="#maleButtonAction" prefHeight="45" prefWidth="60.0" selected="true" text="男" styleClass="input_1"/>
 
-        <RadioButton fx:id="femaleButton" layoutX="285.0" layoutY="217.0" onAction="#femaleButtonAction" prefHeight="45" prefWidth="60.0" text="女" />
+        <RadioButton fx:id="femaleButton" layoutX="285.0" layoutY="217.0" onAction="#femaleButtonAction" prefHeight="45" prefWidth="60.0" text="女" styleClass="input_1"/>
 
-        <DatePicker fx:id="birthday" layoutX="220.0" layoutY="272.0" prefHeight="45" prefWidth="250">
+        <DatePicker fx:id="birthday" layoutX="220.0" layoutY="272.0" prefHeight="45" prefWidth="250" styleClass="input_1">
             <padding>
                 <Insets left="10" />
             </padding>
         </DatePicker>
 
-        <TextField fx:id="motto" layoutX="220.0" layoutY="327.0" prefHeight="45" prefWidth="250" promptText="个性签名">
-            <padding>
-                <Insets left="10" />
-            </padding>
-        </TextField>
+        <TextArea fx:id="motto" layoutX="220.0" layoutY="327.0" prefHeight="76.0" prefWidth="250" promptText="个性签名" styleClass="input_1">
+        </TextArea>
 
-        <Button fx:id="resgister" layoutX="220.0" layoutY="429.0" mnemonicParsing="false" onAction="#register_buttonAction" prefHeight="45" prefWidth="250.0" text="注 册" />
-      <Label layoutX="113.0" layoutY="65.0" text="用户名" />
-      <Label layoutX="113.0" layoutY="120.0" text="密码" />
-      <Label layoutX="113.0" layoutY="175.0" text="确认密码" />
-      <Label layoutX="113.0" layoutY="230.0" text="性别" />
-      <Label layoutX="113.0" layoutY="285.0" text="出生日期" />
-      <Label layoutX="113.0" layoutY="340.0" text="个性签名" />
+        <Button fx:id="resgister" layoutX="220.0" layoutY="429.0" mnemonicParsing="false" onAction="#register_buttonAction" prefHeight="45" prefWidth="250.0" styleClass="normal_button" text="注  册" />
+      <Label layoutX="113.0" layoutY="65.0" text="用户名" styleClass="label_1" />
+      <Label layoutX="113.0" layoutY="120.0" text="密码" styleClass="label_1"/>
+      <Label layoutX="113.0" layoutY="175.0" text="确认密码" styleClass="label_1"/>
+      <Label layoutX="113.0" layoutY="230.0" text="性别" styleClass="label_1"/>
+      <Label layoutX="113.0" layoutY="285.0" text="出生日期" styleClass="label_1"/>
+      <Label layoutX="113.0" layoutY="340.0" text="个性签名" styleClass="label_1"/>
 
     </children>
 </Pane>
