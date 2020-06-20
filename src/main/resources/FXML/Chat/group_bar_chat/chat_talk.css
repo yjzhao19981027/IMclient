@@ -1,6 +1,6 @@
 #talk{
     -fx-border-width: 0;
-    -fx-background-color: #eeebe8;
+    -fx-background-color: #dbe2ea;
 }
 
 .talkListStyle .scroll-bar:vertical .track,
@@ -33,7 +33,7 @@
 
 .talkListStyle .scroll-bar:vertical  .thumb,
 .talkListStyle .scroll-bar:horizontal  .thumb{
- -fx-background-color:derive(#c7c6c6, 10%);
+ -fx-background-color:derive(#c7d1de, 10%);
  -fx-background-insets: 2, 0, 0;
  -fx-background-radius: 1em;
 }
@@ -49,14 +49,14 @@
 }
 
 #talkList .list-cell {
-    -fx-background-color: #eeebe8;
+    -fx-background-color: #dbe2ea;
     -fx-text-fill: black;
     -fx-font-family: "Forte";
     -fx-font-weight: bold;
 }
 
 #talkList .list-cell:selected{
-    -fx-background-color: derive(#c7c6c6, 10%);
+    -fx-background-color: derive(#c7d1de, 10%);
     -fx-text-fill: black;
     -fx-font-family: "Forte";
     -fx-font-weight: bold;
@@ -72,7 +72,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 50px 50px;
     -fx-background-color: white;
-    -fx-background-image: url("/fxml/chat/img/system/head_default_5050.png");
+    -fx-background-image: url("/fxml/img/gui/head_default_5050.png");
 }
 
 .element_nikeName{
@@ -109,22 +109,22 @@
 }
 
 .element_msgRemind{
-   -fx-background-color: red;
+   -fx-background-color: #367aff;
    -fx-border-width: 1px;
    -fx-border-radius: 100px;
-   -fx-background-color: red;
+   -fx-background-color: #367aff;
    -fx-background-radius: 100px;
    -fx-font-family: "微软雅黑";
    -fx-text-fill: white;
    -fx-font-size: 10px;
-   -fx-alignment: center; 
+   -fx-alignment: center;
 }
 
 .element_delete{
    -fx-background-color:transparent;
    -fx-cursor: hand;
    -fx-border-width: 0;
-   -fx-background-image: url("/fxml/chat/img/system/talk_delete.png");
+   -fx-background-image: url("/fxml/img/gui/talk_delete.png");
    -fx-background-position: center center;
    -fx-background-repeat: no-repeat;
 }
