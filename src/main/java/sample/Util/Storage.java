@@ -17,4 +17,5 @@ public class Storage {
     public static String inetHost = "127.0.0.1";
     public static int inetPort = 7397;
     public static Channel channel;
+    public static boolean onlineFlag = false;
 }

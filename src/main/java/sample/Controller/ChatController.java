@@ -284,8 +284,8 @@ public class ChatController implements Initializable {
     }
 
     //  语音通话按钮
-    public void callAction(ActionEvent actionEvent){
-
+    public void callAction(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Storage.channel.writeAndFlush("call " + friendName + "\r\n");
     }
 
     //  加载好友栏

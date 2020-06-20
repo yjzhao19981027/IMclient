@@ -1,0 +1,15 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+
+<?import javafx.scene.image.ImageView?>
+<Pane fx:id="CallPane" prefWidth="300" prefHeight="480"
+      fx:controller="sample.Controller.CallController"
+      xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView fx:id="headImg" layoutX="140" layoutY="30" fitHeight="80" fitWidth="80"/>
+        <Label fx:id="connecting" layoutX="140" layoutY="250" text="连 接 中"/>
+        <Button fx:id="disconnect" onAction="#disconnectAction" layoutX="140" layoutY="400"/>
+    </children>
+</Pane>

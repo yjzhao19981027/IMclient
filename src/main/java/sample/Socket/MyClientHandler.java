@@ -4,9 +4,15 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.SocketChannel;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import sample.Util.Storage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,6 +48,36 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     }catch (IOException e){
                         e.printStackTrace();
                     }
+                }
+            });
+        }
+        else if (msg.equals("online")){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Stage primaryStage = new Stage();
+                    URL path = getClass().getResource("/FXML/Call/call.fxml");
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setTitle("语音通话");
+                    primaryStage.setScene(new Scene(root, 300, 480));
+                    primaryStage.show();
+                }
+            });
+        }
+        else if (msg.equals("offline")){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Stage stage = new Stage();
+                    Label l = new Label("用户不在线!");
+                    Scene s = new Scene(l,200,124);
+                    stage.setScene(s);
+                    stage.show();
                 }
             });
         }
