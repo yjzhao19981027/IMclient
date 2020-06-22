@@ -8,13 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import sample.Dao.UserDao;
-import sample.Dao.UserDaoImpl;
-import sample.Entity.User;
 import sample.Util.CmdUtil;
-import sample.Util.ImgUtil;
 import sample.Util.Storage;
 
 import java.io.IOException;

@@ -1,10 +1,7 @@
 package sample.Controller;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,14 +30,11 @@ import sample.Util.ChatWindowUtil;
 import sample.Util.ImgUtil;
 import sample.Util.Storage;
 
-import javax.imageio.stream.ImageInputStream;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Handler;
 
 public class ChatController implements Initializable {
     @FXML
@@ -48,15 +42,7 @@ public class ChatController implements Initializable {
     @FXML
     private Pane face;
     @FXML
-    private ImageView test;
-    @FXML
     private ImageView bar_headImg;    //头像
-    @FXML
-    private Button bar_chat;        //聊天
-    @FXML
-    private Button bar_friend;      //好友
-    @FXML
-    private Button bar_set;         //设置
     @FXML
     private Pane group_bar_chatboxlist;//聊天栏
     @FXML
@@ -78,8 +64,6 @@ public class ChatController implements Initializable {
     @FXML
     private Label content_motto;
     @FXML
-    private Button send_msg;
-    @FXML
     private Label info_name;
     @FXML
     private FlowPane chatboxlist;
@@ -89,8 +73,6 @@ public class ChatController implements Initializable {
     private ScrollPane info_pane_box;
     @FXML
     private TextArea txt_input;
-    @FXML
-    private Button touch_send;
     @FXML
     private TextField chat_search;
     @FXML
@@ -297,7 +279,7 @@ public class ChatController implements Initializable {
         for (int j = 0 ; j < 7 ; j ++){
             HBox vBox = new HBox();
             for (int i = 0 ; i < 10 ; i ++){
-                String url = "./FXML/Img/emoji/emoji_" + String.valueOf(j) + String.valueOf(i) + ".png";
+                String url = "FXML/Img/face/emoji_" + String.valueOf(j) + String.valueOf(i) + ".png";
                 ImageView imageView = new ImageView();
                 Image image = new Image(url);
                 imageView.setImage(image);

@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import sample.Entity.Msg;
 import sample.Entity.User;
-import sample.Util.ImgUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
