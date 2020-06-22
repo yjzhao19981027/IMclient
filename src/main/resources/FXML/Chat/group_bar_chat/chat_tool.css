@@ -62,3 +62,7 @@
 #tool_call:pressed{
     -fx-background-image: url("/fxml/img/gui/call_2.png");
 }
+
+#face{
+    -fx-background-color: #dbe2ea;
+}
