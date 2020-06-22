@@ -12,6 +12,14 @@
 
 <Pane fx:id="registerPane" prefHeight="515.0" prefWidth="604.0" stylesheets="@register.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.RegisterController">
     <children>
+        <!-- 操作栏；最小化、关闭 -->
+        <Pane id="operation" prefHeight="30.0" prefWidth="604.0">
+            <children>
+                <Button id="group_bar_friend_min" onAction="#minAction" layoutX="518.0" prefHeight="32.0" prefWidth="43.0" styleClass="min" />
+                <Button id="group_bar_friend_close" onAction="#closeAction" layoutX="561.0" prefHeight="32.0" prefWidth="43.0" styleClass="close" />
+            </children>
+        </Pane>
+
         <TextField fx:id="userName" layoutX="220.0" layoutY="52.0" prefHeight="45" prefWidth="250" promptText="用户名" styleClass="input_1">
             <padding>
                 <Insets left="10" />

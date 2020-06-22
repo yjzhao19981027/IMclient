@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
@@ -24,6 +25,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class InfoController implements Initializable {
+    @FXML
+    private Pane informationPane;
     @FXML
     private ImageView headImg;
     @FXML
@@ -76,6 +79,17 @@ public class InfoController implements Initializable {
                 }
             }
         });
+    }
+
+    //  最小化按钮
+    public void minAction(ActionEvent actionEvent){
+        Stage stage = (Stage) informationPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void closeAction(ActionEvent actionEvent){
+        Stage stage = (Stage) informationPane.getScene().getWindow();
+        stage.close();
     }
 
     public void maleButtonAction(ActionEvent actionEvent) {

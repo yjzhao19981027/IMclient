@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
@@ -22,6 +24,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AddFriend implements Initializable {
+    @FXML
+    private Pane addFriendPane;
     @FXML
     private Label user_searchAdd;
     @FXML
@@ -76,6 +80,17 @@ public class AddFriend implements Initializable {
                 }
             }
         });
+    }
+
+    //  最小化按钮
+    public void minAction(ActionEvent actionEvent){
+        Stage stage = (Stage) addFriendPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void closeAction(ActionEvent actionEvent){
+        Stage stage = (Stage) addFriendPane.getScene().getWindow();
+        stage.close();
     }
 
     public void addFriendAction(ActionEvent actionEvent) throws IOException{

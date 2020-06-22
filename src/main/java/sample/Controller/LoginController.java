@@ -1,6 +1,7 @@
 package sample.Controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sample.Dao.UserDao;
@@ -28,11 +30,40 @@ public class LoginController implements Initializable {
     private TextField Name;
     @FXML
     private TextField Password;
+    @FXML
+    private Label register;
 
     private UserDao dao;
     public void initialize(URL location, ResourceBundle resources) {
         dao = new UserDaoImpl();
         Storage.loginController = LoginController.this;
+        register.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("Register!");
+                Stage primaryStage = new Stage();
+                URL path = getClass().getResource("/FXML/Register/register.fxml");
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setTitle("注册");
+                primaryStage.setScene(new Scene(root, 604, 515));
+                primaryStage.show();
+            }
+        });
+    }
+
+    //  最小化按钮
+    public void minAction(ActionEvent actionEvent){
+        Stage stage = (Stage) loginPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void closeAction(ActionEvent actionEvent){
+        System.exit(0);
     }
 
     public void login_buttonAction(ActionEvent actionEvent) throws Exception {
@@ -83,15 +114,5 @@ public class LoginController implements Initializable {
             Storage.user = user;
             controller.initChatBoxList();
         }
-    }
-
-    public void register_buttonAction(ActionEvent actionEvent) throws IOException {
-        System.out.println("Register!");
-        Stage primaryStage = new Stage();
-        URL path = getClass().getResource("/FXML/Register/register.fxml");
-        Parent root = FXMLLoader.load(path);
-        primaryStage.setTitle("注册");
-        primaryStage.setScene(new Scene(root, 515, 604));
-        primaryStage.show();
     }
 }

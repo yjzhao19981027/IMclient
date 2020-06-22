@@ -13,6 +13,12 @@
 
 <Pane fx:id="informationPane" prefHeight="412.0" prefWidth="611.0" stylesheets="@information.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.InfoController">
     <children>
+        <Pane id="operation" prefHeight="30.0" prefWidth="611.0">
+            <children>
+                <Button id="group_bar_friend_min" onAction="#minAction" layoutX="531.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                <Button id="group_bar_friend_close" onAction="#closeAction" layoutX="571.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+            </children>
+        </Pane>
       <AnchorPane layoutX="24.0" layoutY="31.0" prefHeight="159.0" prefWidth="172.0" styleClass="headFrame">
          <children>
               <ImageView fx:id="headImg" fitHeight="115.0" fitWidth="120.0" layoutX="25.0" />
@@ -55,6 +61,5 @@
               <Button fx:id="change_info" layoutX="241.0" layoutY="322.0" mnemonicParsing="false" onAction="#change_infoButtonAction" prefHeight="45" prefWidth="120.0" styleClass="normal_button" text="更改信息" />
          </children>
       </AnchorPane>
-
     </children>
 </Pane>

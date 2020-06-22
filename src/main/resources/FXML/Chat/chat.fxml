@@ -114,8 +114,8 @@
                 <!-- 操作栏；最小化、关闭 -->
                 <Pane id="operation" layoutX="268.0" prefHeight="26.0" prefWidth="665.0" stylesheets="@group_bar_chat/chat_operation.css">
                     <children>
-                        <Button id="group_bar_friend_min" onAction="#minAction" layoutX="580.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
-                        <Button id="group_bar_friend_close" onAction="#bar_logoutAction" layoutX="620.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+                        <Button id="group_bar_friend_min" layoutX="580.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                        <Button id="group_bar_friend_close" layoutX="620.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
                     </children>
                 </Pane>
                 <!-- 搜索栏 -->

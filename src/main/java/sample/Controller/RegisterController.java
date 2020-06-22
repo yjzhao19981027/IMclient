@@ -45,6 +45,17 @@ public class RegisterController implements Initializable {
         dao = new UserDaoImpl();
     }
 
+    //  最小化按钮
+    public void minAction(ActionEvent actionEvent){
+        Stage stage = (Stage) registerPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void closeAction(ActionEvent actionEvent){
+        Stage stage = (Stage) registerPane.getScene().getWindow();
+        stage.close();
+    }
+
     public void maleButtonAction(ActionEvent actionEvent) {
         maleButton.setSelected(true);
         femaleButton.setSelected(false);
