@@ -237,7 +237,7 @@ public class ChatController implements Initializable {
         URL path = getClass().getResource("/FXML/AddFriend/addFriend.fxml");
         Parent root = FXMLLoader.load(path);
         primaryStage.setTitle("添加好友");
-        primaryStage.setScene(new Scene(root, 440, 440));
+        primaryStage.setScene(new Scene(root, 387, 496));
         primaryStage.show();
     }
 

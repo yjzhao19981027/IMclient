@@ -91,7 +91,7 @@ public class LoginController implements Initializable {
         URL path = getClass().getResource("/FXML/Register/register.fxml");
         Parent root = FXMLLoader.load(path);
         primaryStage.setTitle("注册");
-        primaryStage.setScene(new Scene(root, 540, 440));
+        primaryStage.setScene(new Scene(root, 515, 604));
         primaryStage.show();
     }
 }

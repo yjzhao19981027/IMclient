@@ -33,7 +33,7 @@ public class RegisterController implements Initializable {
     @FXML
     private DatePicker birthday;
     @FXML
-    private TextField motto;
+    private TextArea motto;
 
     private UserDao dao;
 
