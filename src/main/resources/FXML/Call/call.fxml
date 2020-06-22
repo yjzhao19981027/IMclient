@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="CallPane" prefHeight="480" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.CallController">
+<Pane fx:id="CallPane" prefHeight="480" prefWidth="300" stylesheets="@call.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.CallController">
     <children>
       <AnchorPane fx:id="frame" layoutX="51.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0">
          <children>
               <ImageView fx:id="headImg" fitHeight="171.0" fitWidth="171.0" layoutX="15.0" layoutY="15.0" />
          </children>
       </AnchorPane>
-        <Label fx:id="connecting" contentDisplay="CENTER" layoutX="123.0" layoutY="249.0" prefHeight="20.0" prefWidth="55.0" text="连 接 中" />
-        <Button fx:id="disconnect" layoutX="112.0" layoutY="368.0" onAction="#disconnectAction" prefHeight="76.0" prefWidth="76.0" />
+        <Label fx:id="connecting" contentDisplay="CENTER" layoutX="122.0" layoutY="240.0" prefHeight="27.0" prefWidth="59.0" text="连 接 中" />
+        <Button fx:id="disconnect" layoutX="110.0" layoutY="364.0" onAction="#disconnectAction" prefHeight="80.0" prefWidth="80.0" />
     </children>
 </Pane>
