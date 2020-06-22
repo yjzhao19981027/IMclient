@@ -4,14 +4,27 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.SocketChannel;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import sample.Dao.UserDao;
+import sample.Dao.UserDaoImpl;
+import sample.Entity.User;
+import sample.Util.CmdUtil;
+import sample.Util.ImgUtil;
 import sample.Util.Storage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 public class MyClientHandler extends ChannelInboundHandlerAdapter {
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         SocketChannel channel = (SocketChannel) ctx.channel();
@@ -31,6 +44,8 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        String head = CmdUtil.getCmdHead(msg);
+        String content = CmdUtil.getCmdContent(msg);
         // 接收 msg 消息
         System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "接收到消息：" + msg);
         if (msg.equals("refreshen")){
@@ -42,6 +57,75 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     }catch (IOException e){
                         e.printStackTrace();
                     }
+                }
+            });
+        }
+        else if (msg.equals("online")){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Stage primaryStage = new Stage();
+                    URL path = getClass().getResource("/FXML/Call/call.fxml");
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setTitle("语音通话");
+                    primaryStage.setScene(new Scene(root, 300, 480));
+                    try {
+                        Storage.callController.initImg();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.show();
+                }
+            });
+        }
+        else if (msg.equals("offline")){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Stage stage = new Stage();
+                    Label l = new Label("用户不在线!");
+                    Scene s = new Scene(l,200,124);
+                    stage.setScene(s);
+                    stage.show();
+                }
+            });
+        }
+        else if (head.equals("call")){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Storage.callFriend = content;
+                    Stage primaryStage = new Stage();
+                    URL path = getClass().getResource("/FXML/Call/call.fxml");
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setTitle("语音通话");
+                    primaryStage.setScene(new Scene(root, 300, 480));
+                    try {
+                        Storage.callController.initImg();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.show();
+                }
+            });
+        }
+        else if (head.equals("cancel")  && content.equals(Storage.callFriend)){
+            System.out.println("cancel");
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Stage stage = (Stage) Storage.callController.CallPane.getScene().getWindow();
+                    stage.close();
                 }
             });
         }
