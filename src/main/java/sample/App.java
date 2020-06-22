@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.Socket.NettyClient;
+import sample.Util.ChatWindowUtil;
+import sample.Util.Storage;
 
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
@@ -23,6 +25,7 @@ public class App extends Application {
         primaryStage.setScene(new Scene(root, 540, 479));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
+        ChatWindowUtil.setDragged(root, primaryStage);
 
         NettyClient nettyClient = new NettyClient();
         ExecutorService executorService = Executors.newCachedThreadPool();

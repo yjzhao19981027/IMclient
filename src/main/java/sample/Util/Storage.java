@@ -17,4 +17,6 @@ public class Storage {
     public static int inetPort = 7397;
     public static Channel channel;
     public static boolean onlineFlag = false;
+    public static double xOffset = 550;
+    public static double yOffset = 550;
 }

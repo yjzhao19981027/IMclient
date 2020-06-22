@@ -18,6 +18,7 @@ import javafx.stage.StageStyle;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
+import sample.Util.ChatWindowUtil;
 import sample.Util.Storage;
 
 import java.io.IOException;
@@ -50,6 +51,7 @@ public class LoginController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                ChatWindowUtil.setDragged(root, primaryStage);
                 primaryStage.setTitle("注册");
                 primaryStage.setScene(new Scene(root, 604, 515));
                 primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -113,6 +115,8 @@ public class LoginController implements Initializable {
             stage.setScene(new Scene(root, 994.4, 656));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
+            ChatWindowUtil.setDragged(root, stage);
+
             ChatController controller = (ChatController)fxmlLoader.getController();
             Storage.user = user;
             controller.initChatBoxList();
