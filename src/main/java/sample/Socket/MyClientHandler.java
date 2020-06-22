@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import sample.Util.CmdUtil;
 import sample.Util.Storage;
 
 import java.io.IOException;
@@ -37,6 +38,8 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        String head = CmdUtil.getCmdHead(msg);
+        String content = CmdUtil.getCmdContent(msg);
         // 接收 msg 消息
         System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "接收到消息：" + msg);
         if (msg.equals("refreshen")){
@@ -78,6 +81,35 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     Scene s = new Scene(l,200,124);
                     stage.setScene(s);
                     stage.show();
+                }
+            });
+        }
+        else if (head.equals("call")){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Storage.callFriend = content;
+                    Stage primaryStage = new Stage();
+                    URL path = getClass().getResource("/FXML/Call/call.fxml");
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setTitle("语音通话");
+                    primaryStage.setScene(new Scene(root, 300, 480));
+                    primaryStage.show();
+                }
+            });
+        }
+        else if (head.equals("cancel")  && content.equals(Storage.callFriend)){
+            System.out.println("cancel");
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Stage stage = (Stage) Storage.callController.CallPane.getScene().getWindow();
+                    stage.close();
                 }
             });
         }

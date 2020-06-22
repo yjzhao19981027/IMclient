@@ -3,6 +3,8 @@ package sample.Controller;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,14 +33,22 @@ import sample.Util.ChatWindowUtil;
 import sample.Util.ImgUtil;
 import sample.Util.Storage;
 
+import javax.imageio.stream.ImageInputStream;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Handler;
 
 public class ChatController implements Initializable {
     @FXML
     private Pane ChatPane;
+    @FXML
+    private Pane face;
+    @FXML
+    private ImageView test;
     @FXML
     private ImageView bar_headImg;    //头像
     @FXML
@@ -145,7 +155,7 @@ public class ChatController implements Initializable {
                         e.printStackTrace();
                     }
                     primaryStage.setTitle("个人信息");
-                    primaryStage.setScene(new Scene(root, 540, 480));
+                    primaryStage.setScene(new Scene(root, 611, 412));
                     primaryStage.show();
                     InfoController controller = (InfoController) fxmlLoader.getController();
                     try {
@@ -258,7 +268,7 @@ public class ChatController implements Initializable {
         if (txt.equals(""))
             return;
         txt_input.setText("");
-        Msg msg = new Msg(Storage.user.getUserName(), friendName, txt, null, new Date(), "person");
+        Msg msg = new Msg(Storage.user.getUserName(), friendName, txt, null, new Date(), "text");
         dao.sendMsg(msg);
         add2ChatBox(msg);
         chatBoxList.remove(friendName);
@@ -269,6 +279,59 @@ public class ChatController implements Initializable {
         Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
     }
 
+    //  发送表情包按钮
+    public void faceAction(ActionEvent actionEvent) throws URISyntaxException {
+        if (face.isVisible()){
+            face.setVisible(false);
+            return;
+        }
+        face.setVisible(true);
+        List<Object> facelist = new ArrayList<>();
+        VBox box = new VBox();
+        for (int j = 0 ; j < 7 ; j ++){
+            HBox vBox = new HBox();
+            for (int i = 0 ; i < 10 ; i ++){
+                String url = "./FXML/Img/emoji/emoji_" + String.valueOf(j) + String.valueOf(i) + ".png";
+                ImageView imageView = new ImageView();
+                Image image = new Image(url);
+                imageView.setImage(image);
+                imageView.setFitHeight(20);
+                imageView.setFitWidth(20);
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        File file = null;
+                        try {
+                            file = new File(this.getClass().getResource("/").toURI().getPath() + url);
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        String img = ImgUtil.imageToBase64(file);
+                        Msg msg = new Msg(Storage.user.getUserName(), friendName, null, img, new Date(), "face");
+                        dao.sendMsg(msg);
+                        try {
+                            add2ChatBox(msg);
+                            loadChatWindow(friendName);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
+                        face.setVisible(false);
+                    }
+                });
+                vBox.getChildren().add(imageView);
+                vBox.setMargin(imageView,new Insets(5));
+                if (j == 6 && i == 7)
+                    break;
+                //facelist.add(imageView);
+            }
+            box.getChildren().add(vBox);
+        }
+        face.getChildren().add(box);
+//        ObservableList<Object> strList = FXCollections.observableArrayList(facelist);
+//        faces.setItems(strList);
+    }
+
     //  发送图片按钮
     public void send_imgAction(ActionEvent actionEvent) throws IOException {
         System.out.println("send_img");
@@ -276,7 +339,7 @@ public class ChatController implements Initializable {
         if (file == null)
             return;
         String img = ImgUtil.imageToBase64(file);
-        Msg msg = new Msg(Storage.user.getUserName(), friendName, null, img, new Date(), "person");
+        Msg msg = new Msg(Storage.user.getUserName(), friendName, null, img, new Date(), "img");
         dao.sendMsg(msg);
         add2ChatBox(msg);
         loadChatWindow(friendName);
@@ -286,6 +349,7 @@ public class ChatController implements Initializable {
     //  语音通话按钮
     public void callAction(ActionEvent actionEvent) throws IOException, InterruptedException {
         Storage.channel.writeAndFlush("call " + friendName + "\r\n");
+        Storage.callFriend = friendName;
     }
 
     //  加载好友栏
@@ -330,19 +394,26 @@ public class ChatController implements Initializable {
 
         Label messageBubble = new Label(message.getMsg());
         ImageView img = new ImageView();
-        ;
-        if (message.getImg() == null) {
+
+        if (message.getMsgType().equals("text")) {
             messageBubble.setWrapText(true);
             messageBubble.setMaxWidth(220);
             messageBubble.setStyle("-fx-background-color: rgb(179,231,244); -fx-background-radius: 8px;");
             messageBubble.setPadding(new Insets(6));
             messageBubble.setFont(new Font(14));
             HBox.setMargin(messageBubble, new Insets(8, 0, 0, 0));
-        } else {
+        }
+        else if (message.getMsgType().equals("img")){
             Image image = ImgUtil.base64toImage(message.getImg());
             img.setImage(image);
             img.setFitWidth(300);
             img.setFitHeight(300);
+        }
+        else{
+            Image image = ImgUtil.base64toImage(message.getImg());
+            img.setImage(image);
+            img.setFitWidth(30);
+            img.setFitHeight(30);
         }
 
         boolean isMine = message.getSenderName().equals(Storage.user.getUserName());
