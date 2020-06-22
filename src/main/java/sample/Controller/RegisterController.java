@@ -11,7 +11,10 @@ import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
 import sample.Util.DateUtil;
+import sample.Util.ImgUtil;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -52,7 +55,7 @@ public class RegisterController implements Initializable {
         femaleButton.setSelected(true);
     }
 
-    public void register_buttonAction(ActionEvent actionEvent) throws ParseException {
+    public void register_buttonAction(ActionEvent actionEvent) throws ParseException, URISyntaxException {
         String userName = this.userName.getText();
         String password = this.password.getText();
         String comfirmPassword = this.comfirmPassword.getText();
@@ -87,7 +90,9 @@ public class RegisterController implements Initializable {
             stage.show();
             return;
         }
-        User user = new User("1",userName,password,sex,motto,birthday,false,null);
+        String url = "./FXML/Img/gui/head_default.png";
+        File file = new File(this.getClass().getResource("/").toURI().getPath() + url);
+        User user = new User("1",userName,password,sex,motto,birthday,false, ImgUtil.imageToBase64(file));
         dao.registerUser(user);
         Stage stage = (Stage) registerPane.getScene().getWindow();
         stage.close();
