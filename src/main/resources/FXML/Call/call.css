@@ -1,0 +1,30 @@
+#CallPane{
+    -fx-background-color: #0e1a34;
+}
+
+#frame{
+    -fx-background-color: #c7d1de;
+}
+
+#connecting{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-text-alignment: center;
+}
+
+#disconnect{
+    -fx-background-radius: 40px;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 80px 80px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("/fxml/img/gui/call_shut.png");
+    -fx-cursor: hand;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: transparent;
+}
+
+#disconnect:hover{
+    -fx-background-image: url("/fxml/img/gui/call_shut_1.png");
+}

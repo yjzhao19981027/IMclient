@@ -12,7 +12,6 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 50px 50px;
     -fx-background-color: white;
-    -fx-background-image: url("/fxml/chat/img/head/01_50.png");
     -fx-cursor: hand;
     -fx-border-width: 1px;
     -fx-border-radius: 2px;
@@ -25,12 +24,21 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 30px 30px;
     -fx-background-color: transparent;
-    -fx-background-image: url("/fxml/img/gui/chat_2.png");
+    -fx-background-image: url("/fxml/img/gui/chat_0.png");
     -fx-cursor: hand;
     -fx-border-width: 1px;
     -fx-border-radius: 2px;
     -fx-border-color: transparent;
 }
+
+#bar_chat:hover{
+    -fx-background-image: url("/fxml/img/gui/chat_1.png");
+}
+
+#bar_chat:pressed{
+    -fx-background-image: url("/fxml/img/gui/chat_2.png");
+}
+
 
 #bar_friend{
     -fx-background-radius: 2px;
@@ -44,14 +52,14 @@
     -fx-border-radius: 2px;
     -fx-border-color: transparent;
 }
-/* 测试事件注释，使用java代码控制；setOnAction、setOnMouseEntered、setOnMouseExited
+
 #bar_friend:hover{
-    -fx-background-image: url("/fxml/chat/img/system/friend_1.png");
+    -fx-background-image: url("/fxml/img/gui/friend_1.png");
 }
 
-#bar_friend:pressed{
-    -fx-background-image: url("/fxml/chat/img/system/friend_2.png");
-}*/
+#bar_friend:pressed {
+    -fx-background-image: url("/fxml/img/gui/friend_2.png");
+}
 
 #bar_addFriend{
     -fx-background-radius: 2px;
@@ -59,7 +67,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 30px 30px;
     -fx-background-color: transparent;
-    -fx-background-image: url("/fxml/img/gui/location_0.png");
+    -fx-background-image: url("/fxml/img/gui/addfriend_0.png");
     -fx-cursor: hand;
     -fx-border-width: 1px;
     -fx-border-radius: 2px;
@@ -67,11 +75,11 @@
 }
 
 #bar_addFriend:hover{
-    -fx-background-image: url("/fxml/img/gui/location_1.png");
+    -fx-background-image: url("/fxml/img/gui/addfriend_1.png");
 }
 
 #bar_addFriend:pressed{
-    -fx-background-image: url("/fxml/img/gui/location_2.png");
+    -fx-background-image: url("/fxml/img/gui/addfriend_2.png");
 }
 
 #bar_logout{
@@ -80,7 +88,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 20px 20px;
     -fx-background-color: transparent;
-    -fx-background-image: url("/fxml/img/gui/set_0.png");
+    -fx-background-image: url("/fxml/img/gui/power_1.png");
     -fx-cursor: hand;
     -fx-border-width: 1px;
     -fx-border-radius: 2px;
@@ -88,9 +96,13 @@
 }
 
 #bar_logout:hover{
-    -fx-background-image: url("/fxml/img/gui/set_1.png");
+    -fx-background-image: url("/fxml/img/gui/power_0.png");
 }
 
 #bar_logout:pressed{
-    -fx-background-image: url("/fxml/img/gui/set_2.png");
+    -fx-background-image: url("/fxml/img/gui/power_0.png");
+}
+
+#face{
+    -fx-background-color: #dbe2ea;
 }
