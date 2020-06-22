@@ -8,8 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import sample.Dao.UserDao;
+import sample.Dao.UserDaoImpl;
+import sample.Entity.User;
 import sample.Util.CmdUtil;
+import sample.Util.ImgUtil;
 import sample.Util.Storage;
 
 import java.io.IOException;
@@ -19,6 +24,7 @@ import java.util.Date;
 
 
 public class MyClientHandler extends ChannelInboundHandlerAdapter {
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         SocketChannel channel = (SocketChannel) ctx.channel();
@@ -68,6 +74,11 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     }
                     primaryStage.setTitle("语音通话");
                     primaryStage.setScene(new Scene(root, 300, 480));
+                    try {
+                        Storage.callController.initImg();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     primaryStage.show();
                 }
             });
@@ -99,6 +110,11 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     }
                     primaryStage.setTitle("语音通话");
                     primaryStage.setScene(new Scene(root, 300, 480));
+                    try {
+                        Storage.callController.initImg();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     primaryStage.show();
                 }
             });
