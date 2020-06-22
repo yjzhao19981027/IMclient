@@ -92,3 +92,22 @@
     -fx-font-weight: bold;
     -fx-text-fill: #12264e;
 }
+
+.normal_button{
+    -fx-background-color: #dbe2ea;
+    -fx-cursor: hand;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: #c9d5e7;
+    -fx-font-family: "华文中宋";
+    -fx-text-fill: #0e1a34;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-alignment: center;
+}
+
+.normal_button:hover{
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #12264e;
+    -fx-background-color: #12264e;
+}

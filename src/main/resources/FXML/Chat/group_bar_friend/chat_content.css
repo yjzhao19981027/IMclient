@@ -43,3 +43,23 @@
     -fx-border-color: #393a87;
     -fx-background-color: #393a87;
 }
+
+.normal_button{
+    -fx-background-size: 43px 43px;
+    -fx-background-color: #dbe2ea;
+    -fx-cursor: hand;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: #c9d5e7;
+    -fx-font-family: "华文中宋";
+    -fx-text-fill: #0e1a34;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+}
+
+.normal_button:hover{
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #12264e;
+    -fx-background-color: #12264e;
+}

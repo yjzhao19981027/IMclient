@@ -74,7 +74,7 @@
                                 <Label fx:id="info_name" layoutX="10.0" layoutY="4.0" prefHeight="32.0" prefWidth="329.0" />
                             </children>
                         </Pane>
-                        <ScrollPane fx:id="info_pane_box" layoutY="40.0" prefHeight="440.0" prefWidth="682.0" styleClass="infoBoxStyle">
+                        <ScrollPane fx:id="info_pane_box" layoutY="40.0" prefHeight="403.0" prefWidth="682.0" styleClass="infoBoxStyle">
                             <content>
                                 <FlowPane fx:id="msgList" prefHeight="45.0" prefWidth="366.0" />
                             </content>
@@ -140,7 +140,7 @@
                     </children>
                 </Pane>
                 <!-- 内容栏；新的朋友、公众号、群组、好友，明细信息(发送消息按钮) -->
-                <Pane fx:id="content" layoutX="268.0" layoutY="25.0" prefHeight="485.0" prefWidth="665.0" styleClass="content" stylesheets="@group_bar_friend/chat_content.css" visible="false">
+                <Pane fx:id="content" layoutX="268.0" layoutY="25.0" prefHeight="485.0" prefWidth="682.0" styleClass="content" stylesheets="@group_bar_friend/chat_content.css" visible="false">
                     <children>
                         <Pane id="content_pane" prefHeight="40.0" prefWidth="682.0">
                             <children>
@@ -151,8 +151,8 @@
                                 <Label id="motto" fx:id="content_motto" layoutX="37.0" layoutY="248.0" prefHeight="120.0" prefWidth="602.0" />
                             </children>
                         </Pane>
-                        <Pane id="content_pane_box" layoutX="0.8" layoutY="36" prefHeight="448" prefWidth="680" style="-fx-background-color:transparent;-fx-border-width:0;" />
-                        <Button fx:id="send_msg" layoutX="213.0" layoutY="439.0" mnemonicParsing="false" onAction="#send_msgAction" prefHeight="64.0" prefWidth="232.0" text="发送消息" />
+                        <Pane id="content_pane_box" layoutY="40.0" prefHeight="448" prefWidth="680" style="-fx-background-color:transparent;-fx-border-width:0;" />
+                        <Button fx:id="send_msg" layoutX="37.0" layoutY="394.0" mnemonicParsing="false" onAction="#send_msgAction" prefHeight="57.0" prefWidth="130.0" text="发送消息" styleClass="normal_button"/>
                     </children>
                 </Pane>
             </children>

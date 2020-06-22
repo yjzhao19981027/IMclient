@@ -31,7 +31,7 @@
 
       <!--                <Pane id="content_pane_box" layoutX="200" layoutY="36" prefWidth="680" prefHeight="448" style="-fx-background-color:transparent;-fx-border-width:0;"/>-->
                       <Label fx:id="isFriend" layoutX="102.0" layoutY="65.0" prefHeight="30.0" prefWidth="167.0" text="对方已经是您的好友" visible="false" />
-                      <Button fx:id="add_friend" layoutX="306.0" layoutY="69.0" mnemonicParsing="false" onAction="#addFriendAction" prefHeight="30.0" prefWidth="73.0" text="添加好友" visible="false" />
+                      <Button fx:id="add_friend" layoutX="306.0" layoutY="69.0" mnemonicParsing="false" onAction="#addFriendAction" prefHeight="30.0" prefWidth="73.0" text="添加好友" visible="false" styleClass="normal_button"/>
                        <ImageView fx:id="headImg" fitHeight="86.0" fitWidth="86.0" layoutX="7.0" layoutY="5.0" />
                        <Label fx:id="userName" layoutX="102.0" prefHeight="30.0" prefWidth="124.0" text="ID" />
                        <Label fx:id="age" layoutX="306.0" prefHeight="30.0" prefWidth="73.0" text="18" />
