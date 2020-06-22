@@ -204,6 +204,12 @@ public class ChatController implements Initializable {
         });
     }
 
+    //  最小化按钮
+    public void minAction(ActionEvent actionEvent){
+        Stage stage = (Stage) ChatPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
     //  好友栏按钮
     public void bar_friendAction(javafx.event.ActionEvent actionEvent) throws IOException {
         friend_search.setText("");
