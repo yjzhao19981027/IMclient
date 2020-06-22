@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.Msg;
@@ -138,6 +139,7 @@ public class ChatController implements Initializable {
                     }
                     primaryStage.setTitle("个人信息");
                     primaryStage.setScene(new Scene(root, 611, 412));
+                    primaryStage.initStyle(StageStyle.UNDECORATED);
                     primaryStage.show();
                     InfoController controller = (InfoController) fxmlLoader.getController();
                     try {
@@ -226,6 +228,7 @@ public class ChatController implements Initializable {
         Parent root = FXMLLoader.load(path);
         primaryStage.setTitle("添加好友");
         primaryStage.setScene(new Scene(root, 387, 496));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
 

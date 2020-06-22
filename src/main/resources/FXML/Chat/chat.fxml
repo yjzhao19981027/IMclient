@@ -36,8 +36,8 @@
                 <!-- 操作栏；最小化、关闭 -->
                 <Pane id="operation" layoutX="268.0" prefHeight="26.0" prefWidth="682.0" stylesheets="@group_bar_chat/chat_operation.css">
                     <children>
-                        <Button id="group_bar_chat_min" layoutX="600.0" layoutY="-2.0" onAction="#minAction" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
-                        <Button id="group_bar_chat_close" layoutX="641.0" layoutY="-2.0" onAction="#bar_logoutAction" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+                        <Button id="group_bar_chat_min" onAction="#minAction" layoutX="580.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                        <Button id="group_bar_chat_close" onAction="#bar_logoutAction" layoutX="620.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
                     </children>
                 </Pane>
                 <!-- 搜索栏 -->
@@ -70,8 +70,8 @@
                     <children>
                         <Pane id="info_pane" prefHeight="40.0" prefWidth="682.0">
                             <children>
-                                <Label fx:id="info_more" layoutX="640.0" prefHeight="34.4" prefWidth="40.0" text="..." />
-                                <Label fx:id="info_name" layoutX="32" layoutY="-6.0" prefHeight="32" prefWidth="320" />
+                                <Label fx:id="info_more" layoutX="640" prefHeight="34.4" prefWidth="34.4" text="..." />
+                                <Label fx:id="info_name" layoutX="32" layoutY="-6.4" prefHeight="32" prefWidth="320" />
                             </children>
                         </Pane>
                         <ScrollPane fx:id="info_pane_box" layoutX="1.0" layoutY="36" prefHeight="432.0" prefWidth="680" styleClass="infoBoxStyle">

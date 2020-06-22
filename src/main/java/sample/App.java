@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sample.Socket.NettyClient;
 
 import java.net.URL;
@@ -20,6 +21,7 @@ public class App extends Application {
         Parent root = FXMLLoader.load(path);
         primaryStage.setTitle("登录");
         primaryStage.setScene(new Scene(root, 540, 479));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 
         NettyClient nettyClient = new NettyClient();
