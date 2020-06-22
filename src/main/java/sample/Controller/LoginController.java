@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sample.Dao.UserDao;
 import sample.Dao.UserDaoImpl;
 import sample.Entity.User;
@@ -51,6 +52,7 @@ public class LoginController implements Initializable {
                 }
                 primaryStage.setTitle("注册");
                 primaryStage.setScene(new Scene(root, 604, 515));
+                primaryStage.initStyle(StageStyle.UNDECORATED);
                 primaryStage.show();
             }
         });
@@ -109,6 +111,7 @@ public class LoginController implements Initializable {
             Parent root = fxmlLoader.load();
             stage.setTitle(userName);
             stage.setScene(new Scene(root, 994.4, 656));
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
             ChatController controller = (ChatController)fxmlLoader.getController();
             Storage.user = user;
