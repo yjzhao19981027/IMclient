@@ -141,6 +141,7 @@ public class ChatController implements Initializable {
                     primaryStage.setScene(new Scene(root, 611, 412));
                     primaryStage.initStyle(StageStyle.UNDECORATED);
                     primaryStage.show();
+                    ChatWindowUtil.setDragged(root, primaryStage);
                     InfoController controller = (InfoController) fxmlLoader.getController();
                     try {
                         controller.initInfo(ChatController.this);
@@ -227,9 +228,10 @@ public class ChatController implements Initializable {
         URL path = getClass().getResource("/FXML/AddFriend/addFriend.fxml");
         Parent root = FXMLLoader.load(path);
         primaryStage.setTitle("添加好友");
-        primaryStage.setScene(new Scene(root, 387, 496));
+        primaryStage.setScene(new Scene(root, 405, 496));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
+        ChatWindowUtil.setDragged(root, primaryStage);
     }
 
     //  注销按钮
@@ -586,7 +588,8 @@ public class ChatController implements Initializable {
                     }
                     content_name.setText("用户名：" + friend.getUserName());
                     content_age.setText("年龄：" + String.valueOf(new Date().getYear() - friend.getBirthday().getYear()));
-                    content_sex.setText("性别：" + friend.getSex());
+                    String sex = friend.getSex().equals("male") ? "男" : "女";
+                    content_sex.setText("性别：" + sex);
                     content_motto.setText("个性签名：" + friend.getMotto());
                     content.setVisible(true);
                 }

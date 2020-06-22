@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import sample.Util.ChatWindowUtil;
 import sample.Util.CmdUtil;
 import sample.Util.Storage;
 
@@ -74,7 +76,9 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    primaryStage.initStyle(StageStyle.UNDECORATED);
                     primaryStage.show();
+                    ChatWindowUtil.setDragged(root, primaryStage);
                 }
             });
         }
@@ -110,7 +114,9 @@ public class MyClientHandler extends ChannelInboundHandlerAdapter {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    primaryStage.initStyle(StageStyle.UNDECORATED);
                     primaryStage.show();
+                    ChatWindowUtil.setDragged(root, primaryStage);
                 }
             });
         }

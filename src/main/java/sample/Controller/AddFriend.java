@@ -44,6 +44,8 @@ public class AddFriend implements Initializable {
     private Label isFriend;
     @FXML
     private ImageView headImg;
+    @FXML
+    private Pane content;
 
     private UserDao dao;
 
@@ -55,6 +57,7 @@ public class AddFriend implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY) {
+                    content.setVisible(true);
                     String content = user_search.getText();
                     user = dao.getUserByUserName(content);
                     if (user == null || user.getUserName().equals(Storage.user.getUserName()))
@@ -66,7 +69,8 @@ public class AddFriend implements Initializable {
                     }
                     userName.setText("用户名：" + user.getUserName());
                     age.setText("年龄：" + String.valueOf(new Date().getYear() - user.getBirthday().getYear()));
-                    sex.setText("性别：" + user.getSex());
+                    String s = user.getSex().equals("male") ? "男" : "女";
+                    sex.setText("性别：" + s);
                     motto.setText("个性签名：" + user.getMotto());
                     boolean judge = dao.judgeIsFriend(Storage.user.getUserName(), user.getUserName()) != 0;
                     if (judge){

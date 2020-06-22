@@ -1,5 +1,8 @@
 package sample.Util;
 
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+
 public class ChatWindowUtil {
     public double[] setPoints(boolean isMine){
         if (!isMine) {
@@ -16,5 +19,18 @@ public class ChatWindowUtil {
                     10.0, 5.0
             };
         }
+    }
+
+    public static void setDragged(Parent root,Stage stage){
+        root.setOnMousePressed(event -> {
+            Storage.xOffset = event.getX();
+            Storage.yOffset = event.getY();
+        });
+
+        Stage finalStage = stage;
+        root.setOnMouseDragged(event -> {
+            finalStage.setX(event.getScreenX() - Storage.xOffset);
+            finalStage.setY(event.getScreenY() - Storage.yOffset);
+        });
     }
 }
