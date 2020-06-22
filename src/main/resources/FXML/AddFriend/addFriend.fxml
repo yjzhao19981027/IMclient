@@ -11,8 +11,8 @@
     <children>
         <Pane id="operation" layoutY="-2.0" prefHeight="26.0" prefWidth="387.0" stylesheets="@addFriend.css">
             <children>
-                <Button id="group_bar_chat_min" layoutX="308.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
-                <Button id="group_bar_chat_close" layoutX="348.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+                <Button id="group_bar_chat_min" onAction="#minAction" layoutX="308.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                <Button id="group_bar_chat_close" onAction="#closeAction" layoutX="348.0" layoutY="-2.0" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
             </children>
         </Pane>
         <Pane layoutY="24.0" prefHeight="64" prefWidth="387.0" styleClass="search" stylesheets="@addFriend.css">
