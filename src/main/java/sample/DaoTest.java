@@ -5,14 +5,13 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import sample.Dao.UserDao;
-import sample.Dao.UserDaoImpl;
-import sample.Entity.Msg;
-import sample.Entity.User;
+import sample.dao.UserDao;
+import sample.dao.UserDaoImpl;
+import sample.entity.Msg;
+import sample.entity.User;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 
 public class DaoTest {

@@ -1,0 +1,35 @@
+#operation{
+    -fx-background-color: #0e1a34;
+}
+
+.close,.close:pressed{
+    -fx-background-radius: 0px;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 43px 34px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("/fxml/img/gui/close_0.png");
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+}
+
+.close:hover{
+    -fx-background-color: #f45454;
+    -fx-background-image: url("/fxml/img/gui/close_1.png");
+}
+
+.min,.min:pressed{
+    -fx-background-radius: 0px;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 43px 34px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("/fxml/img/gui/min_0.png");
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+}
+
+.min:hover{
+    -fx-background-color: derive(#c7c6c6, 10%);
+    -fx-background-image: url("/fxml/img/gui/min_1.png");
+}

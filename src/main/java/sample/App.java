@@ -7,9 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.Socket.NettyClient;
-import sample.Util.ChatWindowUtil;
-import sample.Util.Storage;
+import sample.socket.NettyClient;
+import sample.util.ChatWindowUtil;
 
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +18,7 @@ import java.util.concurrent.Future;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        URL path = getClass().getResource("/FXML/Login/login.fxml");
+        URL path = getClass().getResource("/fxml/login/login.fxml");
         Parent root = FXMLLoader.load(path);
         primaryStage.setTitle("登录");
         primaryStage.setScene(new Scene(root, 540, 479));
