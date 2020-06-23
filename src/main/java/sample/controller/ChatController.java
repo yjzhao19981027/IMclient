@@ -266,12 +266,14 @@ public class ChatController implements Initializable {
         txt_input.setText("");
         Msg msg = new Msg(Storage.user.getUserName(), friendName, txt, null, new Date(), "text");
         msgDao.sendMsg(msg);
+        //  添加到聊天框
         add2ChatBox(msg);
         chatBoxList.remove(friendName);
         chatBoxList.add(0, friendName);
-        //显示最上面的
+        //  置顶聊天
         loadChatWindow(friendName);
         loadChatBoxList();
+        //  借助服务器通知另一端接收
         Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
     }
 
