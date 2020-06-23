@@ -11,7 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import sample.dao.UserDao;
+import sample.dao.Dao;
 import sample.dao.UserDaoImpl;
 import sample.entity.User;
 import sample.util.DateUtil;
@@ -45,11 +45,11 @@ public class InfoController implements Initializable {
     private TextArea motto;
 
 
-    private UserDao dao;
+    private Dao usrDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dao = new UserDaoImpl();
+        usrDao = new UserDaoImpl();
     }
 
     public void initInfo(ChatController controller) throws IOException {
@@ -117,8 +117,8 @@ public class InfoController implements Initializable {
             return;
         }
         User usr = new User(Storage.user.getUserId(),Storage.user.getUserName(),password,sex,motto,birthday,Storage.user.getOnline(),headImg);
-        dao.changeInfo(usr);
-        Storage.user = dao.getUserByUserName(usr.getUserName());
+        usrDao.changeInfo(usr);
+        Storage.user = usrDao.getUserByUserName(usr.getUserName());
         Stage stage = new Stage();
         Label l = new Label("提交成功!");
         Scene s = new Scene(l,200,124);

@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.dao.UserDao;
+import sample.dao.Dao;
 import sample.dao.UserDaoImpl;
 import sample.entity.User;
 import sample.util.ChatWindowUtil;
@@ -35,9 +35,9 @@ public class LoginController implements Initializable {
     @FXML
     private Label register;
 
-    private UserDao dao;
+    private Dao usrDao;
     public void initialize(URL location, ResourceBundle resources) {
-        dao = new UserDaoImpl();
+        usrDao = new UserDaoImpl();
         Storage.loginController = LoginController.this;
         register.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -83,7 +83,7 @@ public class LoginController implements Initializable {
             return;
         }
         //数据库查询
-        User user = dao.getUserByUserName_Password(userName,password);
+        User user = usrDao.getUserByUserName_Password(userName,password);
         //数据库中不存在
         if (user == null){
             Stage stage = new Stage();

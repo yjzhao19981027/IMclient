@@ -5,7 +5,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import sample.dao.UserDao;
+import sample.dao.Dao;
 import sample.dao.UserDaoImpl;
 import sample.entity.Msg;
 import sample.entity.User;
@@ -21,7 +21,7 @@ public class DaoTest {
         SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession=sqlSessionFactory.openSession(true);
 
-        UserDao tool = new UserDaoImpl();
+        Dao tool = new UserDaoImpl();
 
         List<Msg> list = tool.getMsg("Prodigal_son","Elio");
        // tool.setMsgIsRead("Prodigal_son","Peter");

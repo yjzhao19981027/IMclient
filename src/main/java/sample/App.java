@@ -26,7 +26,7 @@ public class App extends Application {
         primaryStage.show();
         ChatWindowUtil.setDragged(root, primaryStage);
 
-        NettyClient nettyClient = new NettyClient();
+        NettyClient nettyClient = NettyClient.getInstance();
         ExecutorService executorService = Executors.newCachedThreadPool();
         Future<Channel> future = executorService.submit(nettyClient);
         Channel channel = future.get();

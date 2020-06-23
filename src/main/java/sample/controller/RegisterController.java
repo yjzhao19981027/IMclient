@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import sample.dao.UserDao;
+import sample.dao.Dao;
 import sample.dao.UserDaoImpl;
 import sample.entity.User;
 import sample.util.DateUtil;
@@ -38,11 +38,11 @@ public class RegisterController implements Initializable {
     @FXML
     private TextArea motto;
 
-    private UserDao dao;
+    private Dao usrDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dao = new UserDaoImpl();
+        usrDao = new UserDaoImpl();
     }
 
     //  最小化按钮
@@ -84,7 +84,7 @@ public class RegisterController implements Initializable {
             return;
         }
         //  用户名已存在
-        if (dao.getUserByUserName(userName) != null){
+        if (usrDao.getUserByUserName(userName) != null){
             Stage stage = new Stage();
             Label l = new Label("用户名已存在!");
             Scene s = new Scene(l,200,124);
@@ -104,7 +104,7 @@ public class RegisterController implements Initializable {
         String url = "fxml/img/gui/head_default.png";
         File file = new File(this.getClass().getResource("/").toURI().getPath() + url);
         User user = new User("1",userName,password,sex,motto,birthday,false, ImgUtil.imageToBase64(file));
-        dao.registerUser(user);
+        usrDao.registerUser(user);
         Stage stage = (Stage) registerPane.getScene().getWindow();
         stage.close();
     }

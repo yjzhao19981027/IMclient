@@ -23,7 +23,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.dao.UserDao;
+import sample.dao.Dao;
+import sample.dao.MsgDaoImpl;
 import sample.dao.UserDaoImpl;
 import sample.entity.Msg;
 import sample.entity.User;
@@ -83,7 +84,8 @@ public class ChatController implements Initializable {
     @FXML
     private Label friend_searchAdd;
 
-    private UserDao dao;
+    private Dao usrDao;
+    private Dao msgDao;
 
     private String friendName;
 
@@ -101,7 +103,8 @@ public class ChatController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         Storage.chatController = ChatController.this;
-        dao = new UserDaoImpl();
+        usrDao = new UserDaoImpl();
+        msgDao = new MsgDaoImpl();
         chatWindowUtil = new ChatWindowUtil();
         chatWindowFlag = false;
         chatboxlist.setPadding(new Insets(5));
@@ -151,7 +154,7 @@ public class ChatController implements Initializable {
                 }
             }
         });
-        chatBoxList = dao.getAllChat(Storage.user.getUserName());
+        chatBoxList = usrDao.getAllChat(Storage.user.getUserName());
         loadChatBoxList();
         //  聊天栏搜索按钮
         chat_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -201,7 +204,7 @@ public class ChatController implements Initializable {
         group_bar_chatWindow.setVisible(false);
         group_bar_chatboxlist.setVisible(false);
         group_bar_friend.setVisible(true);
-        friendList = dao.getAllFriends(Storage.user.getUserName());
+        friendList = usrDao.getAllFriends(Storage.user.getUserName());
         loadFriendBar();
     }
 
@@ -212,7 +215,7 @@ public class ChatController implements Initializable {
         group_bar_chatboxlist.setVisible(true);
         if (chatWindowFlag)
             group_bar_chatWindow.setVisible(true);
-        chatBoxList = dao.getAllChat(Storage.user.getUserName());
+        chatBoxList = usrDao.getAllChat(Storage.user.getUserName());
         if (group_bar_chatWindow.isVisible() && chatBoxList.contains(friendName))
             loadChatWindow(friendName);
         else if(group_bar_chatWindow.isVisible() && !chatBoxList.contains(friendName)){
@@ -262,7 +265,7 @@ public class ChatController implements Initializable {
             return;
         txt_input.setText("");
         Msg msg = new Msg(Storage.user.getUserName(), friendName, txt, null, new Date(), "text");
-        dao.sendMsg(msg);
+        msgDao.sendMsg(msg);
         add2ChatBox(msg);
         chatBoxList.remove(friendName);
         chatBoxList.add(0, friendName);
@@ -301,7 +304,7 @@ public class ChatController implements Initializable {
                         }
                         String img = ImgUtil.imageToBase64(file);
                         Msg msg = new Msg(Storage.user.getUserName(), friendName, null, img, new Date(), "face");
-                        dao.sendMsg(msg);
+                        msgDao.sendMsg(msg);
                         try {
                             add2ChatBox(msg);
                             loadChatWindow(friendName);
@@ -333,7 +336,7 @@ public class ChatController implements Initializable {
             return;
         String img = ImgUtil.imageToBase64(file);
         Msg msg = new Msg(Storage.user.getUserName(), friendName, null, img, new Date(), "img");
-        dao.sendMsg(msg);
+        msgDao.sendMsg(msg);
         add2ChatBox(msg);
         loadChatWindow(friendName);
         Storage.channel.writeAndFlush("sendMsg " + friendName + "\r\n");
@@ -368,8 +371,8 @@ public class ChatController implements Initializable {
         info_name.setText(friendname);
         friendName = friendname;
         //聊天内容
-        dao.setMsgIsRead(friendname, Storage.user.getUserName());
-        msgs = dao.getMsg(Storage.user.getUserName(), friendname);
+        msgDao.setMsgIsRead(friendname, Storage.user.getUserName());
+        msgs = msgDao.getMsg(Storage.user.getUserName(), friendname);
         //添加聊天消息
         msgList.getChildren().clear();
         for (Msg msg : msgs)
@@ -378,7 +381,7 @@ public class ChatController implements Initializable {
 
     //  聊天框中添加一条消息(包含图片)
     private void add2ChatBox(Msg message) throws IOException {
-        String headstr = dao.getHeadByUserName(message.getSenderName());
+        String headstr = usrDao.getHeadByUserName(message.getSenderName());
         Image headImg = ImgUtil.base64toImage(headstr);
         ImageView head = new ImageView();
         head.setImage(headImg);
@@ -439,13 +442,13 @@ public class ChatController implements Initializable {
     //  聊天栏添加一个聊天
     private void add2ChatBoxList(final String friendname) throws IOException {
         //  头像
-        String img = dao.getHeadByUserName(friendname);
+        String img = usrDao.getHeadByUserName(friendname);
         Image headImg = ImgUtil.base64toImage(img);
         ImageView head = new ImageView();
         head.setImage(headImg);
         head.setFitWidth(40);
         head.setFitHeight(40);
-        int num = dao.getUnreadMsgNum(friendname, Storage.user.getUserName());
+        int num = msgDao.getUnreadMsgNum(friendname, Storage.user.getUserName());
         Label name = new Label(friendname);
         Label unread = new Label(String.valueOf(num) + "条未读消息");
         name.setTextFill(Color.rgb(0, 0, 0));
@@ -472,8 +475,8 @@ public class ChatController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 //删除所有聊天消息
-                dao.delChatMsg(Storage.user.getUserName(),friendname);
-                dao.delChatMsg(friendname,Storage.user.getUserName());
+                msgDao.delChatMsg(Storage.user.getUserName(),friendname);
+                msgDao.delChatMsg(friendname,Storage.user.getUserName());
                 //删除聊天框
                 chatBoxList.remove(friendname);
                 try {
@@ -554,11 +557,11 @@ public class ChatController implements Initializable {
                 String friendName = friend.getUserName();
                 content.setVisible(false);
                 //删除好友
-                dao.delFriend(Storage.user.getUserName(),friendName);
-                dao.delFriend(friendName,Storage.user.getUserName());
+                usrDao.delFriend(Storage.user.getUserName(),friendName);
+                usrDao.delFriend(friendName,Storage.user.getUserName());
                 //删除所有聊天消息
-                dao.delChatMsg(Storage.user.getUserName(),friendName);
-                dao.delChatMsg(friendName,Storage.user.getUserName());
+                msgDao.delChatMsg(Storage.user.getUserName(),friendName);
+                msgDao.delChatMsg(friendName,Storage.user.getUserName());
                 //删除聊天框
                 chatBoxList.remove(friendName);
                 if (friend.getUserName().equals(friendName)){
@@ -601,8 +604,8 @@ public class ChatController implements Initializable {
     }
 
     public void refreshen() throws IOException {
-        chatBoxList = dao.getAllChat(Storage.user.getUserName());
-        friendList = dao.getAllFriends(Storage.user.getUserName());
+        chatBoxList = usrDao.getAllChat(Storage.user.getUserName());
+        friendList = usrDao.getAllFriends(Storage.user.getUserName());
         if (group_bar_chatWindow.isVisible() && chatBoxList.contains(friendName))
             loadChatWindow(friendName);
         else if(group_bar_chatWindow.isVisible() && !chatBoxList.contains(friendName)){

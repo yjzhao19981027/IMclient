@@ -3,12 +3,11 @@ package sample.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import sample.dao.UserDao;
+import sample.dao.Dao;
 import sample.dao.UserDaoImpl;
 import sample.entity.User;
 import sample.util.ImgUtil;
@@ -25,15 +24,15 @@ public class CallController implements Initializable {
     @FXML
     private ImageView headImg;
 
-    private UserDao dao;
+    private Dao usrDao;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Storage.callController = CallController.this;
-        dao = new UserDaoImpl();
+        usrDao = new UserDaoImpl();
     }
 
     public void initImg() throws IOException {
-        User friend = dao.getUserByUserName(Storage.callFriend);
+        User friend = usrDao.getUserByUserName(Storage.callFriend);
         Image image = ImgUtil.base64toImage(friend.getHeadImg());
         headImg.setImage(image);
     }

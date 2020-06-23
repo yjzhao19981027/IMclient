@@ -3,7 +3,7 @@ package sample.util;
 import javax.sound.sampled.*;
 import javax.sound.sampled.DataLine.Info;
 
-public class AudioUtils {
+public class AudioUtil {
 
     private static AudioFormat af;
     private static Info info;

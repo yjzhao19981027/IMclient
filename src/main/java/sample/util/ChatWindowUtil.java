@@ -3,7 +3,7 @@ package sample.util;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-public class ChatWindowUtil {
+public class ChatWindowUtil{
     public double[] setPoints(boolean isMine){
         if (!isMine) {
             return new double[]{

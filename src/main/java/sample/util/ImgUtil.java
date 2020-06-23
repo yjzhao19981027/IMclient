@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class ImgUtil {
+public class ImgUtil{
     //  图片转化为Base64字符串
     public static String imageToBase64(File file){
         BASE64Encoder encoder = new BASE64Encoder();

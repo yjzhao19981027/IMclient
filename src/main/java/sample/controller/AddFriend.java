@@ -12,7 +12,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import sample.dao.UserDao;
+import sample.dao.Dao;
 import sample.dao.UserDaoImpl;
 import sample.entity.User;
 import sample.util.ImgUtil;
@@ -47,19 +47,19 @@ public class AddFriend implements Initializable {
     @FXML
     private Pane content;
 
-    private UserDao dao;
+    private Dao usrDao;
 
     private User user;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dao = new UserDaoImpl();
+        usrDao = new UserDaoImpl();
         user_searchAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     content.setVisible(true);
                     String content = user_search.getText();
-                    user = dao.getUserByUserName(content);
+                    user = usrDao.getUserByUserName(content);
                     if (user == null || user.getUserName().equals(Storage.user.getUserName()))
                         return;
                     try {
@@ -72,7 +72,7 @@ public class AddFriend implements Initializable {
                     String s = user.getSex().equals("male") ? "男" : "女";
                     sex.setText("性别：" + s);
                     motto.setText("个性签名：" + user.getMotto());
-                    boolean judge = dao.judgeIsFriend(Storage.user.getUserName(), user.getUserName()) != 0;
+                    boolean judge = usrDao.judgeIsFriend(Storage.user.getUserName(), user.getUserName()) != 0;
                     if (judge){
                         isFriend.setVisible(true);
                         add_friend.setVisible(false);
@@ -98,8 +98,8 @@ public class AddFriend implements Initializable {
     }
 
     public void addFriendAction(ActionEvent actionEvent) throws IOException{
-        dao.addFriend(user.getUserName(),Storage.user.getUserName());
-        dao.addFriend(Storage.user.getUserName(),user.getUserName());
+        usrDao.addFriend(user.getUserName(),Storage.user.getUserName());
+        usrDao.addFriend(Storage.user.getUserName(),user.getUserName());
         isFriend.setVisible(true);
         add_friend.setVisible(false);
         Storage.chatController.refreshen();

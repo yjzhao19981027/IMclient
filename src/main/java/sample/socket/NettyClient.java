@@ -17,6 +17,14 @@ public class NettyClient implements Callable<Channel> {
 
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+    private static NettyClient instance = new NettyClient();
+
+    private NettyClient(){}
+
+    public static NettyClient getInstance(){
+        return instance;
+    }
+
     @Override
     public Channel call() throws Exception{
         ChannelFuture channelFuture = null;

@@ -1,16 +1,21 @@
 package sample.dao;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import sample.entity.Msg;
 import sample.entity.User;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-public interface UserDao {
+public interface Dao {
     public User getUserByUserName(String userName);
     public void registerUser(User user);
 
     public void changeInfo(User user);
-
     //  通过用户名密码获取用户 返回值：User
     public User getUserByUserName_Password(String userName,String password);
     public String getHeadByUserName(String userName);

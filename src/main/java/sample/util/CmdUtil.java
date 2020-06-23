@@ -1,6 +1,6 @@
 package sample.util;
 
-public class CmdUtil {
+public class CmdUtil{
     public static String getCmdHead(Object cmd){
         String str = (String) cmd;
         for (int i = 0, len = str.length() ; i < len ; i ++)
