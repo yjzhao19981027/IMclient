@@ -36,8 +36,8 @@
                 <!-- 操作栏；最小化、关闭 -->
                 <Pane id="operation" layoutX="268.0" prefHeight="26.0" prefWidth="682.0" stylesheets="@group_bar_chat/chat_operation.css">
                     <children>
-                        <Button id="group_bar_chat_min" layoutX="580.0" layoutY="-2.0" onAction="#minAction" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
-                        <Button id="group_bar_chat_close" layoutX="620.0" layoutY="-2.0" onAction="#bar_logoutAction" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+                        <Button id="group_bar_chat_min" layoutX="602.0" layoutY="-2.0" onAction="#minAction" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                        <Button id="group_bar_chat_close" layoutX="642.0" layoutY="-2.0" onAction="#bar_logoutAction" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
                     </children>
                 </Pane>
                 <!-- 搜索栏 -->
@@ -112,7 +112,7 @@
         <Pane fx:id="group_bar_friend" layoutX="60.8" layoutY="0.8" prefHeight="654.4" prefWidth="932.8" visible="false">
             <children>
                 <!-- 操作栏；最小化、关闭 -->
-                <Pane id="operation" layoutX="268.0" prefHeight="26.0" prefWidth="665.0" stylesheets="@group_bar_chat/chat_operation.css">
+                <Pane id="operation" layoutX="266.0" prefHeight="26.0" prefWidth="682.0" stylesheets="@group_bar_chat/chat_operation.css">
                     <children>
                         <Button id="group_bar_friend_min" layoutX="580.0" layoutY="-2.0" onAction="#minAction" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
                         <Button id="group_bar_friend_close" layoutX="620.0" layoutY="-2.0" onAction="#bar_logoutAction" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
